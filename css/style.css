@@ -135,6 +135,44 @@ body {
   box-shadow: 0 0 0 3px rgba(200, 16, 46, 0.12);
 }
 
+/* ========== 画像アスペクト比設定 ========== */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.news-image {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.activity-image {
+  aspect-ratio: 4 / 3;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* モバイルフレンドリーなグリッド */
+@media (max-width: 640px) {
+  .grid {
+    gap: 1rem;
+  }
+
+  .sm\:grid-cols-2 {
+    grid-template-columns: 1fr;
+  }
+
+  .sm\:p-6 {
+    padding: 1.25rem;
+  }
+}
+
 /* ========== フルスクリーン Hero セクション ========== */
 .hero-fullscreen {
   position: relative;
