@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>団体概要・活動報告 | NPO法人フライキプロジェクト</title>
+<meta name="description" content="特定非営利活動法人フライキプロジェクトの団体概要、代表挨拶、役員紹介、活動報告をご案内します。" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://raw.githubusercontent.com/inquireinc01/furaiki-website/master/images/mascot.png" />
+<meta property="og:url" content="https://inquireinc01.github.io/furaiki-website/about.html" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" href="images/mascot.png" type="image/png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="bg-white text-[#1e1e21]">
+
+<!-- ===== グローバルヘッダー ===== -->
+<header id="site-header" class="sticky top-0 z-50 bg-white border-b border-gray-100">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-20">
+      <!-- ロゴエリア -->
+      <a href="index.html" class="flex items-center gap-3 shrink-0 group">
+        <img src="images/メインロゴ.jpg" alt="フライキプロジェクト" class="h-12 w-auto transition-opacity group-hover:opacity-80" />
+        <div class="hidden sm:block border-l border-gray-300 pl-3">
+          <p class="text-xs text-gray-500 font-medium">NPO法人</p>
+          <p class="font-black text-base tracking-tight">フライキ<br />プロジェクト</p>
+        </div>
+      </a>
+
+      <!-- ナビゲーション -->
+      <nav class="hidden md:flex items-center gap-8">
+        <a href="index.html#about" class="text-sm font-medium text-gray-700 hover:text-[#c8102e] transition-colors">団体について</a>
+        <a href="index.html#activities" class="text-sm font-medium text-gray-700 hover:text-[#c8102e] transition-colors">活動内容</a>
+        <a href="index.html#news" class="text-sm font-medium text-gray-700 hover:text-[#c8102e] transition-colors">ニュース</a>
+        <a href="contact.html" class="text-sm font-medium text-gray-700 hover:text-[#c8102e] transition-colors">お問い合わせ</a>
+      </nav>
+
+      <!-- CTA -->
+      <div class="flex items-center gap-4">
+        <a href="contact.html#donate" class="btn-primary hidden sm:inline-flex items-center px-6 py-2.5 text-sm font-bold rounded-full">
+          ご寄付
+        </a>
+        <button id="menu-button" aria-expanded="false" class="md:hidden p-2 text-gray-800">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- モバイルメニュー -->
+  <div id="mobile-menu" class="hidden md:hidden border-t border-gray-100 bg-white">
+    <nav class="flex flex-col gap-1 px-4 py-4">
+      <a href="index.html#about" class="px-4 py-2 text-sm font-medium text-gray-700 rounded hover:bg-gray-50">団体について</a>
+      <a href="index.html#activities" class="px-4 py-2 text-sm font-medium text-gray-700 rounded hover:bg-gray-50">活動内容</a>
+      <a href="index.html#news" class="px-4 py-2 text-sm font-medium text-gray-700 rounded hover:bg-gray-50">ニュース</a>
+      <a href="contact.html" class="px-4 py-2 text-sm font-medium text-gray-700 rounded hover:bg-gray-50">お問い合わせ</a>
+      <a href="contact.html#donate" class="btn-primary mt-2 px-4 py-2 text-sm font-bold rounded-full text-center">ご寄付</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- ===== メインビジュアル ===== -->
+  <section class="about-hero relative h-96 sm:h-[500px] md:h-[600px] overflow-hidden bg-gray-900">
+    <div class="about-hero-bg" style="background-image: url('images/banner-record1.jpg');"></div>
+    <div class="about-hero-overlay absolute inset-0 bg-black/30 z-10"></div>
+    <div class="relative z-20 h-full flex items-center justify-center">
+      <div class="text-center text-white px-4">
+        <h1 class="text-4xl sm:text-5xl md:text-6xl font-black mb-4">過去の活動</h1>
+        <p class="text-lg sm:text-xl text-gray-200">15年以上にわたる被災地支援の軌跡</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 活動紹介 ===== -->
+  <section class="py-12 sm:py-16 md:py-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-3xl mb-12">
+        <h2 class="text-3xl md:text-4xl font-black mb-6">私たちの15年の歩み</h2>
+        <div class="w-16 h-1 bg-[#c8102e] mb-8"></div>
+
+        <div class="space-y-6 text-gray-700 leading-relaxed text-base sm:text-lg">
+          <p>
+            2011年の東日本大震災から現在まで、フライキプロジェクトは被災地の皆様とともに歩んできました。単なる物資提供や瓦礫撤去だけではなく、「心の復興」を最も大切にした活動を続けています。
+          </p>
+          <p>
+            全国のラガーマンが集まり、ラグビーの精神「ノーサイド」——試合が終わったら敵も味方もない、みんなで一緒に前に進もう——という価値観を持ち寄って、被災地との深い関係性を築いてきました。
+          </p>
+          <p>
+            ここにご紹介するのは、その15年間の活動の中から、心に残る瞬間の数々です。
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 活動ギャラリー ===== -->
+  <section class="py-12 sm:py-16 md:py-24 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl md:text-4xl font-black mb-4">活動フォトギャラリー</h2>
+      <div class="w-16 h-1 bg-[#c8102e] mb-12"></div>
+
+      <!-- ギャラリーグリッド -->
+      <div class="gallery-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+        <!-- ギャラリー画像1 -->
+        <div class="gallery-item group overflow-hidden rounded-lg">
+          <div class="gallery-image-wrapper relative bg-gray-300">
+            <img src="images/group-photo.jpg" alt="活動の様子1" class="gallery-image w-full h-full object-cover" />
+            <div class="gallery-overlay absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300"></div>
+          </div>
+        </div>
+
+        <!-- ギャラリー画像2 -->
+        <div class="gallery-item group overflow-hidden rounded-lg">
+          <div class="gallery-image-wrapper relative bg-gray-300">
+            <img src="images/banner-record2.jpg" alt="活動の様子2" class="gallery-image w-full h-full object-cover" />
+            <div class="gallery-overlay absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300"></div>
+          </div>
+        </div>
+
+        <!-- ギャラリー画像3 -->
+        <div class="gallery-item group overflow-hidden rounded-lg">
+          <div class="gallery-image-wrapper relative bg-gray-300">
+            <img src="images/founder-youth.jpg" alt="活動の様子3" class="gallery-image w-full h-full object-cover" />
+            <div class="gallery-overlay absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300"></div>
+          </div>
+        </div>
+
+        <!-- ギャラリー画像4 -->
+        <div class="gallery-item group overflow-hidden rounded-lg">
+          <div class="gallery-image-wrapper relative bg-gray-300">
+            <img src="images/banner-record1.jpg" alt="活動の様子4" class="gallery-image w-full h-full object-cover" />
+            <div class="gallery-overlay absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300"></div>
+          </div>
+        </div>
+
+        <!-- ギャラリー画像5 -->
+        <div class="gallery-item group overflow-hidden rounded-lg">
+          <div class="gallery-image-wrapper relative bg-gray-300">
+            <img src="images/group-photo.jpg" alt="活動の様子5" class="gallery-image w-full h-full object-cover" />
+            <div class="gallery-overlay absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300"></div>
+          </div>
+        </div>
+
+        <!-- ギャラリー画像6 -->
+        <div class="gallery-item group overflow-hidden rounded-lg">
+          <div class="gallery-image-wrapper relative bg-gray-300">
+            <img src="images/banner-record2.jpg" alt="活動の様子6" class="gallery-image w-full h-full object-cover" />
+            <div class="gallery-overlay absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 活動の成果 ===== -->
+  <section class="py-12 sm:py-16 md:py-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl md:text-4xl font-black mb-12">活動の成果</h2>
+      <div class="w-16 h-1 bg-[#c8102e] mb-12"></div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="bg-gradient-to-br from-[#fdecee] to-[#f5d5db] rounded-lg p-8 text-center">
+          <p class="text-5xl font-black text-[#c8102e] mb-3">120+</p>
+          <p class="font-bold text-lg">応援フライキ贈呈</p>
+          <p class="text-sm text-gray-600 mt-3">全国のチームへ心の応援を届けました</p>
+        </div>
+
+        <div class="bg-gradient-to-br from-[#fdecee] to-[#f5d5db] rounded-lg p-8 text-center">
+          <p class="text-5xl font-black text-[#c8102e] mb-3">18+</p>
+          <p class="font-bold text-lg">復興支援活動</p>
+          <p class="text-sm text-gray-600 mt-3">延べ数千人のラガーマンが参加</p>
+        </div>
+
+        <div class="bg-gradient-to-br from-[#fdecee] to-[#f5d5db] rounded-lg p-8 text-center">
+          <p class="text-5xl font-black text-[#c8102e] mb-3">全国</p>
+          <p class="font-bold text-lg">ネットワーク</p>
+          <p class="text-sm text-gray-600 mt-3">47都道府県のラガーマンが集結</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===== フッター ===== -->
+<footer class="bg-[#1e1e21] text-white py-12 sm:py-16">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+      <div>
+        <h3 class="font-bold mb-4">フライキプロジェクト</h3>
+        <p class="text-sm text-gray-400">ラグビーの精神で被災地の心の復興を届けます。</p>
+      </div>
+      <div>
+        <h3 class="font-bold mb-4">リンク</h3>
+        <ul class="space-y-2 text-sm">
+          <li><a href="index.html" class="text-gray-400 hover:text-white transition-colors">ホーム</a></li>
+          <li><a href="about.html" class="text-gray-400 hover:text-white transition-colors">団体概要</a></li>
+          <li><a href="contact.html" class="text-gray-400 hover:text-white transition-colors">お問い合わせ</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="font-bold mb-4">サポート</h3>
+        <ul class="space-y-2 text-sm">
+          <li><a href="contact.html#donate" class="text-gray-400 hover:text-white transition-colors">寄付する</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-white transition-colors">ボランティア</a></li>
+          <li><a href="contact.html" class="text-gray-400 hover:text-white transition-colors">お問い合わせ</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="font-bold mb-4">フォロー</h3>
+        <ul class="space-y-2 text-sm">
+          <li><a href="https://www.youtube.com/@FURAIKIProject" target="_blank" rel="noopener" class="text-gray-400 hover:text-white transition-colors">YouTube</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Instagram</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Twitter</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="border-t border-gray-700 pt-8 text-center text-sm text-gray-400">
+      <p>&copy; 2024 NPO法人フライキプロジェクト. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="js/menu.js"></script>
+<script src="js/about-animation.js"></script>
+</body>
+</html>
