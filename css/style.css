@@ -1,0 +1,223 @@
+:root {
+  --color-red: #c8102e;
+  --color-red-dark: #9c0c24;
+  --color-red-soft: #fdecee;
+  --color-charcoal: #1e1e21;
+  --color-gray-800: #333336;
+  --color-gray-600: #6b6b6f;
+  --color-gray-400: #a3a3a7;
+  --color-gray-200: #e4e4e7;
+  --color-gray-100: #f4f4f5;
+  --color-off-white: #fafafa;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Noto Sans JP", "Hiragino Sans", "Yu Gothic", sans-serif;
+  color: var(--color-charcoal);
+  background-color: var(--color-off-white);
+}
+
+.font-display {
+  font-family: "Noto Sans JP", "Hiragino Sans", sans-serif;
+  letter-spacing: 0.02em;
+}
+
+/* ヘッダー: 常時白背景、スクロールで影を強調 */
+#site-header {
+  background-color: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  transition: box-shadow 0.3s ease;
+}
+#site-header.scrolled {
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+}
+
+/* モバイルメニュー */
+#mobile-menu {
+  transition: max-height 0.35s ease, opacity 0.25s ease;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+}
+#mobile-menu.open {
+  max-height: 32rem;
+  opacity: 1;
+}
+
+/* ヒーロー背景の日の出風グラデーション */
+.hero-rays {
+  background:
+    radial-gradient(ellipse at 50% 120%, rgba(200, 16, 46, 0.16) 0%, rgba(200, 16, 46, 0) 60%),
+    linear-gradient(180deg, #1a1a1c 0%, #262629 100%);
+}
+
+.rays-svg-mask {
+  mask-image: radial-gradient(ellipse at center, black 40%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 75%);
+}
+
+/* カード共通のホバー */
+.lift-card {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.lift-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.08);
+}
+
+/* タイムライン */
+.timeline-line {
+  background: linear-gradient(180deg, var(--color-red) 0%, var(--color-gray-200) 100%);
+}
+.timeline-dot {
+  box-shadow: 0 0 0 4px var(--color-off-white);
+}
+
+/* フェードインアニメーション（JSでin-viewクラス付与） */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* セクション見出しの赤いアンダーライン */
+.heading-underline::after {
+  content: "";
+  display: block;
+  width: 3.5rem;
+  height: 4px;
+  background-color: var(--color-red);
+  margin-top: 0.9rem;
+  border-radius: 2px;
+}
+.heading-underline.center::after {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ボタン */
+.btn-primary {
+  background-color: var(--color-red);
+  color: #fff;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+.btn-primary:hover {
+  background-color: var(--color-red-dark);
+  transform: translateY(-2px);
+}
+.btn-outline {
+  border: 1.5px solid var(--color-gray-400);
+  color: var(--color-charcoal);
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+.btn-outline:hover {
+  border-color: var(--color-red);
+  background-color: var(--color-red-soft);
+}
+
+/* フォーム */
+.form-input {
+  border: 1.5px solid var(--color-gray-200);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.form-input:focus {
+  outline: none;
+  border-color: var(--color-red);
+  box-shadow: 0 0 0 3px rgba(200, 16, 46, 0.12);
+}
+
+/* ========== フルスクリーン Hero セクション ========== */
+.hero-fullscreen {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: -64px;
+  padding-top: 64px;
+}
+
+.hero-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 1;
+}
+
+.hero-bg::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 2;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  max-width: 90%;
+}
+
+.hero-title {
+  font-size: 3.5rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  line-height: 1.2;
+  color: white;
+  font-family: "Noto Sans JP", "Hiragino Sans", sans-serif;
+  word-break: break-word;
+}
+
+.hero-title span {
+  display: inline-block;
+  opacity: 0;
+  animation: fadeInChar 0.6s ease-out forwards;
+}
+
+@keyframes fadeInChar {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-fullscreen {
+    margin-top: -64px;
+    padding-top: 64px;
+  }
+
+  .hero-title {
+    font-size: 2rem;
+    letter-spacing: 0.05em;
+  }
+}
+
+::selection {
+  background-color: var(--color-red);
+  color: #fff;
+}

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NPO法人フライキプロジェクト | ラグビーの精神で被災地を「ワンチーム」に</title>
+<meta name="description" content="特定非営利活動法人フライキプロジェクトの公式サイト。ラグビーの精神と大漁旗「フライキ」で被災地に心の復興を届ける活動を行っています。" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://raw.githubusercontent.com/inquireinc01/furaiki-website/master/images/mascot.png" />
+<meta property="og:url" content="https://inquireinc01.github.io/furaiki-website/" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" href="images/mascot.png" type="image/png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="bg-[#fafafa] text-[#1e1e21]">
+
+<!-- ===== ヘッダー ===== -->
+<header id="site-header" class="fixed top-0 inset-x-0 z-50">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 flex items-center justify-between h-16 md:h-20">
+    <a href="index.html" class="flex items-center gap-2 shrink-0">
+      <img src="images/mascot.png" alt="フライキプロジェクト" class="h-10 md:h-12 w-auto" />
+      <span class="font-display font-black text-base md:text-lg tracking-wide">FURAIKI <span class="text-[#c8102e]">Project</span></span>
+    </a>
+
+    <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-zinc-700">
+      <a href="index.html" class="hover:text-[#c8102e] transition-colors">ホーム</a>
+      <a href="about.html" class="hover:text-[#c8102e] transition-colors">団体概要・活動報告</a>
+      <a href="history.html" class="hover:text-[#c8102e] transition-colors">沿革</a>
+      <a href="contact.html" class="hover:text-[#c8102e] transition-colors">お問い合わせ</a>
+      <a href="https://www.youtube.com/@FURAIKIProject" target="_blank" rel="noopener" class="hover:text-[#c8102e] transition-colors">YouTube</a>
+    </nav>
+
+    <div class="hidden md:block">
+      <a href="contact.html#donate" class="btn-primary inline-flex items-center rounded-full px-6 py-2.5 text-sm font-bold shadow-sm">
+        ご寄付・ご支援
+      </a>
+    </div>
+
+    <button id="menu-button" aria-expanded="false" aria-controls="mobile-menu" class="md:hidden p-2 -mr-2 text-zinc-800">
+      <svg id="icon-menu-open" class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+      <svg id="icon-menu-close" class="w-7 h-7 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+  </div>
+
+  <div id="mobile-menu" class="md:hidden bg-white border-t border-zinc-100 px-5 py-4">
+    <nav class="flex flex-col gap-4 text-base font-medium text-zinc-700">
+      <a href="index.html">ホーム</a>
+      <a href="about.html">団体概要・活動報告</a>
+      <a href="history.html">沿革</a>
+      <a href="contact.html">お問い合わせ</a>
+      <a href="https://www.youtube.com/@FURAIKIProject" target="_blank" rel="noopener">YouTube</a>
+      <a href="contact.html#donate" class="btn-primary text-center rounded-full px-6 py-3 text-sm font-bold mt-2">ご寄付・ご支援</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- ===== フルスクリーン ヒーロー ===== -->
+  <section class="hero-fullscreen">
+    <div class="hero-bg" style="background-image: url('images/hero-rwc2019.jpg');"></div>
+    <div class="hero-content">
+      <h1 class="hero-title" id="heroTitle">ワンチームで被災地を応援</h1>
+    </div>
+  </section>
+
+  <!-- ===== 実績数字 ===== -->
+  <section class="bg-[#1e1e21] text-white py-10 md:py-12">
+    <div class="max-w-7xl mx-auto px-5 sm:px-8 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+      <div>
+        <p class="font-display font-black text-3xl md:text-4xl text-[#e8455f]">2011<span class="text-lg align-top">年〜</span></p>
+        <p class="text-zinc-400 text-sm mt-1">活動開始</p>
+      </div>
+      <div>
+        <p class="font-display font-black text-3xl md:text-4xl text-[#e8455f]">120<span class="text-lg align-top">旗+</span></p>
+        <p class="text-zinc-400 text-sm mt-1">贈呈した応援フライキ</p>
+      </div>
+      <div>
+        <p class="font-display font-black text-3xl md:text-4xl text-[#e8455f]">18<span class="text-lg align-top">回+</span></p>
+        <p class="text-zinc-400 text-sm mt-1">能登半島 復興支援活動</p>
+      </div>
+      <div>
+        <p class="font-display font-black text-3xl md:text-4xl text-[#e8455f]">全国</p>
+        <p class="text-zinc-400 text-sm mt-1">から集うラガーマン</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 特徴 ===== -->
+  <section class="py-20 md:py-28">
+    <div class="max-w-7xl mx-auto px-5 sm:px-8">
+      <div class="max-w-2xl mx-auto text-center mb-14 reveal">
+        <p class="text-[#c8102e] font-bold text-sm tracking-widest mb-2">WHAT WE DO</p>
+        <h2 class="font-display font-black text-2xl md:text-3xl heading-underline center inline-block">私たちの3つの活動</h2>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script src="js/hero-animation.js"></script>
+</body>
+</html>
