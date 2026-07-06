@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>お問い合わせ | NPO法人フライキプロジェクト</title>
+<meta name="description" content="NPO法人フライキプロジェクトへのお問い合わせ、ご寄付、ボランティア参加のご案内。" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://raw.githubusercontent.com/inquireinc01/furaiki-website/master/images/mascot.png" />
+<meta property="og:url" content="https://inquireinc01.github.io/furaiki-website/contact.html" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" href="images/mascot.png" type="image/png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="bg-white text-[#1e1e21]">
+
+<!-- ===== グローバルヘッダー ===== -->
+<header id="site-header" class="sticky top-0 z-50 bg-white border-b border-gray-100">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-20">
+      <a href="index.html" class="flex items-center gap-3 shrink-0 group">
+        <img src="images/メインロゴ.jpg" alt="フライキプロジェクト" class="h-12 w-auto transition-opacity group-hover:opacity-80" />
+        <div class="hidden sm:block border-l border-gray-300 pl-3">
+          <p class="text-xs text-gray-500 font-medium">NPO法人</p>
+          <p class="font-black text-base tracking-tight">フライキ<br />プロジェクト</p>
+        </div>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-8">
+        <a href="organization.html" class="text-sm font-medium text-gray-700 hover:text-[#c8102e] transition-colors">団体概要</a>
+        <a href="about.html" class="text-sm font-medium text-gray-700 hover:text-[#c8102e] transition-colors">過去の活動</a>
+        <a href="history.html" class="text-sm font-medium text-gray-700 hover:text-[#c8102e] transition-colors">沿革</a>
+        <a href="contact.html" class="text-sm font-medium text-[#c8102e]">お問い合わせ</a>
+      </nav>
+
+      <div class="flex items-center gap-4">
+        <a href="#donate" class="btn-primary hidden sm:inline-flex items-center px-6 py-2.5 text-sm font-bold rounded-full">
+          ご寄付
+        </a>
+        <button id="menu-button" aria-expanded="false" class="md:hidden p-2 text-gray-800">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="mobile-menu" class="hidden md:hidden border-t border-gray-100 bg-white">
+    <nav class="flex flex-col gap-1 px-4 py-4">
+      <a href="organization.html" class="px-4 py-2 text-sm font-medium text-gray-700 rounded hover:bg-gray-50">団体概要</a>
+      <a href="about.html" class="px-4 py-2 text-sm font-medium text-gray-700 rounded hover:bg-gray-50">過去の活動</a>
+      <a href="history.html" class="px-4 py-2 text-sm font-medium text-gray-700 rounded hover:bg-gray-50">沿革</a>
+      <a href="contact.html" class="px-4 py-2 text-sm font-medium text-[#c8102e] rounded">お問い合わせ</a>
+      <a href="#donate" class="btn-primary mt-2 px-4 py-2 text-sm font-bold rounded-full text-center">ご寄付</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- ===== ページヘッダー ===== -->
+  <section class="bg-gradient-to-br from-[#1e1e21] to-[#2d2d31] text-white py-12 sm:py-16 md:py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h1 class="text-4xl sm:text-5xl md:text-5xl font-black mb-4">お問い合わせ</h1>
+      <div class="w-16 h-1 bg-[#c8102e]"></div>
+      <p class="mt-6 text-lg text-gray-300">ご質問、ご協力のお申し込みはこちらから</p>
+    </div>
+  </section>
+
+  <!-- ===== ご寄付・ボランティア ===== -->
+  <section id="donate" class="py-12 sm:py-16 md:py-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="mb-12">
+        <h2 class="text-3xl md:text-4xl font-black mb-4">ご支援のお願い</h2>
+        <div class="w-16 h-1 bg-[#c8102e]"></div>
+      </div>
+
+      <div class="grid sm:grid-cols-2 gap-6 sm:gap-8">
+        <!-- 個人寄付 -->
+        <div class="bg-gradient-to-br from-[#c8102e] to-[#9c0c24] text-white rounded-2xl p-8 sm:p-10">
+          <div class="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center mb-6">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+          <h3 class="font-display font-black text-xl mb-2">個人の方のご寄付</h3>
+          <p class="text-white/85 text-sm mb-6">500円から寄付いただけます。いただいたご支援は現場活動費・フライキ製作費・法人運営費として活用されます。</p>
+          <div class="bg-white/10 border border-white/25 rounded-xl px-5 py-4 text-sm">
+            <p class="font-medium mb-3">寄付方法：</p>
+            <ul class="space-y-2 text-white/90">
+              <li>• 銀行振込</li>
+              <li>• クレジットカード</li>
+              <li>• クラウドファンディング</li>
+              <li>• その他のご方法</li>
+            </ul>
+            <p class="mt-4 text-xs text-white/75">詳細はお問い合わせフォームからご連絡ください</p>
+          </div>
+        </div>
+
+        <!-- ボランティア -->
+        <div class="bg-gradient-to-br from-[#1e1e21] to-[#2d2d31] text-white rounded-2xl p-8 sm:p-10 border border-gray-700">
+          <div class="w-12 h-12 rounded-xl bg-[#c8102e]/20 flex items-center justify-center mb-6">
+            <svg class="w-6 h-6 text-[#e8455f]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.856-1.487M15 10a3 3 0 11-6 0 3 3 0 016 0zM6 20h12a6 6 0 00-6-6 6 6 0 00-6 6z"/>
+            </svg>
+          </div>
+          <h3 class="font-display font-black text-xl mb-2">ボランティア活動への参加</h3>
+          <p class="text-white/80 text-sm mb-6">能登半島での復興支援活動など「災害ラガーボランティア」への参加をご希望の方を随時募集しています。</p>
+          <div class="bg-white/5 border border-white/20 rounded-xl px-5 py-4 text-sm">
+            <p class="font-medium mb-3">参加方法：</p>
+            <ul class="space-y-2 text-white/90">
+              <li>• 活動情報は公式LINEで配信</li>
+              <li>• ラグビー経験者を優遇</li>
+              <li>• 初心者も大歓迎</li>
+              <li>• 柔軟な参加方法</li>
+            </ul>
+            <p class="mt-4 text-xs text-white/75">下記フォームからご連絡ください</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== お問い合わせフォーム ===== -->
+  <section class="py-12 sm:py-16 md:py-24 bg-gray-50">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl md:text-4xl font-black mb-4">お問い合わせフォーム</h2>
+      <div class="w-16 h-1 bg-[#c8102e] mb-8"></div>
+
+      <div class="bg-white rounded-lg p-8 sm:p-10 shadow-sm">
+        <form id="contact-form" class="space-y-6">
+          <!-- お名前 -->
+          <div>
+            <label for="name" class="block text-sm font-bold text-gray-700 mb-2">
+              お名前 <span class="text-[#c8102e]">*</span>
+            </label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              required
+              placeholder="山田 太郎"
+              class="w-full px-4 py-3 rounded-lg border border-gray-300 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#c8102e] focus:ring-2 focus:ring-[#c8102e]/10 transition-colors"
+            />
+          </div>
+
+          <!-- メールアドレス -->
+          <div>
+            <label for="email" class="block text-sm font-bold text-gray-700 mb-2">
+              メールアドレス <span class="text-[#c8102e]">*</span>
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              required
+              placeholder="example@example.com"
+              class="w-full px-4 py-3 rounded-lg border border-gray-300 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#c8102e] focus:ring-2 focus:ring-[#c8102e]/10 transition-colors"
+            />
+          </div>
+
+          <!-- 電話番号 -->
+          <div>
+            <label for="phone" class="block text-sm font-bold text-gray-700 mb-2">
+              電話番号
+            </label>
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              placeholder="09012345678"
+              class="w-full px-4 py-3 rounded-lg border border-gray-300 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#c8102e] focus:ring-2 focus:ring-[#c8102e]/10 transition-colors"
+            />
+          </div>
+
+          <!-- お問い合わせ内容 -->
+          <div>
+            <label for="subject" class="block text-sm font-bold text-gray-700 mb-2">
+              お問い合わせ内容 <span class="text-[#c8102e]">*</span>
+            </label>
+            <select
+              id="subject"
+              name="subject"
+              required
+              class="w-full px-4 py-3 rounded-lg border border-gray-300 text-gray-900 focus:outline-none focus:border-[#c8102e] focus:ring-2 focus:ring-[#c8102e]/10 transition-colors"
+            >
+              <option value="">選択してください</option>
+              <option value="donation">ご寄付について</option>
+              <option value="volunteer">ボランティアについて</option>
+              <option value="inquiry">一般的なお問い合わせ</option>
+              <option value="partnership">パートナーシップについて</option>
+              <option value="media">メディア取材について</option>
+              <option value="other">その他</option>
+            </select>
+          </div>
+
+          <!-- メッセージ -->
+          <div>
+            <label for="message" class="block text-sm font-bold text-gray-700 mb-2">
+              メッセージ <span class="text-[#c8102e]">*</span>
+            </label>
+            <textarea
+              id="message"
+              name="message"
+              required
+              rows="6"
+              placeholder="ご質問やご相談の内容をお書きください"
+              class="w-full px-4 py-3 rounded-lg border border-gray-300 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#c8102e] focus:ring-2 focus:ring-[#c8102e]/10 transition-colors resize-none"
+            ></textarea>
+          </div>
+
+          <!-- 同意チェック -->
+          <div class="flex items-start">
+            <input
+              type="checkbox"
+              id="agree"
+              name="agree"
+              required
+              class="mt-1 w-4 h-4 text-[#c8102e] border-gray-300 rounded focus:ring-[#c8102e] cursor-pointer"
+            />
+            <label for="agree" class="ml-3 text-sm text-gray-600">
+              <a href="#" class="text-[#c8102e] hover:underline">プライバシーポリシー</a>に同意します
+            </label>
+          </div>
+
+          <!-- 送信ボタン -->
+          <button
+            type="submit"
+            class="w-full btn-primary py-3 rounded-full font-bold text-white transition-colors hover:bg-[#9c0c24]"
+          >
+            送信
+          </button>
+
+          <p class="text-xs text-gray-500 text-center">
+            ※ 送信内容は確認後、折り返しご連絡させていただきます
+          </p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== よくあるご質問 ===== -->
+  <section class="py-12 sm:py-16 md:py-24">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl md:text-4xl font-black mb-4">よくあるご質問</h2>
+      <div class="w-16 h-1 bg-[#c8102e] mb-8"></div>
+
+      <div class="space-y-4 sm:space-y-6">
+        <!-- FAQ 1 -->
+        <details class="bg-gray-50 rounded-lg p-6 sm:p-8 cursor-pointer group">
+          <summary class="flex items-center justify-between font-bold text-lg text-[#1e1e21]">
+            <span>最小いくらから寄付できますか？</span>
+            <svg class="w-6 h-6 transform group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+            </svg>
+          </summary>
+          <p class="mt-4 text-gray-600 leading-relaxed">500円からご寄付いただけます。毎月の継続寄付や、お好きな金額での単発寄付など、様々な方法をご用意しています。</p>
+        </details>
+
+        <!-- FAQ 2 -->
+        <details class="bg-gray-50 rounded-lg p-6 sm:p-8 cursor-pointer group">
+          <summary class="flex items-center justify-between font-bold text-lg text-[#1e1e21]">
+            <span>ボランティアに参加するには？</span>
+            <svg class="w-6 h-6 transform group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+            </svg>
+          </summary>
+          <p class="mt-4 text-gray-600 leading-relaxed">まずはお問い合わせフォームからご連絡ください。活動情報は公式LINEで配信しており、ラグビー経験の有無は問いません。全国からの参加者を随時募集しています。</p>
+        </details>
+
+        <!-- FAQ 3 -->
+        <details class="bg-gray-50 rounded-lg p-6 sm:p-8 cursor-pointer group">
+          <summary class="flex items-center justify-between font-bold text-lg text-[#1e1e21]">
+            <span>寄付金はどのように使われますか？</span>
+            <svg class="w-6 h-6 transform group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+            </svg>
+          </summary>
+          <p class="mt-4 text-gray-600 leading-relaxed">現場活動費（交通費、宿泊費など）、フライキ製作費、法人運営費として活用されます。詳細な使途については、定期的に報告書を公開しています。</p>
+        </details>
+
+        <!-- FAQ 4 -->
+        <details class="bg-gray-50 rounded-lg p-6 sm:p-8 cursor-pointer group">
+          <summary class="flex items-center justify-between font-bold text-lg text-[#1e1e21]">
+            <span>寄付金控除は受けられますか？</span>
+            <svg class="w-6 h-6 transform group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+            </svg>
+          </summary>
+          <p class="mt-4 text-gray-600 leading-relaxed">NPO法人認定後、認定寄付金制度への申請予定です。詳細は、お問い合わせフォームからお問い合わせください。</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 連絡先情報 ===== -->
+  <section class="py-12 sm:py-16 md:py-24 bg-gray-50">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl md:text-4xl font-black mb-4">直接のご連絡</h2>
+      <div class="w-16 h-1 bg-[#c8102e] mb-8"></div>
+
+      <div class="grid sm:grid-cols-2 gap-8">
+        <!-- メール -->
+        <div class="bg-white rounded-lg p-6 sm:p-8 border border-gray-200">
+          <h3 class="font-bold text-lg text-[#1e1e21] mb-2">メール</h3>
+          <p class="text-gray-600 mb-4">お問い合わせはこちらからお送りください</p>
+          <a href="mailto:contact@furaiki-project.org" class="text-[#c8102e] font-bold hover:underline">
+            contact@furaiki-project.org
+          </a>
+        </div>
+
+        <!-- 公式LINE -->
+        <div class="bg-white rounded-lg p-6 sm:p-8 border border-gray-200">
+          <h3 class="font-bold text-lg text-[#1e1e21] mb-2">公式LINE</h3>
+          <p class="text-gray-600 mb-4">最新情報とボランティア募集情報をお届けします</p>
+          <a href="#" class="text-[#c8102e] font-bold hover:underline">
+            LINEで友だち追加 →
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===== フッター ===== -->
+<footer class="bg-[#1e1e21] text-white py-12 sm:py-16">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+      <div>
+        <h3 class="font-bold mb-4">フライキプロジェクト</h3>
+        <p class="text-sm text-gray-400">ラグビーの精神で被災地の心の復興を届けます。</p>
+      </div>
+      <div>
+        <h3 class="font-bold mb-4">リンク</h3>
+        <ul class="space-y-2 text-sm">
+          <li><a href="index.html" class="text-gray-400 hover:text-white transition-colors">ホーム</a></li>
+          <li><a href="organization.html" class="text-gray-400 hover:text-white transition-colors">団体概要</a></li>
+          <li><a href="about.html" class="text-gray-400 hover:text-white transition-colors">過去の活動</a></li>
+          <li><a href="history.html" class="text-gray-400 hover:text-white transition-colors">沿革</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="font-bold mb-4">サポート</h3>
+        <ul class="space-y-2 text-sm">
+          <li><a href="#donate" class="text-gray-400 hover:text-white transition-colors">寄付する</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-white transition-colors">ボランティア</a></li>
+          <li><a href="contact.html" class="text-gray-400 hover:text-white transition-colors">お問い合わせ</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="font-bold mb-4">フォロー</h3>
+        <ul class="space-y-2 text-sm">
+          <li><a href="https://www.youtube.com/@FURAIKIProject" target="_blank" rel="noopener" class="text-gray-400 hover:text-white transition-colors">YouTube</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Instagram</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Twitter</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="border-t border-gray-700 pt-8 text-center text-sm text-gray-400">
+      <p>&copy; 2024 NPO法人フライキプロジェクト. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="js/menu.js"></script>
+</body>
+</html>
