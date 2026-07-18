@@ -23,6 +23,14 @@ document.addEventListener('DOMContentLoaded', function() {
         menuButton.setAttribute('aria-expanded', 'false');
       });
     });
+
+    // メニューの外側をタップしたら閉じる
+    document.addEventListener('click', function(e) {
+      if (mobileMenu.classList.contains('hidden')) return;
+      if (menuButton.contains(e.target) || mobileMenu.contains(e.target)) return;
+      mobileMenu.classList.add('hidden');
+      menuButton.setAttribute('aria-expanded', 'false');
+    });
   }
 
   // スクロール時にヘッダーに影を追加
