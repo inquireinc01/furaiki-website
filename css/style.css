@@ -439,6 +439,19 @@ img {
   }
 }
 
+/* 小さいスマホでもタイトルが画面からはみ出さないようにする */
+@media (max-width: 400px) {
+  .hero-title {
+    font-size: 1.7rem;
+  }
+}
+
+/* モバイルメニューボタン: タップ遅延・ダブルタップ拡大を防止 */
+#menu-button {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
 /* マスコット一体型の寄付ボタン(5秒に1回、スライム風プルプル) */
 .jiggle-group {
   animation: slimeJiggle 10s ease-in-out infinite;
