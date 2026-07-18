@@ -350,7 +350,7 @@ img {
 
 /* 導入テキスト(災害ラガーボランティア + One for all)→ 最終タイトルへの切り替え */
 .hero-intro {
-  transition: opacity 1s ease;
+  transition: opacity 2.5s ease-in-out;
 }
 
 .hero-intro.is-hidden {
@@ -367,7 +367,7 @@ img {
   gap: 1.25rem;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 1.5s ease;
+  transition: opacity 3.5s ease-in-out;
 }
 
 .hero-final.is-visible {
@@ -385,12 +385,13 @@ img {
 }
 
 .hero-final-subtitle {
-  font-size: 1.125rem;
+  font-size: 1.5rem;
   color: rgba(255, 255, 255, 0.95);
   font-weight: 500;
   letter-spacing: 0.05em;
+  white-space: nowrap;
   opacity: 0;
-  transition: opacity 1s ease;
+  transition: opacity 2.5s ease-in-out;
 }
 
 .hero-final.show-sub .hero-final-subtitle {

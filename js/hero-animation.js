@@ -44,7 +44,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-  // 最終タイトル「フライキプロジェクト」は導入テキストを覆うサイズに調整
+  // 最終タイトル「フライキプロジェクト」は導入テキストを覆うサイズに調整し、
+  // 最終サブタイトルはそのタイトルと同じ横幅に合わせる
   function fitFinalTitle() {
     if (!heroFinalTitle) return;
     heroFinalTitle.style.fontSize = '';
@@ -54,6 +55,16 @@ document.addEventListener('DOMContentLoaded', function() {
     if (target > 0 && curW > 0) {
       const current = parseFloat(getComputedStyle(heroFinalTitle).fontSize);
       heroFinalTitle.style.fontSize = (current * target / curW) + 'px';
+    }
+    const finalSub = heroFinal.querySelector('.hero-final-subtitle');
+    if (finalSub) {
+      finalSub.style.fontSize = '';
+      const titleW = heroFinalTitle.getBoundingClientRect().width;
+      const subW = finalSub.getBoundingClientRect().width;
+      if (titleW > 0 && subW > 0) {
+        const cur = parseFloat(getComputedStyle(finalSub).fontSize);
+        finalSub.style.fontSize = (cur * titleW / subW) + 'px';
+      }
     }
   }
 
@@ -78,5 +89,5 @@ document.addEventListener('DOMContentLoaded', function() {
   }, introDone + 800);
   setTimeout(() => {
     heroFinal.classList.add('show-sub');
-  }, introDone + 2200);
+  }, introDone + 3800);
 });
