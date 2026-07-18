@@ -54,7 +54,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const curW = heroFinalTitle.getBoundingClientRect().width;
     if (target > 0 && curW > 0) {
       const current = parseFloat(getComputedStyle(heroFinalTitle).fontSize);
-      heroFinalTitle.style.fontSize = (current * target / curW) + 'px';
+      let size = current * target / curW;
+      // 横向きなど高さの低い画面で巨大になりすぎないよう上限を設ける
+      size = Math.min(size, window.innerHeight * 0.18);
+      heroFinalTitle.style.fontSize = size + 'px';
     }
     const finalSub = heroFinal.querySelector('.hero-final-subtitle');
     if (finalSub) {
