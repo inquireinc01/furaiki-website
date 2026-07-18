@@ -3,6 +3,13 @@ cd /d "%~dp0"
 echo ==============================
 echo  FURAIKI site update
 echo ==============================
+
+set PY=C:\Users\taku_\AppData\Local\Programs\Python\Python312\python.exe
+if not exist "%PY%" set PY=python
+echo [1/2] Converting HEIC photos to JPG...
+"%PY%" tools\convert_heic.py
+
+echo [2/2] Uploading to the website...
 git add -A
 git commit -m "update: photos and content"
 git push origin master
