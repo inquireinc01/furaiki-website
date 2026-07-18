@@ -10,7 +10,8 @@
     "images/hero/02-rwc2019.jpg",
     "images/hero/03-group.jpg",
   ];
-  const SECONDS_PER_SLIDE = 24;
+  // スクロール速度(1秒あたりのピクセル数)。小さいほどゆっくり。
+  const SPEED_PX_PER_SEC = 35;
 
   const container = document.getElementById("heroSlider");
   if (!container) return;
@@ -30,6 +31,7 @@
 
     const track = document.createElement("div");
     track.className = "hero-track";
+    const imgs = [];
 
     // シームレスにループさせるため同じ並びを2周分並べる
     for (let lap = 0; lap < 2; lap++) {
@@ -41,12 +43,24 @@
         img.alt = "";
         cell.appendChild(img);
         track.appendChild(cell);
+        imgs.push(img);
       });
     }
 
-    track.style.animationDuration = urls.length * SECONDS_PER_SLIDE + "s";
+    // 写真の幅の合計から所要時間を計算し、常に一定のゆっくりした速度で流す。
+    // 画像が読み込まれるたびに幅が変わるので、その都度計算し直す。
+    function updateDuration() {
+      const halfWidth = track.scrollWidth / 2;
+      if (halfWidth > 0) {
+        track.style.animationDuration = halfWidth / SPEED_PX_PER_SEC + "s";
+      }
+    }
+    imgs.forEach((img) => img.addEventListener("load", updateDuration));
+    window.addEventListener("resize", updateDuration);
+
     container.style.backgroundImage = "none";
     container.appendChild(track);
+    updateDuration();
   }
 
   fetch(API_URL)
