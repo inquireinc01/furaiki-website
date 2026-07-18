@@ -281,6 +281,10 @@ img {
   }
 }
 
+.hero-fullscreen:hover .hero-track {
+  animation-play-state: paused;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .hero-track {
     animation: none;
