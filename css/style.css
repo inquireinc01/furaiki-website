@@ -453,6 +453,46 @@ img {
   cursor: pointer;
 }
 
+/* スマホ: ヘッダーバーを消してメインビジュアルを最上部から表示。
+   三本線ボタンだけを白抜きで右上に浮かせる */
+@media (max-width: 767px) {
+  #site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: transparent;
+    border-bottom: none;
+    box-shadow: none !important;
+    pointer-events: none;
+  }
+
+  #site-header a.group {
+    display: none; /* ロゴスペースを非表示 */
+  }
+
+  #menu-button {
+    pointer-events: auto;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.35);
+    border-radius: 9999px;
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+  }
+
+  #mobile-menu {
+    pointer-events: auto;
+    background: #fff;
+    border-radius: 0 0 12px 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  }
+
+  .hero-fullscreen {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+}
+
 /* マスコット一体型の寄付ボタン(5秒に1回、スライム風プルプル) */
 .jiggle-group {
   animation: slimeJiggle 10s ease-in-out infinite;
