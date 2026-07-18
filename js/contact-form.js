@@ -100,14 +100,14 @@ if (contactForm) {
     ].join("\n");
 
     const mailto =
-      "mailto:furaikipj@gmail.com" +
+      "mailto:info@furaiki.org" +
       "?subject=" + encodeURIComponent("【HPお問合せ】" + subjectLabel + " - " + name) +
       "&body=" + encodeURIComponent(body);
 
     window.location.href = mailto;
 
     if (note) {
-      note.textContent = "メールアプリが開きます。開かない場合は furaikipj@gmail.com 宛に直接お送りください。";
+      note.textContent = "メールアプリが開きます。開かない場合は info@furaiki.org 宛に直接お送りください。";
     }
   });
 }
