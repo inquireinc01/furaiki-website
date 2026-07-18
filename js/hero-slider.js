@@ -11,7 +11,7 @@
     "images/hero/03-group.jpg",
   ];
   // スクロール速度(1秒あたりのピクセル数)。小さいほどゆっくり。
-  const SPEED_PX_PER_SEC = 35;
+  const SPEED_PX_PER_SEC = 42;
 
   const container = document.getElementById("heroSlider");
   if (!container) return;
