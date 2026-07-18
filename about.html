@@ -71,7 +71,7 @@
 
   <!-- ===== メインビジュアル ===== -->
   <section class="about-hero relative h-96 sm:h-[500px] md:h-[600px] overflow-hidden bg-gray-900">
-    <div class="about-hero-bg" style="background-image: url('images/banner-record1.jpg');"></div>
+    <div class="about-hero-bg" id="aboutHeroBg" style="background-image: url('images/about-hero/01-main.jpg');"></div>
     <div class="about-hero-overlay absolute inset-0 bg-black/30 z-10"></div>
     <div class="relative z-20 h-full flex items-center justify-center">
       <div class="text-center text-white px-4">
@@ -109,56 +109,8 @@
       <h2 class="text-3xl md:text-4xl font-black mb-4">活動フォトギャラリー</h2>
       <div class="w-16 h-1 bg-[#c8102e] mb-12"></div>
 
-      <!-- ギャラリーグリッド -->
-      <div class="gallery-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-        <!-- ギャラリー画像1 -->
-        <div class="gallery-item group overflow-hidden rounded-lg">
-          <div class="gallery-image-wrapper relative bg-gray-300">
-            <img src="images/group-photo.jpg" alt="活動の様子1" class="gallery-image w-full h-full object-cover" />
-            <div class="gallery-overlay absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300"></div>
-          </div>
-        </div>
-
-        <!-- ギャラリー画像2 -->
-        <div class="gallery-item group overflow-hidden rounded-lg">
-          <div class="gallery-image-wrapper relative bg-gray-300">
-            <img src="images/banner-record2.jpg" alt="活動の様子2" class="gallery-image w-full h-full object-cover" />
-            <div class="gallery-overlay absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300"></div>
-          </div>
-        </div>
-
-        <!-- ギャラリー画像3 -->
-        <div class="gallery-item group overflow-hidden rounded-lg">
-          <div class="gallery-image-wrapper relative bg-gray-300">
-            <img src="images/founder-youth.jpg" alt="活動の様子3" class="gallery-image w-full h-full object-cover" />
-            <div class="gallery-overlay absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300"></div>
-          </div>
-        </div>
-
-        <!-- ギャラリー画像4 -->
-        <div class="gallery-item group overflow-hidden rounded-lg">
-          <div class="gallery-image-wrapper relative bg-gray-300">
-            <img src="images/banner-record1.jpg" alt="活動の様子4" class="gallery-image w-full h-full object-cover" />
-            <div class="gallery-overlay absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300"></div>
-          </div>
-        </div>
-
-        <!-- ギャラリー画像5 -->
-        <div class="gallery-item group overflow-hidden rounded-lg">
-          <div class="gallery-image-wrapper relative bg-gray-300">
-            <img src="images/group-photo.jpg" alt="活動の様子5" class="gallery-image w-full h-full object-cover" />
-            <div class="gallery-overlay absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300"></div>
-          </div>
-        </div>
-
-        <!-- ギャラリー画像6 -->
-        <div class="gallery-item group overflow-hidden rounded-lg">
-          <div class="gallery-image-wrapper relative bg-gray-300">
-            <img src="images/banner-record2.jpg" alt="活動の様子6" class="gallery-image w-full h-full object-cover" />
-            <div class="gallery-overlay absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300"></div>
-          </div>
-        </div>
-      </div>
+      <!-- ギャラリーグリッド(images/gallery/ の写真を js/about-photos.js が自動表示) -->
+      <div id="galleryGrid" class="gallery-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"></div>
     </div>
   </section>
 
@@ -233,5 +185,6 @@
 
 <script src="js/menu.js"></script>
 <script src="js/about-animation.js"></script>
+<script src="js/about-photos.js"></script>
 </body>
 </html>
