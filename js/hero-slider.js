@@ -10,7 +10,7 @@
     "images/hero/02-rwc2019.jpg",
     "images/hero/03-group.jpg",
   ];
-  const SECONDS_PER_SLIDE = 6;
+  const SECONDS_PER_SLIDE = 12;
 
   const container = document.getElementById("heroSlider");
   if (!container) return;
@@ -39,7 +39,6 @@
         const img = document.createElement("img");
         img.src = url;
         img.alt = "";
-        img.loading = "lazy";
         cell.appendChild(img);
         track.appendChild(cell);
       });
