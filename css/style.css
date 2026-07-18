@@ -254,6 +254,12 @@ img {
 .hero-cell {
   flex: 0 0 auto;
   height: 100%;
+  /* 巨大な1枚レイヤーになるとiOSでテクスチャ上限を超えて描画が乱れるため、
+     写真1枚ごとに独立した合成レイヤーに分割する */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .hero-cell img {
