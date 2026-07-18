@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet" />
 <script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/style.css?v=2" />
 </head>
 <body class="bg-white text-[#1e1e21]">
 
@@ -73,8 +73,14 @@
   <section class="hero-fullscreen">
     <div class="hero-bg" id="heroSlider" style="background-image: url('images/indexメインビジュアル.jpg');"></div>
     <div class="hero-content">
-      <h1 class="hero-title" id="heroTitle">災害ラガーボランティア</h1>
-      <p class="hero-subtitle" id="heroSubtitle">One for all, All for one</p>
+      <div class="hero-intro" id="heroIntro">
+        <h1 class="hero-title" id="heroTitle">災害ラガーボランティア</h1>
+        <p class="hero-subtitle" id="heroSubtitle">One for all, All for one</p>
+      </div>
+      <div class="hero-final" id="heroFinal">
+        <p class="hero-final-title" id="heroFinalTitle">フライキプロジェクト</p>
+        <p class="hero-final-subtitle">ラグビーの精神と大漁旗「フライキ」で心の復興を届ける</p>
+      </div>
     </div>
   </section>
 
@@ -324,8 +330,8 @@
   </div>
 </footer>
 
-<script src="js/hero-animation.js"></script>
-<script src="js/hero-slider.js"></script>
+<script src="js/hero-animation.js?v=2"></script>
+<script src="js/hero-slider.js?v=2"></script>
 <script src="js/menu.js"></script>
 </body>
 </html>
