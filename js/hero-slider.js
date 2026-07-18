@@ -10,7 +10,7 @@
     "images/hero/02-rwc2019.jpg",
     "images/hero/03-group.jpg",
   ];
-  const SECONDS_PER_SLIDE = 12;
+  const SECONDS_PER_SLIDE = 24;
 
   const container = document.getElementById("heroSlider");
   if (!container) return;
