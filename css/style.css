@@ -439,10 +439,18 @@ img {
   }
 }
 
-/* マスコット+寄付ボタンのプルプル(5秒に1回、スライム風の伸び縮み) */
+/* マスコット一体型の寄付ボタン(5秒に1回、スライム風プルプル) */
 .jiggle-group {
   animation: slimeJiggle 5s ease-in-out infinite;
   transform-origin: center bottom;
+  height: 2.75rem; /* ボタン本体は44px固定 */
+}
+
+.jiggle-group img {
+  height: 3.5rem; /* マスコットはボタンより一回り大きく、上下にはみ出す */
+  width: auto;
+  margin: 0;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.25));
 }
 
 @keyframes slimeJiggle {
