@@ -513,6 +513,27 @@ img {
     margin-top: 0 !important;
     padding-top: 0 !important;
   }
+
+  /* 下層ページのタイトルが浮いているメニューボタンと重ならないよう余白を取る */
+  main > section:first-child:not(.hero-fullscreen):not(.about-hero) {
+    padding-top: 6.5rem;
+  }
+}
+
+/* 横向きスマホなど高さの低い画面向けの調整 */
+@media (max-height: 500px) {
+  .hero-title {
+    font-size: 1.9rem;
+    letter-spacing: 0.05em;
+  }
+
+  .hero-content {
+    gap: 1rem;
+  }
+
+  .hero-final {
+    gap: 0.75rem;
+  }
 }
 
 /* マスコット一体型の寄付ボタン(5秒に1回、スライム風プルプル) */
