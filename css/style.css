@@ -263,14 +263,12 @@ img {
 
 .hero-cell {
   flex: 0 0 auto;
-  width: 33.4vw;
   height: 100%;
 }
 
 .hero-cell img {
-  width: 100%;
+  width: auto;
   height: 100%;
-  object-fit: cover;
   display: block;
 }
 
@@ -280,12 +278,6 @@ img {
   }
   to {
     transform: translateX(-50%);
-  }
-}
-
-@media (max-width: 768px) {
-  .hero-cell {
-    width: 80vw;
   }
 }
 
