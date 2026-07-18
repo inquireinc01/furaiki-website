@@ -93,52 +93,8 @@
         <div class="w-16 h-1 bg-[#c8102e]"></div>
       </div>
 
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- ニュースカード1 -->
-        <article class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-          <div class="news-image bg-gradient-to-br from-[#c8102e] to-[#9c0c24] flex items-center justify-center">
-            <div class="text-white text-center px-4">
-              <p class="text-sm font-medium mb-1">2026年7月</p>
-              <p class="text-lg font-bold">お知らせ</p>
-            </div>
-          </div>
-          <div class="p-5 sm:p-6">
-            <h3 class="font-bold text-base mb-2 line-clamp-2">公式ホームページをリニューアル・LINE公式アカウント開設</h3>
-            <p class="text-sm text-gray-600 line-clamp-3">NPO法人設立を機にホームページを全面リニューアルしました。あわせてLINE公式アカウントを開設し、活動情報やボランティア募集情報を配信しています。</p>
-            <a href="https://lin.ee/nkWK6v7" target="_blank" rel="noopener" class="inline-block mt-4 text-sm font-bold text-[#c8102e] hover:underline">LINEで友だち追加 →</a>
-          </div>
-        </article>
-
-        <!-- ニュースカード2 -->
-        <article class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-          <div class="news-image bg-gradient-to-br from-[#9c0c24] to-[#6a0818] flex items-center justify-center">
-            <div class="text-white text-center px-4">
-              <p class="text-sm font-medium mb-1">2026年5月</p>
-              <p class="text-lg font-bold">活動報告</p>
-            </div>
-          </div>
-          <div class="p-5 sm:p-6">
-            <h3 class="font-bold text-base mb-2 line-clamp-2">ゴールデンウィークに第19回・20回活動を実施</h3>
-            <p class="text-sm text-gray-600 line-clamp-3">鯉のぼりフェスタの運営サポート、田んぼラグビーの動画撮影、農園整備(草刈り・オリーブの苗の確認)などを行いました。</p>
-            <a href="https://www.youtube.com/@FURAIKIProject" target="_blank" rel="noopener" class="inline-block mt-4 text-sm font-bold text-[#c8102e] hover:underline">活動の様子を見る →</a>
-          </div>
-        </article>
-
-        <!-- ニュースカード3 -->
-        <article class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-          <div class="news-image bg-gradient-to-br from-[#c8102e] to-[#8a0820] flex items-center justify-center">
-            <div class="text-white text-center px-4">
-              <p class="text-sm font-medium mb-1">2026年5月</p>
-              <p class="text-lg font-bold">ご支援のお願い</p>
-            </div>
-          </div>
-          <div class="p-5 sm:p-6">
-            <h3 class="font-bold text-base mb-2 line-clamp-2">寄付サイト「コングラント」で寄付受付を開始</h3>
-            <p class="text-sm text-gray-600 line-clamp-3">月々500円からの継続寄付・単発寄付をクレジットカードでお申し込みいただけるようになりました。皆さまのご支援をお願いいたします。</p>
-            <a href="https://congrant.com/project/furaiki/22163" target="_blank" rel="noopener" class="inline-block mt-4 text-sm font-bold text-[#c8102e] hover:underline">寄付ページへ →</a>
-          </div>
-        </article>
-      </div>
+      <!-- ニュース一覧(news/ フォルダの .txt を js/news-loader.js が自動表示) -->
+      <div id="newsList" class="max-w-3xl"></div>
 
       <div class="text-center mt-12">
         <a href="https://lin.ee/nkWK6v7" target="_blank" rel="noopener" class="inline-flex items-center px-8 py-3 border-2 border-[#c8102e] text-[#c8102e] font-bold rounded-full hover:bg-[#c8102e] hover:text-white transition-colors">
@@ -333,6 +289,7 @@
 
 <script src="js/hero-animation.js?v=3"></script>
 <script src="js/hero-slider.js?v=2"></script>
+<script src="js/news-loader.js"></script>
 <script src="js/menu.js"></script>
 </body>
 </html>
