@@ -470,6 +470,27 @@ img {
   }
 }
 
+/* フォーム: 入力エラー時に赤く表示 */
+.input-error {
+  border-color: #dc2626 !important;
+  background-color: #fef2f2 !important;
+}
+
+.input-error:focus {
+  border-color: #dc2626 !important;
+  box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.15) !important;
+}
+
+/* ハニーポット欄は画面外に隠す(display:noneはボットに検知されやすいため) */
+.hp-field {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
 ::selection {
   background-color: var(--color-red);
   color: #fff;
