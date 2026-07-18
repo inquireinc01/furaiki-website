@@ -37,17 +37,7 @@ body {
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
 }
 
-/* モバイルメニュー */
-#mobile-menu {
-  transition: max-height 0.35s ease, opacity 0.25s ease;
-  max-height: 0;
-  opacity: 0;
-  overflow: hidden;
-}
-#mobile-menu.open {
-  max-height: 32rem;
-  opacity: 1;
-}
+/* モバイルメニュー(表示切替は hidden クラスで行う) */
 
 /* ヒーロー背景の日の出風グラデーション */
 .hero-rays {
@@ -497,10 +487,20 @@ img {
   }
 
   #mobile-menu {
+    /* ヘッダー(pointer-events:noneのfixed)内の表示切替はiOSで再描画されない
+       ことがあるため、独立した固定レイヤーとして表示する */
+    position: fixed;
+    top: 72px;
+    left: 12px;
+    right: 12px;
+    z-index: 60;
     pointer-events: auto;
     background: #fff;
-    border-radius: 0 0 12px 12px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
   }
 
   .hero-fullscreen {
