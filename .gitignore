@@ -18,3 +18,9 @@ package-lock.json
 # Local environment
 .env
 .env.local
+
+# 内部メモ(公開リポジトリにプッシュしない)
+NOTES.md
+
+# Claude Code ローカル設定
+.claude/
