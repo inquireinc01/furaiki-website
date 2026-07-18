@@ -1,13 +1,25 @@
 // モバイルメニュー
-// 開閉そのものはボタンの onclick 属性(HTML側)で行う。
-// ここでは補助動作(リンク選択・メニュー外タップで閉じる、ヘッダー影)のみ担当。
 document.addEventListener('DOMContentLoaded', function() {
   const menuButton = document.getElementById('menu-button');
   const mobileMenu = document.getElementById('mobile-menu');
 
   if (menuButton && mobileMenu) {
-    // タップのたびにスライム風のプルプルを再生
+    // iOSでヘッダー(fixed + pointer-events:none)内の要素の描画が
+    // 更新されない問題を避けるため、パネルをbody直下へ移す
+    document.body.appendChild(mobileMenu);
+
+    function openState() {
+      return !mobileMenu.classList.contains('hidden');
+    }
+
+    function setMenu(open) {
+      mobileMenu.classList.toggle('hidden', !open);
+      menuButton.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+
+    // タップで開閉+スライム風プルプル
     menuButton.addEventListener('click', function() {
+      setMenu(!openState());
       menuButton.classList.remove('jiggling');
       void menuButton.offsetWidth; // アニメーションを最初から再生し直すためのリフロー
       menuButton.classList.add('jiggling');
@@ -16,21 +28,16 @@ document.addEventListener('DOMContentLoaded', function() {
       menuButton.classList.remove('jiggling');
     });
 
-    function closeMenu() {
-      mobileMenu.classList.add('hidden');
-      menuButton.setAttribute('aria-expanded', 'false');
-    }
-
     // メニュー項目をクリックしたらメニューを閉じる
     mobileMenu.querySelectorAll('a').forEach(function(link) {
-      link.addEventListener('click', closeMenu);
+      link.addEventListener('click', function() { setMenu(false); });
     });
 
     // メニューの外側をタップしたら閉じる
     document.addEventListener('click', function(e) {
-      if (mobileMenu.classList.contains('hidden')) return;
+      if (!openState()) return;
       if (menuButton.contains(e.target) || mobileMenu.contains(e.target)) return;
-      closeMenu();
+      setMenu(false);
     });
   }
 
