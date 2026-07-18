@@ -250,6 +250,51 @@ img {
   z-index: 2;
 }
 
+.hero-track {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  display: flex;
+  width: max-content;
+  animation: heroMarquee linear infinite;
+  will-change: transform;
+}
+
+.hero-cell {
+  flex: 0 0 auto;
+  width: 33.4vw;
+  height: 100%;
+}
+
+.hero-cell img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+@keyframes heroMarquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-cell {
+    width: 80vw;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-track {
+    animation: none;
+  }
+}
+
 .hero-content {
   position: relative;
   z-index: 3;
