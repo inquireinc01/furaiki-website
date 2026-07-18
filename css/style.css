@@ -450,6 +450,7 @@ img {
 #menu-button {
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
 }
 
 /* マスコット一体型の寄付ボタン(5秒に1回、スライム風プルプル) */
