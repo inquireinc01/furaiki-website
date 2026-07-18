@@ -6,6 +6,16 @@ document.addEventListener('DOMContentLoaded', function() {
   const mobileMenu = document.getElementById('mobile-menu');
 
   if (menuButton && mobileMenu) {
+    // タップのたびにスライム風のプルプルを再生
+    menuButton.addEventListener('click', function() {
+      menuButton.classList.remove('jiggling');
+      void menuButton.offsetWidth; // アニメーションを最初から再生し直すためのリフロー
+      menuButton.classList.add('jiggling');
+    });
+    menuButton.addEventListener('animationend', function() {
+      menuButton.classList.remove('jiggling');
+    });
+
     function closeMenu() {
       mobileMenu.classList.add('hidden');
       menuButton.setAttribute('aria-expanded', 'false');

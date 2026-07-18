@@ -451,6 +451,22 @@ img {
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
   cursor: pointer;
+  transform-origin: center;
+}
+
+/* タップ時にスライム風にプルンと震える */
+#menu-button.jiggling {
+  animation: slimeTap 0.55s ease-in-out;
+}
+
+@keyframes slimeTap {
+  0%   { transform: scale(1, 1); }
+  15%  { transform: scale(1.25, 0.75); }
+  30%  { transform: scale(0.85, 1.15); }
+  45%  { transform: scale(1.12, 0.9); }
+  60%  { transform: scale(0.95, 1.05); }
+  75%  { transform: scale(1.04, 0.98); }
+  100% { transform: scale(1, 1); }
 }
 
 /* スマホ: ヘッダーバーを消してメインビジュアルを最上部から表示。
