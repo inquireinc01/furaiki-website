@@ -1,6 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
   const heroTitle = document.getElementById('heroTitle');
   const heroSubtitle = document.getElementById('heroSubtitle');
+  const heroIntro = document.getElementById('heroIntro');
+  const heroFinal = document.getElementById('heroFinal');
+  const heroFinalTitle = document.getElementById('heroFinalTitle');
 
   if (!heroTitle) return;
 
@@ -40,9 +43,40 @@ document.addEventListener('DOMContentLoaded', function() {
       heroSubtitle.style.fontSize = (current * titleW / subW) + 'px';
     }
   }
-  matchWidth();
-  window.addEventListener('resize', matchWidth);
-  if (document.fonts && document.fonts.ready) {
-    document.fonts.ready.then(matchWidth);
+
+  // 最終タイトル「フライキプロジェクト」は導入テキストを覆うサイズに調整
+  function fitFinalTitle() {
+    if (!heroFinalTitle) return;
+    heroFinalTitle.style.fontSize = '';
+    const introW = heroIntro.getBoundingClientRect().width;
+    const target = Math.min(introW * 1.15, window.innerWidth * 0.92);
+    const curW = heroFinalTitle.getBoundingClientRect().width;
+    if (target > 0 && curW > 0) {
+      const current = parseFloat(getComputedStyle(heroFinalTitle).fontSize);
+      heroFinalTitle.style.fontSize = (current * target / curW) + 'px';
+    }
   }
+
+  function layout() {
+    matchWidth();
+    fitFinalTitle();
+  }
+  layout();
+  window.addEventListener('resize', layout);
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(layout);
+  }
+
+  // 演出シーケンス:
+  //   導入(1文字ずつ)が終わったら、導入をフェードアウトしつつ
+  //   「フライキプロジェクト」を覆いかぶせてフェードイン、最後に説明文をフェードイン
+  if (!heroIntro || !heroFinal) return;
+  const introDone = subStart + subText.length * subDelay + 600; // 導入の表示完了時刻
+  setTimeout(() => {
+    heroIntro.classList.add('is-hidden');
+    heroFinal.classList.add('is-visible');
+  }, introDone + 800);
+  setTimeout(() => {
+    heroFinal.classList.add('show-sub');
+  }, introDone + 2200);
 });
