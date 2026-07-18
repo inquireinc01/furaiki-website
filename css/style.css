@@ -334,6 +334,7 @@ img {
 }
 
 .hero-subtitle {
+  display: inline-block; /* 文字幅どおりに計測できるようにする(親幅への引き伸ばし防止) */
   font-size: 1.5rem;
   color: rgba(255, 255, 255, 0.95);
   font-weight: 700;
@@ -435,6 +436,29 @@ img {
   .hero-title {
     font-size: 2rem;
     letter-spacing: 0.05em;
+  }
+}
+
+/* マスコット+寄付ボタンのプルプル(5秒に1回、スライム風の伸び縮み) */
+.jiggle-group {
+  animation: slimeJiggle 5s ease-in-out infinite;
+  transform-origin: center bottom;
+}
+
+@keyframes slimeJiggle {
+  0%   { transform: scale(1, 1); }
+  3%   { transform: scale(1.12, 0.86); }
+  6%   { transform: scale(0.92, 1.08); }
+  9%   { transform: scale(1.06, 0.94); }
+  12%  { transform: scale(0.98, 1.03); }
+  15%  { transform: scale(1.02, 0.99); }
+  18%  { transform: scale(1, 1); }
+  100% { transform: scale(1, 1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jiggle-group {
+    animation: none;
   }
 }
 
