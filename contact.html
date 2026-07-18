@@ -226,7 +226,7 @@
               class="mt-1 w-4 h-4 text-[#c8102e] border-gray-300 rounded focus:ring-[#c8102e] cursor-pointer"
             />
             <label for="agree" class="ml-3 text-sm text-gray-600">
-              <a href="#" class="text-[#c8102e] hover:underline">プライバシーポリシー</a>に同意します
+              <a href="privacy.html" target="_blank" class="text-[#c8102e] hover:underline">プライバシーポリシー</a>に同意します
             </label>
           </div>
 
@@ -235,11 +235,11 @@
             type="submit"
             class="w-full btn-primary py-3 rounded-full font-bold text-white transition-colors hover:bg-[#9c0c24]"
           >
-            送信
+            メールで送信
           </button>
 
-          <p class="text-xs text-gray-500 text-center">
-            ※ 送信内容は確認後、折り返しご連絡させていただきます
+          <p id="contact-form-note" class="text-xs text-gray-500 text-center">
+            ※ 送信ボタンを押すとメールアプリが開きます。内容を確認のうえ、折り返しご連絡させていただきます
           </p>
         </form>
       </div>
@@ -353,6 +353,7 @@
           <li><a href="https://congrant.com/project/furaiki/22163" target="_blank" rel="noopener" class="text-gray-400 hover:text-white transition-colors">寄付する</a></li>
           <li><a href="contact.html" class="text-gray-400 hover:text-white transition-colors">ボランティア</a></li>
           <li><a href="contact.html" class="text-gray-400 hover:text-white transition-colors">お問い合わせ</a></li>
+          <li><a href="privacy.html" class="text-gray-400 hover:text-white transition-colors">プライバシーポリシー</a></li>
         </ul>
       </div>
       <div>
@@ -370,5 +371,6 @@
 </footer>
 
 <script src="js/menu.js"></script>
+<script src="js/contact-form.js"></script>
 </body>
 </html>
