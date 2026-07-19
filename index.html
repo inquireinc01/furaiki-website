@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet" />
 <script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="css/style.css?v=20260720g" />
+<link rel="stylesheet" href="css/style.css?v=20260721a" />
 </head>
 <body class="bg-white text-[#1e1e21]">
 
@@ -34,8 +34,9 @@
       </a>
 
       <!-- ナビゲーション: 固定の画面幅ではなく、実際に収まるかをJS(header-fit.js)が
-           判定して表示を切り替える。初期状態は安全側(非表示・測定専用)にしておく -->
-      <nav id="desktopNav" class="items-center gap-5" style="position:absolute; left:-9999px; display:flex;">
+           判定して表示を切り替える。初期状態は安全側(非表示・測定専用)にしておく。
+           flex-1 + justify-evenly で、ロゴ〜寄付ボタンの間全体に等間隔で配置する -->
+      <nav id="desktopNav" class="flex-1 items-center justify-evenly mx-6" style="position:absolute; left:-9999px; display:flex;">
         <a href="organization.html" class="text-sm font-medium text-gray-700 hover:text-[#c8102e] transition-colors whitespace-nowrap">団体概要</a>
         <a href="message.html" class="text-sm font-medium text-gray-700 hover:text-[#c8102e] transition-colors whitespace-nowrap">代表挨拶</a>
         <a href="about.html" class="text-sm font-medium text-gray-700 hover:text-[#c8102e] transition-colors whitespace-nowrap">活動報告</a>
@@ -81,14 +82,11 @@
   <section class="hero-fullscreen">
     <div class="hero-bg" id="heroSlider" style="background-image: url('images/indexメインビジュアル.jpg');"></div>
     <div class="hero-content">
-      <div class="hero-intro" id="heroIntro">
-        <h1 class="hero-title" id="heroTitle">災害ラガーボランティア</h1>
-        <p class="hero-subtitle" id="heroSubtitle">圧倒的な行動力とチームワークで、被災地をワンチームに。ラガーマンによる災害復興支援プロジェクト</p>
-      </div>
-      <div class="hero-final" id="heroFinal">
-        <p class="hero-final-title" id="heroFinalTitle">フライキプロジェクト</p>
-        <p class="hero-final-subtitle">ラグビーの精神と大漁旗「フライキ」で心の復興を届ける</p>
-      </div>
+      <h1 class="hero-lines">
+        <span class="hero-line hero-line-sub">災害ラガーボランティア</span>
+        <span class="hero-line hero-line-main hero-flag-shine">フライキプロジェクト</span>
+        <span class="hero-line hero-line-sub">ラグビーの精神と大漁旗「フライキ」で復興支援</span>
+      </h1>
     </div>
   </section>
 
@@ -209,7 +207,7 @@
         <a href="https://congrant.com/project/furaiki/22163" target="_blank" rel="noopener" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">寄付する</a>
         <a href="https://lin.ee/nkWK6v7" target="_blank" rel="noopener" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">LINE公式アカウント</a>
         <a href="https://www.youtube.com/@FURAIKIProject" target="_blank" rel="noopener" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">YouTube</a>
-        <a href="https://furaiki.jimdofree.com/" target="_blank" rel="noopener" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">一般社団法人フライキプロジェクト</a>
+        <a href="https://furaiki.jimdofree.com/" target="_blank" rel="noopener" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">一般社団法人フライキプロジェクト<span class="block text-xs text-gray-400 font-normal">(旧ホームページ)</span></a>
     </div>
     <div class="border-t border-gray-700 pt-8 text-center text-sm text-gray-400">
       <p>©2026 特定非営利活動法人フライキプロジェクト All rights reserved.</p>
@@ -217,11 +215,10 @@
   </div>
 </footer>
 
-<script src="js/hero-animation.js?v=20260720g"></script>
-<script src="js/hero-slider.js?v=20260720g"></script>
-<script src="js/news-loader.js?v=20260720g"></script>
-<script src="js/header-fit.js?v=20260720g"></script>
-<script src="js/menu.js?v=20260720g"></script>
-<script src="js/scroll-reveal.js?v=20260720g"></script>
+<script src="js/hero-slider.js?v=20260721a"></script>
+<script src="js/news-loader.js?v=20260721a"></script>
+<script src="js/header-fit.js?v=20260721a"></script>
+<script src="js/menu.js?v=20260721a"></script>
+<script src="js/scroll-reveal.js?v=20260721a"></script>
 </body>
 </html>
