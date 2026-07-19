@@ -20,10 +20,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
   if (!heroSubtitle) return;
 
-  // サブタイトルもタイトルに続けて1文字ずつ左から浮かび上がらせる
+  // サブタイトル(長文)もタイトルに続けて1文字ずつ左から浮かび上がらせる。
+  // タイトルのような短い語句ではないため、横幅を無理に合わせず自然に折り返す。
   const subText = heroSubtitle.textContent;
   const subStart = text.length * delay;
-  const subDelay = 40;
+  const subDelay = 30;
   heroSubtitle.textContent = '';
 
   subText.split('').forEach((char, index) => {
@@ -32,17 +33,6 @@ document.addEventListener('DOMContentLoaded', function() {
     span.style.animationDelay = (subStart + index * subDelay) + 'ms';
     heroSubtitle.appendChild(span);
   });
-
-  // タイトル「災害ラガーボランティア」と同じ横幅になるようフォントサイズを調整
-  function matchWidth() {
-    heroSubtitle.style.fontSize = '';
-    const titleW = heroTitle.getBoundingClientRect().width;
-    const subW = heroSubtitle.getBoundingClientRect().width;
-    if (titleW > 0 && subW > 0) {
-      const current = parseFloat(getComputedStyle(heroSubtitle).fontSize);
-      heroSubtitle.style.fontSize = (current * titleW / subW) + 'px';
-    }
-  }
 
   // 最終タイトル「フライキプロジェクト」は導入テキストを覆うサイズに調整し、
   // 最終サブタイトルはそのタイトルと同じ横幅に合わせる
@@ -72,7 +62,6 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function layout() {
-    matchWidth();
     fitFinalTitle();
   }
   layout();

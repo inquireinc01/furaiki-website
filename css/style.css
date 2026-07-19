@@ -15,6 +15,11 @@ html {
   scroll-behavior: smooth;
 }
 
+/* ページ内リンクの着地位置が固定ヘッダーに隠れないよう余白を確保 */
+[id] {
+  scroll-margin-top: 6rem;
+}
+
 body {
   font-family: "Noto Sans JP", "Hiragino Sans", "Yu Gothic", sans-serif;
   color: var(--color-charcoal);
@@ -94,24 +99,50 @@ body {
   margin-right: auto;
 }
 
-/* ボタン */
+/* ボタン: ホバー時に色が左から右へ滑らかに満ちていく共通エフェクト。
+   pill型・角丸ボタン(rounded-full / rounded-lg 等)や a[class*="border"]の
+   ボタン風リンクに幅広く適用されるよう、属性セレクタで一括して対象化する。 */
+.btn-primary,
+.btn-outline,
+a[class*="rounded-full"]:not(.jiggle-group),
+button[type="submit"] {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  transition: color 0.4s cubic-bezier(0.65, 0, 0.35, 1), border-color 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.btn-primary::before,
+.btn-outline::before,
+a[class*="rounded-full"]:not(.jiggle-group)::before,
+button[type="submit"]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--sweep-color, rgba(0, 0, 0, 0.12));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.btn-primary:hover::before,
+.btn-outline:hover::before,
+a[class*="rounded-full"]:not(.jiggle-group):hover::before,
+button[type="submit"]:hover::before {
+  transform: scaleX(1);
+}
+
 .btn-primary {
   background-color: var(--color-red);
   color: #fff;
-  transition: background-color 0.2s ease, transform 0.2s ease;
-}
-.btn-primary:hover {
-  background-color: var(--color-red-dark);
-  transform: translateY(-2px);
+  --sweep-color: var(--color-red-dark);
 }
 .btn-outline {
   border: 1.5px solid var(--color-gray-400);
   color: var(--color-charcoal);
-  transition: border-color 0.2s ease, background-color 0.2s ease;
+  --sweep-color: var(--color-red-soft);
 }
 .btn-outline:hover {
   border-color: var(--color-red);
-  background-color: var(--color-red-soft);
 }
 
 /* フォーム */
@@ -330,13 +361,16 @@ img {
 }
 
 .hero-subtitle {
-  display: inline-block; /* 文字幅どおりに計測できるようにする(親幅への引き伸ばし防止) */
-  font-size: 1.5rem;
+  display: block;
+  max-width: 42rem;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 1.125rem;
   color: rgba(255, 255, 255, 0.95);
   font-weight: 700;
-  letter-spacing: 0.05em;
-  margin-top: 1rem;
-  white-space: nowrap;
+  letter-spacing: 0.03em;
+  line-height: 1.7;
+  margin-top: 1.25rem;
 }
 
 .hero-subtitle span {
@@ -492,9 +526,23 @@ img {
     -webkit-backdrop-filter: blur(2px);
   }
 
+  .hero-fullscreen {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+
+  /* 下層ページのタイトルが浮いているメニューボタンと重ならないよう余白を取る */
+  main > section:first-child:not(.hero-fullscreen):not(.about-hero) {
+    padding-top: 6.5rem;
+  }
+}
+
+/* メニューパネル(赤グラデーション)は、ハンバーガーメニューを使う
+   スマホ〜タブレット〜ノートPCの全域(2xl未満)で共通のデザインにする */
+@media (max-width: 1535px) {
   #mobile-menu {
-    /* ヘッダー(pointer-events:noneのfixed)内の表示切替はiOSで再描画されない
-       ことがあるため、独立した固定レイヤーとして表示する */
+    /* ヘッダー内での表示切替はiOSで再描画されないことがあるため、
+       独立した固定レイヤーとして表示する(menu.jsでbody直下へ移動) */
     position: fixed;
     top: 72px;
     left: 12px;
@@ -507,16 +555,6 @@ img {
     box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
     transform: translateZ(0);
     -webkit-transform: translateZ(0);
-  }
-
-  .hero-fullscreen {
-    margin-top: 0 !important;
-    padding-top: 0 !important;
-  }
-
-  /* 下層ページのタイトルが浮いているメニューボタンと重ならないよう余白を取る */
-  main > section:first-child:not(.hero-fullscreen):not(.about-hero) {
-    padding-top: 6.5rem;
   }
 }
 

@@ -11,6 +11,11 @@ FOLDERS = [
     ("images/hero", 2400, 800),
     ("images/about-hero", 2400, 800),
     ("images/gallery", 1600, 500),
+    ("images/gallery/disaster-relief", 1600, 500),
+    ("images/gallery/heart-flags", 1600, 500),
+    ("images/gallery/community", 1600, 500),
+    ("images/timeline", 1200, 400),
+    ("images/org-highlights", 1600, 500),
 ]
 QUALITY = 85
 

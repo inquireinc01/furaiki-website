@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet" />
 <script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="css/style.css?v=20260719k" />
+<link rel="stylesheet" href="css/style.css?v=20260720a" />
 </head>
 <body class="bg-white text-[#1e1e21]">
 
@@ -22,29 +22,35 @@
 <header id="site-header" class="sticky top-0 z-50 bg-white border-b border-gray-100">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-20">
+      <!-- ロゴエリア -->
       <a href="index.html" class="flex items-center gap-3 shrink-0 group">
         <span class="flex h-20 w-36 sm:w-48 shrink-0 items-center justify-center overflow-hidden">
           <img src="images/メインロゴ.jpg" alt="フライキプロジェクト" class="h-48 w-auto max-w-none transition-opacity group-hover:opacity-80" />
         </span>
-        <div class="hidden sm:flex items-baseline gap-1 border-l border-gray-300 pl-3">
+        <div class="hidden sm:flex items-baseline gap-1 border-l border-gray-300 pl-3 whitespace-nowrap">
           <p class="text-sm text-gray-500 font-medium">特定非営利活動法人</p>
           <p class="font-black text-lg tracking-tight">フライキプロジェクト</p>
         </div>
       </a>
 
-      <nav class="hidden md:flex items-center gap-8">
-        <a href="organization.html" class="text-sm font-medium text-[#c8102e]">団体概要</a>
-        <a href="about.html" class="text-sm font-medium text-gray-700 hover:text-[#c8102e] transition-colors">過去の活動</a>
-        <a href="history.html" class="text-sm font-medium text-gray-700 hover:text-[#c8102e] transition-colors">沿革</a>
-        <a href="contact.html" class="text-sm font-medium text-gray-700 hover:text-[#c8102e] transition-colors">お問合せ</a>
+      <!-- ナビゲーション(2xl以上でのみ表示。6項目に増えたため、狭い/中間幅での
+           崩れを避け十分な余裕がある画面幅になるまではメニューボタンに集約する) -->
+      <nav class="hidden 2xl:flex items-center gap-5">
+        <a href="organization.html" class="text-sm font-bold text-[#c8102e] whitespace-nowrap">団体概要</a>
+        <a href="message.html" class="text-sm font-medium text-gray-700 hover:text-[#c8102e] transition-colors whitespace-nowrap">代表挨拶</a>
+        <a href="about.html" class="text-sm font-medium text-gray-700 hover:text-[#c8102e] transition-colors whitespace-nowrap">活動報告</a>
+        <a href="financial.html" class="text-sm font-medium text-gray-700 hover:text-[#c8102e] transition-colors whitespace-nowrap">決算報告</a>
+        <a href="corporate.html" class="text-sm font-medium text-gray-700 hover:text-[#c8102e] transition-colors whitespace-nowrap">企業・団体様へ</a>
+        <a href="contact.html" class="text-sm font-medium text-gray-700 hover:text-[#c8102e] transition-colors whitespace-nowrap">お問合せ</a>
       </nav>
 
+      <!-- CTA -->
       <div class="flex items-center gap-4">
-        <a href="https://congrant.com/project/furaiki/22163" target="_blank" rel="noopener" class="jiggle-group btn-primary hidden sm:inline-flex items-center gap-2 pl-1.5 pr-6 py-1.5 text-sm font-bold rounded-full">
+        <a href="https://congrant.com/project/furaiki/22163" target="_blank" rel="noopener" class="jiggle-group btn-primary hidden 2xl:inline-flex items-center gap-2 pl-1.5 pr-6 py-1.5 text-sm font-bold rounded-full whitespace-nowrap">
           <img src="images/mascot.png" alt="" class="h-12 w-auto -my-2" />
           寄付・支援はこちら
         </a>
-        <button id="menu-button" type="button" aria-expanded="false" class="md:hidden p-2 text-gray-800">
+        <button id="menu-button" type="button" aria-expanded="false" class="2xl:hidden p-2 text-gray-800">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
           </svg>
@@ -53,12 +59,15 @@
     </div>
   </div>
 
-  <div id="mobile-menu" class="hidden md:hidden border-t border-gray-100 bg-white">
+  <!-- モバイル・タブレット・ノートPC用メニュー(2xl未満で使用) -->
+  <div id="mobile-menu" class="hidden 2xl:hidden border-t border-gray-100 bg-white">
     <nav class="flex flex-col p-3">
       <a href="index.html" class="block px-5 py-3.5 text-sm font-bold text-white/95 rounded-xl hover:bg-white/10 transition-colors">ホーム</a>
       <a href="organization.html" class="block px-5 py-3.5 text-sm font-bold text-white rounded-xl bg-white/15">団体概要</a>
-      <a href="about.html" class="block px-5 py-3.5 text-sm font-bold text-white/95 rounded-xl hover:bg-white/10 transition-colors">過去の活動</a>
-      <a href="history.html" class="block px-5 py-3.5 text-sm font-bold text-white/95 rounded-xl hover:bg-white/10 transition-colors">沿革</a>
+      <a href="message.html" class="block px-5 py-3.5 text-sm font-bold text-white/95 rounded-xl hover:bg-white/10 transition-colors">代表挨拶</a>
+      <a href="about.html" class="block px-5 py-3.5 text-sm font-bold text-white/95 rounded-xl hover:bg-white/10 transition-colors">活動報告</a>
+      <a href="financial.html" class="block px-5 py-3.5 text-sm font-bold text-white/95 rounded-xl hover:bg-white/10 transition-colors">決算報告</a>
+      <a href="corporate.html" class="block px-5 py-3.5 text-sm font-bold text-white/95 rounded-xl hover:bg-white/10 transition-colors">企業・団体様へ</a>
       <a href="contact.html" class="block px-5 py-3.5 text-sm font-bold text-white/95 rounded-xl hover:bg-white/10 transition-colors">お問合せ</a>
       <div class="my-2 border-t border-white/25"></div>
       <a href="https://congrant.com/project/furaiki/22163" target="_blank" rel="noopener" class="block px-5 py-3.5 text-sm font-black text-[#c8102e] bg-white rounded-full text-center hover:bg-gray-100 transition-colors">寄付・支援はこちら</a>
@@ -84,44 +93,142 @@
       <div class="w-16 h-1 bg-[#c8102e] mb-8"></div>
 
       <div class="grid sm:grid-cols-2 gap-8 mb-12">
-        <div class="bg-gray-50 rounded-lg p-6 sm:p-8">
+        <div class="bg-gray-50 rounded-lg p-6 sm:p-8 reveal">
           <h3 class="font-bold text-sm text-gray-500 uppercase tracking-widest mb-2">正式名称</h3>
           <p class="text-xl font-black text-[#1e1e21]">特定非営利活動法人<br />フライキプロジェクト</p>
         </div>
 
-        <div class="bg-gray-50 rounded-lg p-6 sm:p-8">
+        <div class="bg-gray-50 rounded-lg p-6 sm:p-8 reveal">
           <h3 class="font-bold text-sm text-gray-500 uppercase tracking-widest mb-2">法人所在地</h3>
           <p class="text-lg font-bold text-[#1e1e21]">東京都千代田区麹町</p>
         </div>
 
-        <div class="bg-gray-50 rounded-lg p-6 sm:p-8">
+        <div class="bg-gray-50 rounded-lg p-6 sm:p-8 reveal">
           <h3 class="font-bold text-sm text-gray-500 uppercase tracking-widest mb-2">設立年月日</h3>
           <p class="text-lg font-bold text-[#1e1e21]">2026年7月1日</p>
         </div>
 
-        <div class="bg-gray-50 rounded-lg p-6 sm:p-8">
+        <div class="bg-gray-50 rounded-lg p-6 sm:p-8 reveal">
           <h3 class="font-bold text-sm text-gray-500 uppercase tracking-widest mb-2">代表</h3>
           <p class="text-lg font-bold text-[#1e1e21]">園部 浩誉（理事長）</p>
+        </div>
+
+        <div class="bg-gray-50 rounded-lg p-6 sm:p-8 sm:col-span-2 flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <h3 class="font-bold text-sm text-gray-500 uppercase tracking-widest mb-2">定款</h3>
+            <p class="text-lg font-bold text-[#1e1e21]">特定非営利活動法人フライキプロジェクト定款</p>
+          </div>
+          <a href="documents/定款.pdf" target="_blank" rel="noopener" class="btn-outline inline-flex items-center gap-2 px-6 py-3 rounded-full font-bold text-sm">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            PDFを見る
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 沿革 ===== -->
+  <section id="history" class="py-12 sm:py-16 md:py-24 bg-gray-50">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl md:text-4xl font-black mb-4 reveal">沿革</h2>
+      <div class="w-16 h-1 bg-[#c8102e] mb-4"></div>
+      <p class="text-gray-600 mb-12 reveal">2011年から現在まで、フライキプロジェクトの歩み</p>
+
+      <div class="relative pl-8 sm:pl-10">
+        <div class="absolute left-[7px] sm:left-[9px] top-2 bottom-2 w-px bg-gray-300"></div>
+
+        <div class="space-y-12">
+          <!-- 2011年8月 -->
+          <div class="relative reveal">
+            <div class="absolute -left-8 sm:-left-10 top-1.5 w-3.5 h-3.5 rounded-full bg-[#c8102e] ring-4 ring-gray-50"></div>
+            <div class="flex flex-col sm:flex-row sm:items-start gap-4 sm:gap-6">
+              <div class="flex-1">
+                <p class="text-sm font-black text-[#c8102e] mb-1">2011年8月</p>
+                <h3 class="text-lg font-bold text-[#1e1e21] mb-2">プロジェクト発足</h3>
+                <p class="text-gray-700 leading-relaxed">東日本大震災の発生直後、発起人が過去の震災時に支援できなかった後悔を胸に行動を開始。東北のラグビーチームに大漁旗「フライキ」を贈り、エールを届ける活動をスタートしました。</p>
+              </div>
+              <div class="timeline-photo sm:w-40 shrink-0">
+                <img src="images/timeline/2011.jpg" alt="2011年8月 プロジェクト発足" class="w-full h-28 sm:h-24 object-cover rounded-lg" onerror="this.closest('.timeline-photo').style.display='none'" />
+              </div>
+            </div>
+          </div>
+
+          <!-- 2011〜2018年 -->
+          <div class="relative reveal">
+            <div class="absolute -left-8 sm:-left-10 top-1.5 w-3.5 h-3.5 rounded-full bg-[#c8102e] ring-4 ring-gray-50"></div>
+            <div class="flex flex-col sm:flex-row sm:items-start gap-4 sm:gap-6">
+              <div class="flex-1">
+                <p class="text-sm font-black text-[#c8102e] mb-1">2011年〜2018年</p>
+                <h3 class="text-lg font-bold text-[#1e1e21] mb-2">応援フライキの贈呈活動</h3>
+                <p class="text-gray-700 leading-relaxed">クラウドファンディングなどを活用しながら、東北のラグビーチームや、大きな怪我や病気と闘う仲間たちへ継続的に「応援フライキ」を贈呈。有志を中心とした活動を展開してきました。</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2019年 RWC -->
+          <div class="relative reveal">
+            <div class="absolute -left-8 sm:-left-10 top-1.5 w-3.5 h-3.5 rounded-full bg-[#c8102e] ring-4 ring-gray-50"></div>
+            <div class="flex flex-col sm:flex-row sm:items-start gap-4 sm:gap-6">
+              <div class="flex-1">
+                <p class="text-sm font-black text-[#c8102e] mb-1">2019年</p>
+                <h3 class="text-lg font-bold text-[#1e1e21] mb-2">ラグビーW杯釜石開催でのフライキ掲揚</h3>
+                <p class="text-gray-700 leading-relaxed">日本で初開催されたラグビーワールドカップ。釜石スタジアムの観客席を無数のフライキで彩り、復興の姿と感謝の思いを世界へ発信しました。</p>
+              </div>
+              <div class="timeline-photo sm:w-40 shrink-0">
+                <img src="images/timeline/2019.jpg" alt="2019年 ラグビーW杯釜石開催でのフライキ掲揚" class="w-full h-28 sm:h-24 object-cover rounded-lg" onerror="this.closest('.timeline-photo').style.display='none'" />
+              </div>
+            </div>
+          </div>
+
+          <!-- 2024年 能登 -->
+          <div class="relative reveal">
+            <div class="absolute -left-8 sm:-left-10 top-1.5 w-3.5 h-3.5 rounded-full bg-[#c8102e] ring-4 ring-gray-50"></div>
+            <div class="flex flex-col sm:flex-row sm:items-start gap-4 sm:gap-6">
+              <div class="flex-1">
+                <p class="text-sm font-black text-[#c8102e] mb-1">2024年1月〜</p>
+                <h3 class="text-lg font-bold text-[#1e1e21] mb-2">能登半島地震・豪雨災害対応</h3>
+                <p class="text-gray-700 leading-relaxed">能登半島地震・豪雨災害の直後から「災害ラガーボランティア」を組織。全国から集まったラグビー経験者たちが、輪島市の瓦礫撤去や階段作り、伝統行事「曽々木大祭」の運営支援に携わりました。</p>
+              </div>
+              <div class="timeline-photo sm:w-40 shrink-0">
+                <img src="images/timeline/2024.jpg" alt="2024年 能登半島地震・豪雨災害対応" class="w-full h-28 sm:h-24 object-cover rounded-lg" onerror="this.closest('.timeline-photo').style.display='none'" />
+              </div>
+            </div>
+          </div>
+
+          <!-- 2026年7月 NPO法人化 -->
+          <div class="relative reveal">
+            <div class="absolute -left-8 sm:-left-10 top-1.5 w-3.5 h-3.5 rounded-full bg-[#c8102e] ring-4 ring-gray-50"></div>
+            <div class="flex flex-col sm:flex-row sm:items-start gap-4 sm:gap-6">
+              <div class="flex-1">
+                <p class="text-sm font-black text-[#c8102e] mb-1">2026年7月1日</p>
+                <h3 class="text-lg font-bold text-[#1e1e21] mb-2">NPO法人化</h3>
+                <p class="text-gray-700 leading-relaxed">活動の透明性と社会的信用を高め、企業や行政、多くの賛同者との連携を強化するため、特定非営利活動法人として新たな一歩を踏み出しました。</p>
+              </div>
+              <div class="timeline-photo sm:w-40 shrink-0">
+                <img src="images/timeline/2026.jpg" alt="2026年7月 NPO法人化" class="w-full h-28 sm:h-24 object-cover rounded-lg" onerror="this.closest('.timeline-photo').style.display='none'" />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
   <!-- ===== 組織体制 ===== -->
-  <section class="py-12 sm:py-16 md:py-24 bg-gray-50">
+  <section class="py-12 sm:py-16 md:py-24">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 class="text-3xl md:text-4xl font-black mb-4">組織体制</h2>
+      <h2 class="text-3xl md:text-4xl font-black mb-4 reveal">組織体制</h2>
       <div class="w-16 h-1 bg-[#c8102e] mb-8"></div>
 
       <div class="space-y-6">
         <!-- 理事長 -->
-        <div class="bg-white rounded-lg p-6 sm:p-8 border-l-4 border-[#c8102e]">
+        <div class="bg-white rounded-lg p-6 sm:p-8 border-l-4 border-[#c8102e] reveal">
           <h3 class="font-bold text-sm text-gray-500 uppercase tracking-widest mb-3">理事長</h3>
           <p class="text-lg font-bold text-[#1e1e21]">園部 浩誉</p>
         </div>
 
         <!-- 副理事長 -->
-        <div class="bg-white rounded-lg p-6 sm:p-8 border-l-4 border-[#9c0c24]">
+        <div class="bg-white rounded-lg p-6 sm:p-8 border-l-4 border-[#9c0c24] reveal">
           <h3 class="font-bold text-sm text-gray-500 uppercase tracking-widest mb-3">副理事長</h3>
           <div class="space-y-2">
             <p class="text-lg font-bold text-[#1e1e21]">榊原 伸浩</p>
@@ -131,7 +238,7 @@
         </div>
 
         <!-- 理事 -->
-        <div class="bg-white rounded-lg p-6 sm:p-8 border-l-4 border-[#c8102e]">
+        <div class="bg-white rounded-lg p-6 sm:p-8 border-l-4 border-[#c8102e] reveal">
           <h3 class="font-bold text-sm text-gray-500 uppercase tracking-widest mb-3">理事</h3>
           <div class="space-y-2">
             <p class="text-lg font-bold text-[#1e1e21]">菅沼 守</p>
@@ -142,7 +249,7 @@
         </div>
 
         <!-- 監事 -->
-        <div class="bg-white rounded-lg p-6 sm:p-8 border-l-4 border-[#9c0c24]">
+        <div class="bg-white rounded-lg p-6 sm:p-8 border-l-4 border-[#9c0c24] reveal">
           <h3 class="font-bold text-sm text-gray-500 uppercase tracking-widest mb-3">監事</h3>
           <p class="text-lg font-bold text-[#1e1e21]">梶山 友樹</p>
         </div>
@@ -183,6 +290,8 @@
 
               <p>さらに、2024年の能登半島地震・豪雨災害の直後から「災害ラガーボランティア」を組織し、被災地へ駆けつけました。全国から集まったラグビー経験者たちが、全壊した輪島市の岩倉寺での瓦礫撤去や階段作り、さらには伝統行事である「曽々木大祭」の運営支援などに携わりました。毎月継続して地元の行事を支援することで、被災された方々から多くの信頼と感謝の言葉をいただいております。</p>
             </div>
+
+            <div id="orgHighlights" class="grid sm:grid-cols-2 gap-4 mt-6"></div>
           </div>
 
           <div>
@@ -231,37 +340,20 @@
 <!-- ===== フッター ===== -->
 <footer class="bg-[#1e1e21] text-white py-12 sm:py-16">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
-      <div>
-        <h3 class="font-bold mb-4">フライキプロジェクト</h3>
-        <p class="text-sm text-gray-400">ラグビーの精神で被災地の心の復興を届けます。</p>
-      </div>
-      <div>
-        <h3 class="font-bold mb-4">リンク</h3>
-        <ul class="space-y-2 text-sm">
-          <li><a href="index.html" class="text-gray-400 hover:text-white transition-colors">ホーム</a></li>
-          <li><a href="organization.html" class="text-gray-400 hover:text-white transition-colors">団体概要</a></li>
-          <li><a href="about.html" class="text-gray-400 hover:text-white transition-colors">過去の活動</a></li>
-          <li><a href="contact.html" class="text-gray-400 hover:text-white transition-colors">お問合せ</a></li>
-        </ul>
-      </div>
-      <div>
-        <h3 class="font-bold mb-4">サポート</h3>
-        <ul class="space-y-2 text-sm">
-          <li><a href="https://congrant.com/project/furaiki/22163" target="_blank" rel="noopener" class="text-gray-400 hover:text-white transition-colors">寄付する</a></li>
-          <li><a href="contact.html" class="text-gray-400 hover:text-white transition-colors">ボランティア</a></li>
-          <li><a href="contact.html" class="text-gray-400 hover:text-white transition-colors">お問合せ</a></li>
-          <li><a href="privacy.html" class="text-gray-400 hover:text-white transition-colors">プライバシーポリシー</a></li>
-        </ul>
-      </div>
-      <div>
-        <h3 class="font-bold mb-4">フォロー</h3>
-        <ul class="space-y-2 text-sm">
-          <li><a href="https://lin.ee/nkWK6v7" target="_blank" rel="noopener" class="text-gray-400 hover:text-white transition-colors">LINE公式アカウント</a></li>
-          <li><a href="https://www.youtube.com/@FURAIKIProject" target="_blank" rel="noopener" class="text-gray-400 hover:text-white transition-colors">YouTube</a></li>
-          <li><a href="https://furaiki.jimdofree.com/" target="_blank" rel="noopener" class="text-gray-400 hover:text-white transition-colors">一般社団法人フライキプロジェクト</a></li>
-        </ul>
-      </div>
+    <div class="flex flex-wrap gap-x-8 gap-y-3 justify-center mb-8">
+        <a href="index.html" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">ホーム</a>
+        <a href="organization.html" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">団体概要</a>
+        <a href="organization.html#history" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">沿革</a>
+        <a href="message.html" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">代表挨拶</a>
+        <a href="about.html" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">活動報告</a>
+        <a href="financial.html" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">決算報告</a>
+        <a href="corporate.html" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">企業・団体様へ</a>
+        <a href="contact.html" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">お問合せ</a>
+        <a href="privacy.html" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">プライバシーポリシー</a>
+        <a href="https://congrant.com/project/furaiki/22163" target="_blank" rel="noopener" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">寄付する</a>
+        <a href="https://lin.ee/nkWK6v7" target="_blank" rel="noopener" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">LINE公式アカウント</a>
+        <a href="https://www.youtube.com/@FURAIKIProject" target="_blank" rel="noopener" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">YouTube</a>
+        <a href="https://furaiki.jimdofree.com/" target="_blank" rel="noopener" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">一般社団法人フライキプロジェクト</a>
     </div>
     <div class="border-t border-gray-700 pt-8 text-center text-sm text-gray-400">
       <p>©2026 特定非営利活動法人フライキプロジェクト All rights reserved.</p>
@@ -269,6 +361,8 @@
   </div>
 </footer>
 
-<script src="js/menu.js?v=20260719k"></script>
+<script src="js/menu.js?v=20260720a"></script>
+<script src="js/organization-photos.js?v=20260720a"></script>
+<script src="js/scroll-reveal.js?v=20260720a"></script>
 </body>
 </html>
