@@ -424,23 +424,27 @@ img {
   transform: translateY(14px);
   animation: heroLineIn 0.9s ease-out forwards;
   color: white;
-  word-break: break-word;
+  /* スマホ・iPadでも各行を必ず1行で表示する。画面幅に応じて
+     文字サイズを縮小し、折り返さないようにする */
+  white-space: nowrap;
 }
 
 .hero-line:first-child { animation-delay: 0.2s; }
 .hero-line-main { animation-delay: 0.7s; }
 .hero-line:last-child { animation-delay: 1.2s; }
 
+/* clamp(最小, 画面幅連動, 最大)。長い行(サブ)ほど vw 係数を小さくして、
+   狭い画面でもそれぞれの行がはみ出さずに1行で収まるようにしている */
 .hero-line-sub {
-  font-size: 1.5rem;
+  font-size: clamp(0.7rem, 3.6vw, 1.5rem);
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.03em;
 }
 
 .hero-line-main {
-  font-size: 4.5rem;
+  font-size: clamp(1.5rem, 7.6vw, 4.5rem);
   font-weight: 900;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   line-height: 1.15;
 }
 
@@ -496,26 +500,6 @@ img {
   .hero-fullscreen {
     margin-top: -64px;
     padding-top: 64px;
-  }
-
-  .hero-line-main {
-    font-size: 2.75rem;
-    letter-spacing: 0.04em;
-  }
-
-  .hero-line-sub {
-    font-size: 1.1rem;
-  }
-}
-
-/* 小さいスマホでもタイトルが画面からはみ出さないようにする */
-@media (max-width: 400px) {
-  .hero-line-main {
-    font-size: 2.2rem;
-  }
-
-  .hero-line-sub {
-    font-size: 0.95rem;
   }
 }
 
@@ -614,19 +598,19 @@ img {
   white-space: nowrap;
 }
 
-/* 横向きスマホなど高さの低い画面向けの調整 */
+/* 横向きスマホなど高さの低い画面向けの調整。幅は広いが高さが低いので、
+   幅連動(vw)ではなく高さ連動(vh)で文字を抑えて3行が収まるようにする */
 @media (max-height: 500px) {
-  .hero-title {
-    font-size: 1.9rem;
-    letter-spacing: 0.05em;
+  .hero-line-main {
+    font-size: clamp(1.4rem, 7vh, 3.5rem);
   }
 
-  .hero-content {
-    gap: 1rem;
+  .hero-line-sub {
+    font-size: clamp(0.7rem, 3.4vh, 1.3rem);
   }
 
-  .hero-final {
-    gap: 0.75rem;
+  .hero-lines {
+    gap: 0.4rem;
   }
 }
 
