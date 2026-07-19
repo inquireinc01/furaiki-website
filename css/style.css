@@ -294,6 +294,9 @@ img {
   justify-content: center;
   margin-top: -64px;
   padding-top: 64px;
+  /* 写真の読み込み・再描画が間に合わない一瞬でも白く見えないよう、
+     背景を白ではなく濃紺(サイトのブランドカラー)にしておく */
+  background-color: var(--color-charcoal);
 }
 
 .hero-bg {
@@ -302,10 +305,16 @@ img {
   left: 0;
   width: 100%;
   height: 100%;
+  background-color: var(--color-charcoal);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   z-index: 1;
+  /* 独立した合成レイヤーとして安定させ、スクロール中の再描画による
+     ちらつき(白フラッシュ)を防ぐ */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  will-change: transform;
 }
 
 .hero-bg::before {

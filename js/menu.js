@@ -42,14 +42,16 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // スクロール時にヘッダーに影を追加
+  // (状態が変化した時だけクラスを切り替え、passiveリスナーにすることで
+  //  スクロール中の余計な再描画を減らし、モバイルでのちらつきを抑える)
   const header = document.getElementById('site-header');
   if (header) {
+    let hasShadow = false;
     window.addEventListener('scroll', function() {
-      if (window.scrollY > 0) {
-        header.classList.add('shadow-sm');
-      } else {
-        header.classList.remove('shadow-sm');
-      }
-    });
+      const shouldHaveShadow = window.scrollY > 0;
+      if (shouldHaveShadow === hasShadow) return;
+      hasShadow = shouldHaveShadow;
+      header.classList.toggle('shadow-sm', hasShadow);
+    }, { passive: true });
   }
 });

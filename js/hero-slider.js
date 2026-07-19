@@ -78,7 +78,9 @@
     }
   }
 
-  fetch(API_URL)
+  // 表示順(ファイル名順)が古いキャッシュのまま止まって見えないよう、
+  // GitHub APIの応答は常に最新を取りに行く
+  fetch(API_URL, { cache: "no-store" })
     .then((res) => {
       if (!res.ok) throw new Error("GitHub API " + res.status);
       return res.json();
