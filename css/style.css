@@ -398,116 +398,80 @@ img {
   }
 }
 
-.hero-title {
-  font-size: 3.5rem;
-  font-weight: 900;
-  letter-spacing: 0.1em;
-  line-height: 1.2;
-  color: white;
-  font-family: "Noto Sans JP", "Hiragino Sans", sans-serif;
-  word-break: break-word;
-}
-
-.hero-title span {
-  display: inline-block;
-  opacity: 0;
-  animation: fadeInChar 0.6s ease-out forwards;
-}
-
-.hero-subtitle {
-  display: block;
-  max-width: 42rem;
-  margin-left: auto;
-  margin-right: auto;
-  font-size: 1.125rem;
-  color: rgba(255, 255, 255, 0.95);
-  font-weight: 700;
-  letter-spacing: 0.03em;
-  line-height: 1.7;
-  margin-top: 1.25rem;
-}
-
-.hero-subtitle span {
-  display: inline-block;
-  opacity: 0;
-  animation: fadeInChar 0.6s ease-out forwards;
-}
-
-/* 導入テキスト(災害ラガーボランティア + One for all)→ 最終タイトルへの切り替え */
-.hero-intro {
-  transition: opacity 2.5s ease-in-out;
-}
-
-.hero-intro.is-hidden {
-  opacity: 0;
-}
-
-.hero-final {
-  position: absolute;
-  inset: 0;
+/* メインビジュアルの3行タイトル。3行とも常に表示したままにし、
+   クロスフェードでの入れ替えは行わない(視認性重視) */
+.hero-lines {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 1.25rem;
+  gap: 0.6rem;
+  font-family: "Noto Sans JP", "Hiragino Sans", sans-serif;
+  text-align: center;
+}
+
+.hero-line {
+  display: block;
   opacity: 0;
-  pointer-events: none;
-  transition: opacity 3.5s ease-in-out;
+  transform: translateY(14px);
+  animation: heroLineIn 0.9s ease-out forwards;
+  color: white;
+  word-break: break-word;
 }
 
-.hero-final.is-visible {
-  opacity: 1;
+.hero-line:first-child { animation-delay: 0.2s; }
+.hero-line-main { animation-delay: 0.7s; }
+.hero-line:last-child { animation-delay: 1.2s; }
+
+.hero-line-sub {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
 }
 
-.hero-final-title {
-  font-size: 4rem;
+.hero-line-main {
+  font-size: 4.5rem;
   font-weight: 900;
   letter-spacing: 0.06em;
-  line-height: 1.1;
+  line-height: 1.15;
+}
+
+/* フライキプロジェクトの文字面を、フライキカラー(赤+金)のハイライトが
+   10秒に1回、左から右へ走り抜ける演出。background-clip:text 非対応の
+   古いブラウザでは color:white のみが効き、通常の白文字として表示される */
+.hero-flag-shine {
   color: white;
-  white-space: nowrap;
-  font-family: "Noto Sans JP", "Hiragino Sans", sans-serif;
+  background-image: linear-gradient(
+    100deg,
+    #ffffff 0%, #ffffff 40%,
+    #ffe28a 46%, #c8102e 50%, #ffe28a 54%,
+    #ffffff 60%, #ffffff 100%
+  );
+  background-size: 260% 100%;
+  background-repeat: no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation-name: heroLineIn, flagShine;
+  animation-duration: 0.9s, 10s;
+  animation-timing-function: ease-out, ease-in-out;
+  animation-delay: 0.7s, 2.5s;
+  animation-fill-mode: forwards, none;
+  animation-iteration-count: 1, infinite;
 }
 
-.hero-final-subtitle {
-  font-size: 1.5rem;
-  color: rgba(255, 255, 255, 0.95);
-  font-weight: 500;
-  letter-spacing: 0.05em;
-  white-space: nowrap;
-  opacity: 0;
-  transition: opacity 2.5s ease-in-out;
-}
-
-.hero-final.show-sub .hero-final-subtitle {
-  opacity: 1;
-}
-
-@keyframes fadeInChar {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
+@keyframes heroLineIn {
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-@keyframes fadeInSubtitle {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
+@keyframes flagShine {
+  0%, 15% {
+    background-position: 160% 0;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@media (max-width: 768px) {
-  .hero-subtitle {
-    font-size: 0.875rem;
+  40%, 100% {
+    background-position: -60% 0;
   }
 }
 
@@ -517,16 +481,24 @@ img {
     padding-top: 64px;
   }
 
-  .hero-title {
-    font-size: 2rem;
-    letter-spacing: 0.05em;
+  .hero-line-main {
+    font-size: 2.75rem;
+    letter-spacing: 0.04em;
+  }
+
+  .hero-line-sub {
+    font-size: 1.1rem;
   }
 }
 
 /* 小さいスマホでもタイトルが画面からはみ出さないようにする */
 @media (max-width: 400px) {
-  .hero-title {
-    font-size: 1.7rem;
+  .hero-line-main {
+    font-size: 2.2rem;
+  }
+
+  .hero-line-sub {
+    font-size: 0.95rem;
   }
 }
 
@@ -595,11 +567,14 @@ img {
    header-fit.js が実際に収まるかで判定するため、ここでは幅の条件を付けない */
 #mobile-menu {
   /* ヘッダー内での表示切替はiOSで再描画されないことがあるため、
-     独立した固定レイヤーとして表示する(menu.jsでbody直下へ移動) */
+     独立した固定レイヤーとして表示する(menu.jsでbody直下へ移動)。
+     幅は全画面ではなく、メニュー文字の横幅に合わせて縦長に表示する */
   position: fixed;
   top: 72px;
-  left: 12px;
   right: 12px;
+  left: auto;
+  width: max-content;
+  max-width: calc(100% - 24px);
   z-index: 60;
   pointer-events: auto;
   background: linear-gradient(135deg, #c8102e, #9c0c24);
@@ -608,6 +583,10 @@ img {
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
   transform: translateZ(0);
   -webkit-transform: translateZ(0);
+}
+
+#mobile-menu a {
+  white-space: nowrap;
 }
 
 /* 横向きスマホなど高さの低い画面向けの調整 */
