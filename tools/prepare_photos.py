@@ -3,6 +3,7 @@
 # 1) iPhone形式(HEIC/HEIF)をブラウザで表示できるJPGに変換
 # 2) 大きすぎる画像をWeb表示用サイズに縮小(読み込み中グレー表示の防止)
 # いずれも元ファイルの更新日時を引き継ぐため、時系列順の並びに影響しない。
+# EXIF(撮影日時など)は「直近の活動」表示の判定に使うため、変換・縮小後も残す。
 import os
 import sys
 
@@ -11,6 +12,7 @@ FOLDERS = [
     ("images/hero", 2400, 800),
     ("images/about-hero", 2400, 800),
     ("images/gallery", 1600, 500),
+    ("images/gallery/recent", 1600, 500),
     ("images/gallery/disaster-relief", 1600, 500),
     ("images/gallery/heart-flags", 1600, 500),
     ("images/gallery/community", 1600, 500),
@@ -55,9 +57,14 @@ def main():
                 n += 1
             try:
                 st = os.stat(src)
-                img = ImageOps.exif_transpose(Image.open(src)).convert("RGB")
+                original = Image.open(src)
+                exif_bytes = original.info.get("exif", b"")
+                img = ImageOps.exif_transpose(original).convert("RGB")
                 img.thumbnail((max_side, max_side))
-                img.save(out, "JPEG", quality=QUALITY, optimize=True)
+                save_kwargs = {"quality": QUALITY, "optimize": True}
+                if exif_bytes:
+                    save_kwargs["exif"] = exif_bytes
+                img.save(out, "JPEG", **save_kwargs)
                 os.utime(out, (st.st_atime, st.st_mtime))
                 os.remove(src)
                 print("HEIC変換: %s/%s -> %s" % (folder, name, os.path.basename(out)))
@@ -78,12 +85,16 @@ def main():
                 if max(img.size) <= max_side and kb <= max(limit_kb, 1200):
                     continue
                 st = os.stat(path)
+                exif_bytes = img.info.get("exif", b"")
                 img = ImageOps.exif_transpose(img).convert("RGB")
                 img.thumbnail((max_side, max_side))
                 out = path
                 if not name.lower().endswith((".jpg", ".jpeg")):
                     out = os.path.splitext(path)[0] + ".jpg"
-                img.save(out, "JPEG", quality=QUALITY, optimize=True)
+                save_kwargs = {"quality": QUALITY, "optimize": True}
+                if exif_bytes:
+                    save_kwargs["exif"] = exif_bytes
+                img.save(out, "JPEG", **save_kwargs)
                 os.utime(out, (st.st_atime, st.st_mtime))
                 if out != path:
                     os.remove(path)

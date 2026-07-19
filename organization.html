@@ -14,28 +14,26 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet" />
 <script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="css/style.css?v=20260720a" />
+<link rel="stylesheet" href="css/style.css?v=20260720d" />
 </head>
 <body class="bg-white text-[#1e1e21]">
 
 <!-- ===== グローバルヘッダー ===== -->
 <header id="site-header" class="sticky top-0 z-50 bg-white border-b border-gray-100">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex items-center justify-between h-20">
-      <!-- ロゴエリア -->
-      <a href="index.html" class="flex items-center gap-3 shrink-0 group">
-        <span class="flex h-20 w-36 sm:w-48 shrink-0 items-center justify-center overflow-hidden">
-          <img src="images/メインロゴ.jpg" alt="フライキプロジェクト" class="h-48 w-auto max-w-none transition-opacity group-hover:opacity-80" />
+    <div class="relative flex items-center justify-between h-20">
+      <!-- ロゴエリア: グレースケールのエンブレムに2行の文字(白フチ)を重ねたバッジ -->
+      <a href="index.html" class="logo-badge group shrink-0" aria-label="フライキプロジェクト トップページ">
+        <img src="images/メインロゴ.jpg" alt="" />
+        <span class="logo-badge-text">
+          <span class="logo-badge-line1">特定非営利活動法人</span>
+          <span class="logo-badge-line2">フライキプロジェクト</span>
         </span>
-        <div class="hidden sm:flex items-baseline gap-1 border-l border-gray-300 pl-3 whitespace-nowrap">
-          <p class="text-sm text-gray-500 font-medium">特定非営利活動法人</p>
-          <p class="font-black text-lg tracking-tight">フライキプロジェクト</p>
-        </div>
       </a>
 
-      <!-- ナビゲーション(2xl以上でのみ表示。6項目に増えたため、狭い/中間幅での
-           崩れを避け十分な余裕がある画面幅になるまではメニューボタンに集約する) -->
-      <nav class="hidden 2xl:flex items-center gap-5">
+      <!-- ナビゲーション: 固定の画面幅ではなく、実際に収まるかをJS(header-fit.js)が
+           判定して表示を切り替える。初期状態は安全側(非表示・測定専用)にしておく -->
+      <nav id="desktopNav" class="items-center gap-5" style="position:absolute; left:-9999px; display:flex;">
         <a href="organization.html" class="text-sm font-bold text-[#c8102e] whitespace-nowrap">団体概要</a>
         <a href="message.html" class="text-sm font-medium text-gray-700 hover:text-[#c8102e] transition-colors whitespace-nowrap">代表挨拶</a>
         <a href="about.html" class="text-sm font-medium text-gray-700 hover:text-[#c8102e] transition-colors whitespace-nowrap">活動報告</a>
@@ -46,11 +44,11 @@
 
       <!-- CTA -->
       <div class="flex items-center gap-4">
-        <a href="https://congrant.com/project/furaiki/22163" target="_blank" rel="noopener" class="jiggle-group btn-primary hidden 2xl:inline-flex items-center gap-2 pl-1.5 pr-6 py-1.5 text-sm font-bold rounded-full whitespace-nowrap">
+        <a href="https://congrant.com/project/furaiki/22163" target="_blank" rel="noopener" id="desktopDonate" class="jiggle-group btn-primary items-center gap-2 pl-1.5 pr-6 py-1.5 text-sm font-bold rounded-full whitespace-nowrap" style="position:absolute; left:-9999px; display:inline-flex;">
           <img src="images/mascot.png" alt="" class="h-12 w-auto -my-2" />
           寄付・支援はこちら
         </a>
-        <button id="menu-button" type="button" aria-expanded="false" class="2xl:hidden p-2 text-gray-800">
+        <button id="menu-button" type="button" aria-expanded="false" class="p-2 text-gray-800">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
           </svg>
@@ -59,8 +57,8 @@
     </div>
   </div>
 
-  <!-- モバイル・タブレット・ノートPC用メニュー(2xl未満で使用) -->
-  <div id="mobile-menu" class="hidden 2xl:hidden border-t border-gray-100 bg-white">
+  <!-- ナビが収まらない画面幅で使うメニュー(表示判定はheader-fit.jsが行う) -->
+  <div id="mobile-menu" class="hidden border-t border-gray-100 bg-white">
     <nav class="flex flex-col p-3">
       <a href="index.html" class="block px-5 py-3.5 text-sm font-bold text-white/95 rounded-xl hover:bg-white/10 transition-colors">ホーム</a>
       <a href="organization.html" class="block px-5 py-3.5 text-sm font-bold text-white rounded-xl bg-white/15">団体概要</a>
@@ -361,8 +359,9 @@
   </div>
 </footer>
 
-<script src="js/menu.js?v=20260720a"></script>
-<script src="js/organization-photos.js?v=20260720a"></script>
-<script src="js/scroll-reveal.js?v=20260720a"></script>
+<script src="js/header-fit.js?v=20260720e"></script>
+<script src="js/menu.js?v=20260720d"></script>
+<script src="js/organization-photos.js?v=20260720d"></script>
+<script src="js/scroll-reveal.js?v=20260720d"></script>
 </body>
 </html>

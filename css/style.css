@@ -31,15 +31,83 @@ body {
   letter-spacing: 0.02em;
 }
 
-/* ヘッダー: 常時白背景、スクロールで影を強調 */
+/* ヘッダー: 常時白背景、スクロールで影を強調
+   (backdrop-filterはモバイルSafariでスクロール中に白フラッシュを起こすことが
+   あるため使わず、代わりにほぼ不透明な単色背景にする) */
 #site-header {
-  background-color: rgba(255, 255, 255, 0.97);
-  backdrop-filter: blur(6px);
+  background-color: rgba(255, 255, 255, 0.98);
   border-bottom: 1px solid rgba(0, 0, 0, 0.06);
   transition: box-shadow 0.3s ease;
 }
 #site-header.scrolled {
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+}
+
+/* ロゴバッジ: グレースケールのエンブレムに2行の文字(白フチ)を重ねる */
+.logo-badge {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 148px;
+  height: 52px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+@media (min-width: 640px) {
+  .logo-badge {
+    width: 168px;
+    height: 56px;
+  }
+}
+.logo-badge img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(100%);
+  transition: filter 0.3s ease;
+}
+.logo-badge:hover img {
+  filter: grayscale(60%);
+}
+.logo-badge-text {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.3;
+  text-align: center;
+  color: var(--color-charcoal);
+}
+.logo-badge-line1,
+.logo-badge-line2 {
+  -webkit-text-stroke: 2px #fff;
+  paint-order: stroke fill;
+}
+.logo-badge-line1 {
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+@media (min-width: 640px) {
+  .logo-badge-line1 {
+    font-size: 9.5px;
+  }
+}
+.logo-badge-line2 {
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.01em;
+  margin-top: 1px;
+}
+@media (min-width: 640px) {
+  .logo-badge-line2 {
+    font-size: 12.5px;
+  }
 }
 
 /* モバイルメニュー(表示切替は hidden クラスで行う) */
@@ -314,6 +382,12 @@ img {
   }
 }
 
+/* 画面外にスクロールしている間は合成負荷を下げるため一時停止する
+   (js/hero-slider.js が IntersectionObserver で付け外しする) */
+.hero-track.is-paused {
+  animation-play-state: paused;
+}
+
 .hero-content {
   position: relative;
   z-index: 3;
@@ -520,10 +594,10 @@ img {
   #menu-button {
     pointer-events: auto;
     color: #fff;
-    background: rgba(0, 0, 0, 0.35);
+    /* backdrop-filterはスクロール中に白フラッシュを起こすことがあるため
+       使わず、少し濃いめの単色背景で同等の視認性を確保する */
+    background: rgba(0, 0, 0, 0.5);
     border-radius: 9999px;
-    backdrop-filter: blur(2px);
-    -webkit-backdrop-filter: blur(2px);
   }
 
   .hero-fullscreen {
@@ -537,25 +611,23 @@ img {
   }
 }
 
-/* メニューパネル(赤グラデーション)は、ハンバーガーメニューを使う
-   スマホ〜タブレット〜ノートPCの全域(2xl未満)で共通のデザインにする */
-@media (max-width: 1535px) {
-  #mobile-menu {
-    /* ヘッダー内での表示切替はiOSで再描画されないことがあるため、
-       独立した固定レイヤーとして表示する(menu.jsでbody直下へ移動) */
-    position: fixed;
-    top: 72px;
-    left: 12px;
-    right: 12px;
-    z-index: 60;
-    pointer-events: auto;
-    background: linear-gradient(135deg, #c8102e, #9c0c24);
-    border: none;
-    border-radius: 18px;
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
-    transform: translateZ(0);
-    -webkit-transform: translateZ(0);
-  }
+/* メニューパネル(赤グラデーション)。表示するかどうかは画面幅ではなく
+   header-fit.js が実際に収まるかで判定するため、ここでは幅の条件を付けない */
+#mobile-menu {
+  /* ヘッダー内での表示切替はiOSで再描画されないことがあるため、
+     独立した固定レイヤーとして表示する(menu.jsでbody直下へ移動) */
+  position: fixed;
+  top: 72px;
+  left: 12px;
+  right: 12px;
+  z-index: 60;
+  pointer-events: auto;
+  background: linear-gradient(135deg, #c8102e, #9c0c24);
+  border: none;
+  border-radius: 18px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
 }
 
 /* 横向きスマホなど高さの低い画面向けの調整 */

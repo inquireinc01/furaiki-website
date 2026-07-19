@@ -61,6 +61,21 @@
     container.style.backgroundImage = "none";
     container.appendChild(track);
     updateDuration();
+
+    // 画面外にスクロールしている間はアニメーションを一時停止し、
+    // スクロール中の合成負荷を下げる(モバイル端末での白フラッシュ対策)。
+    const heroSection = container.closest(".hero-fullscreen");
+    if (heroSection && "IntersectionObserver" in window) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            track.classList.toggle("is-paused", !entry.isIntersecting);
+          });
+        },
+        { threshold: 0 }
+      );
+      observer.observe(heroSection);
+    }
   }
 
   fetch(API_URL)
