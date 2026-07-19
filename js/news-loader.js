@@ -86,25 +86,45 @@
     });
   }
 
-  fetch(API_URL)
-    .then((res) => {
-      if (!res.ok) throw new Error("GitHub API " + res.status);
-      return res.json();
-    })
-    .then((files) => {
-      const txts = files
-        .filter((f) => f.type === "file" && /\.txt$/i.test(f.name) && !/^readme/i.test(f.name))
-        .sort((a, b) => b.name.localeCompare(a.name, "ja"));
+  function isNewsTxt(name) {
+    return /\.txt$/i.test(name) && !/^readme/i.test(name);
+  }
+
+  // まず同一オリジンの静的な一覧(news/list.json)を読む。GitHub APIの
+  // レート制限に左右されず確実に読める。無い場合のみ API にフォールバック。
+  function fromManifest() {
+    return fetch("news/list.json", { cache: "no-store" })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((names) => (Array.isArray(names) ? names.filter(isNewsTxt) : null))
+      .catch(() => null);
+  }
+
+  function fromApi() {
+    return fetch(API_URL)
+      .then((res) => (res.ok ? res.json() : null))
+      .then((files) =>
+        Array.isArray(files)
+          ? files.filter((f) => f.type === "file" && isNewsTxt(f.name)).map((f) => f.name)
+          : null
+      )
+      .catch(() => null);
+  }
+
+  fromManifest()
+    .then((names) => (names && names.length ? names : fromApi()))
+    .then((names) => {
+      if (!names || !names.length) return null;
+      const ordered = names.slice().sort((a, b) => b.localeCompare(a, "ja"));
       return Promise.all(
-        txts.map((f) =>
-          fetch("news/" + encodeURIComponent(f.name))
+        ordered.map((name) =>
+          fetch("news/" + encodeURIComponent(name))
             .then((r) => r.arrayBuffer())
-            .then((buf) => parseItem(f.name, decodeText(buf)))
+            .then((buf) => parseItem(name, decodeText(buf)))
         )
       );
     })
     .then((items) => {
-      const valid = items.filter(Boolean);
+      const valid = (items || []).filter(Boolean);
       render(valid.length ? valid : FALLBACK);
     })
     .catch(() => render(FALLBACK));

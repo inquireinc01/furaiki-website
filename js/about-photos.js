@@ -6,19 +6,36 @@
   const REPO_API =
     "https://api.github.com/repos/inquireinc01/furaiki-website/contents/";
 
-  function listImages(folder) {
+  function toUrls(folder, names) {
+    return names
+      .filter((n) => /\.(jpe?g|png|webp|gif)$/i.test(n))
+      .sort((a, b) => a.localeCompare(b, "ja"))
+      .map((n) => folder + "/" + encodeURIComponent(n));
+  }
+
+  // 予備手段: GitHub API(list.json が読めない場合のみ)
+  function listImagesFromApi(folder) {
     return fetch(REPO_API + folder + "?ref=master")
       .then((res) => {
         if (!res.ok) throw new Error("GitHub API " + res.status);
         return res.json();
       })
       .then((files) =>
-        files
-          .filter((f) => f.type === "file" && /\.(jpe?g|png|webp|gif)$/i.test(f.name))
-          .sort((a, b) => a.name.localeCompare(b.name, "ja"))
-          .map((f) => folder + "/" + encodeURIComponent(f.name))
+        toUrls(folder, files.filter((f) => f.type === "file").map((f) => f.name))
       )
       .catch(() => null); // null = 取得失敗(フォールバックへ)
+  }
+
+  // まず同一オリジンの静的な一覧(list.json)を読む。GitHub APIのレート制限に
+  // 左右されず確実に読めるため、通常はこちらだけで完結する。
+  // 空配列([])はそのフォルダに写真が無いことを示す(nullとは区別する)。
+  function listImages(folder) {
+    return fetch(folder + "/list.json", { cache: "no-store" })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((names) =>
+        Array.isArray(names) ? toUrls(folder, names) : listImagesFromApi(folder)
+      )
+      .catch(() => listImagesFromApi(folder));
   }
 
   // メインビジュアル

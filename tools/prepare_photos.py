@@ -2,10 +2,37 @@
 # 写真の自動整形(「サイトを更新.bat」から自動実行される)
 # 1) iPhone形式(HEIC/HEIF)をブラウザで表示できるJPGに変換
 # 2) 大きすぎる画像をWeb表示用サイズに縮小(読み込み中グレー表示の防止)
+# 3) 各フォルダの写真一覧(list.json)を生成
+#    → サイト側はこの静的ファイルを読むため、GitHub APIのレート制限
+#      (1時間60回/IP)で画像が消える問題が起きない
 # いずれも元ファイルの更新日時を引き継ぐため、時系列順の並びに影響しない。
 # EXIF(撮影日時など)は「直近の活動」表示の判定に使うため、変換・縮小後も残す。
+import json
 import os
 import sys
+
+IMAGE_EXTS = (".jpg", ".jpeg", ".png", ".webp", ".gif")
+
+
+def write_manifest(folder_dir, valid_exts, exclude_prefixes=()):
+    """フォルダ直下の対象ファイル名を list.json に書き出す(サブフォルダは含めない)。
+    サイト側JSがGitHub APIの代わりに読む静的な一覧。"""
+    try:
+        names = [
+            n
+            for n in os.listdir(folder_dir)
+            if n.lower().endswith(valid_exts)
+            and not n.startswith(".")
+            and not any(n.lower().startswith(p) for p in exclude_prefixes)
+            and os.path.isfile(os.path.join(folder_dir, n))
+        ]
+        names.sort()
+        with open(os.path.join(folder_dir, "list.json"), "w", encoding="utf-8") as f:
+            json.dump(names, f, ensure_ascii=False)
+        return len(names)
+    except Exception as e:
+        print("[ERROR] list.json (%s): %s" % (folder_dir, e))
+        return -1
 
 # (フォルダ, 長辺の最大px, 縮小を始めるサイズKB)
 FOLDERS = [
@@ -103,7 +130,23 @@ def main():
             except Exception as e:
                 print("[ERROR] %s/%s: %s" % (folder, name, e))
 
-    print("写真整形おわり: HEIC変換 %d件 / 縮小 %d件" % (converted, optimized))
+    # 3) 各フォルダの写真一覧(list.json)を生成。サイト側はこれを読む。
+    manifests = 0
+    for folder, _max_side, _limit_kb in FOLDERS:
+        d = os.path.join(root, folder)
+        if os.path.isdir(d):
+            if write_manifest(d, IMAGE_EXTS) >= 0:
+                manifests += 1
+    # ニュース(.txt)の一覧も同様に生成(README は除外)
+    news_dir = os.path.join(root, "news")
+    if os.path.isdir(news_dir):
+        if write_manifest(news_dir, (".txt",), exclude_prefixes=("readme",)) >= 0:
+            manifests += 1
+
+    print(
+        "写真整形おわり: HEIC変換 %d件 / 縮小 %d件 / 一覧生成 %d件"
+        % (converted, optimized, manifests)
+    )
     return 0
 
 
