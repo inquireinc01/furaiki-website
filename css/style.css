@@ -43,71 +43,51 @@ body {
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
 }
 
-/* ロゴバッジ: グレースケールのエンブレムに2行の文字(白フチ)を重ねる */
+/* ロゴバッジ: 通常カラーのエンブレム + 2行文字。
+   1行目は文字数が少ない分フォントを小さくし、字間(letter-spacing)を
+   広げることで2行目とちょうど同じ見た目の幅になるよう実測して調整済み */
 .logo-badge {
-  position: relative;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  width: 148px;
-  height: 52px;
-  border-radius: 12px;
+  gap: 10px;
+}
+.logo-badge-img {
+  position: relative;
+  display: block;
+  width: 96px;
+  height: 44px;
+  border-radius: 10px;
   overflow: hidden;
+  flex-shrink: 0;
 }
-@media (min-width: 640px) {
-  .logo-badge {
-    width: 168px;
-    height: 56px;
-  }
-}
-.logo-badge img {
+.logo-badge-img img {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: grayscale(100%);
-  transition: filter 0.3s ease;
+  transition: opacity 0.3s ease;
 }
-.logo-badge:hover img {
-  filter: grayscale(60%);
+.logo-badge:hover .logo-badge-img img {
+  opacity: 0.82;
 }
 .logo-badge-text {
-  position: relative;
-  z-index: 1;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  white-space: nowrap;
   line-height: 1.3;
-  text-align: center;
-  color: var(--color-charcoal);
-}
-.logo-badge-line1,
-.logo-badge-line2 {
-  -webkit-text-stroke: 2px #fff;
-  paint-order: stroke fill;
 }
 .logo-badge-line1 {
-  font-size: 8.5px;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-}
-@media (min-width: 640px) {
-  .logo-badge-line1 {
-    font-size: 9.5px;
-  }
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 7.3px;
+  color: #6b7280;
 }
 .logo-badge-line2 {
-  font-size: 11px;
+  font-size: 18px;
   font-weight: 900;
-  letter-spacing: 0.01em;
-  margin-top: 1px;
-}
-@media (min-width: 640px) {
-  .logo-badge-line2 {
-    font-size: 12.5px;
-  }
+  letter-spacing: -0.45px;
+  color: var(--color-charcoal);
 }
 
 /* モバイルメニュー(表示切替は hidden クラスで行う) */

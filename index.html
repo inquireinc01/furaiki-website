@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet" />
 <script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="css/style.css?v=20260720d" />
+<link rel="stylesheet" href="css/style.css?v=20260720f" />
 </head>
 <body class="bg-white text-[#1e1e21]">
 
@@ -22,9 +22,11 @@
 <header id="site-header" class="sticky top-0 z-50 bg-white border-b border-gray-100">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="relative flex items-center justify-between h-20">
-      <!-- ロゴエリア: グレースケールのエンブレムに2行の文字(白フチ)を重ねたバッジ -->
+      <!-- ロゴエリア: 通常カラーのエンブレム + 2行文字(1行目は字間を広げて2行目と同じ幅に) -->
       <a href="index.html" class="logo-badge group shrink-0" aria-label="フライキプロジェクト トップページ">
-        <img src="images/メインロゴ.jpg" alt="" />
+        <span class="logo-badge-img">
+          <img src="images/メインロゴ.jpg" alt="" />
+        </span>
         <span class="logo-badge-text">
           <span class="logo-badge-line1">特定非営利活動法人</span>
           <span class="logo-badge-line2">フライキプロジェクト</span>
@@ -60,7 +62,7 @@
   <!-- ナビが収まらない画面幅で使うメニュー(表示判定はheader-fit.jsが行う) -->
   <div id="mobile-menu" class="hidden border-t border-gray-100 bg-white">
     <nav class="flex flex-col p-3">
-      <a href="index.html" class="block px-5 py-3.5 text-sm font-bold text-white/95 rounded-xl hover:bg-white/10 transition-colors">ホーム</a>
+      <a href="index.html" class="block px-5 py-3.5 text-sm font-bold text-white rounded-xl bg-white/15">ホーム</a>
       <a href="organization.html" class="block px-5 py-3.5 text-sm font-bold text-white/95 rounded-xl hover:bg-white/10 transition-colors">団体概要</a>
       <a href="message.html" class="block px-5 py-3.5 text-sm font-bold text-white/95 rounded-xl hover:bg-white/10 transition-colors">代表挨拶</a>
       <a href="about.html" class="block px-5 py-3.5 text-sm font-bold text-white/95 rounded-xl hover:bg-white/10 transition-colors">活動報告</a>
@@ -215,11 +217,11 @@
   </div>
 </footer>
 
-<script src="js/hero-animation.js?v=20260720d"></script>
-<script src="js/hero-slider.js?v=20260720d"></script>
-<script src="js/news-loader.js?v=20260720d"></script>
-<script src="js/header-fit.js?v=20260720e"></script>
-<script src="js/menu.js?v=20260720d"></script>
-<script src="js/scroll-reveal.js?v=20260720d"></script>
+<script src="js/hero-animation.js?v=20260720f"></script>
+<script src="js/hero-slider.js?v=20260720f"></script>
+<script src="js/news-loader.js?v=20260720f"></script>
+<script src="js/header-fit.js?v=20260720f"></script>
+<script src="js/menu.js?v=20260720f"></script>
+<script src="js/scroll-reveal.js?v=20260720f"></script>
 </body>
 </html>

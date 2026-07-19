@@ -16,7 +16,7 @@
 
   const CTA_GAP = 16; // CTAエリア内 gap-4
   const SAFETY = 32; // 余裕分
-  const LOGO_WIDTH_FALLBACK = 168; // sm以上でのバッジ幅。ロゴがdisplay:noneの間の代替値
+  const LOGO_WIDTH_FALLBACK = 300; // sm以上でのロゴ実測幅の目安。ロゴがdisplay:noneの間の代替値
 
   function fits() {
     // 768px未満はロゴ自体が(スマホ専用デザインのため)display:noneになり
