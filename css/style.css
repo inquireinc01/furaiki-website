@@ -444,28 +444,36 @@ img {
   line-height: 1.15;
 }
 
-/* フライキプロジェクトの文字面を、フライキカラー(赤+金)のハイライトが
-   10秒に1回、左から右へ走り抜ける演出。background-clip:text 非対応の
-   古いブラウザでは color:white のみが効き、通常の白文字として表示される */
+/* フライキプロジェクトの文字は常に白文字のまま(常駐)にし、
+   その上に同じ文字を重ねたレイヤー(::after)だけをキラッと光らせて
+   5秒に1回、左から右へ走らせる。ベースの白文字は一切変化しないため、
+   background-clip:text が効かない環境でも見た目が壊れない */
 .hero-flag-shine {
+  position: relative;
   color: white;
+}
+
+.hero-flag-shine::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
   background-image: linear-gradient(
     100deg,
-    #ffffff 0%, #ffffff 40%,
-    #ffe28a 46%, #c8102e 50%, #ffe28a 54%,
-    #ffffff 60%, #ffffff 100%
+    transparent 0%, transparent 42%,
+    rgba(255, 255, 255, 0.95) 47%,
+    #ffe28a 50%,
+    rgba(255, 255, 255, 0.95) 53%,
+    transparent 58%, transparent 100%
   );
-  background-size: 260% 100%;
+  background-size: 300% 100%;
   background-repeat: no-repeat;
   -webkit-background-clip: text;
   background-clip: text;
+  color: transparent;
   -webkit-text-fill-color: transparent;
-  animation-name: heroLineIn, flagShine;
-  animation-duration: 0.9s, 10s;
-  animation-timing-function: ease-out, ease-in-out;
-  animation-delay: 0.7s, 2.5s;
-  animation-fill-mode: forwards, none;
-  animation-iteration-count: 1, infinite;
+  animation: flagShine 5s ease-in-out infinite;
+  animation-delay: 1.2s;
 }
 
 @keyframes heroLineIn {
@@ -476,11 +484,11 @@ img {
 }
 
 @keyframes flagShine {
-  0%, 15% {
-    background-position: 160% 0;
+  0%, 20% {
+    background-position: 200% 0;
   }
-  40%, 100% {
-    background-position: -60% 0;
+  35%, 100% {
+    background-position: -100% 0;
   }
 }
 
@@ -553,6 +561,14 @@ img {
   }
 
   #menu-button {
+    /* ロゴ・ナビが非表示になると同じ行に残るのはこのボタンだけになり、
+       flexの space-between/evenly は単独の要素を左端に置いてしまう。
+       開いた時のメニューパネル(右上)と位置を合わせるため、
+       レイアウトに依存せず右上に固定表示する */
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 61;
     pointer-events: auto;
     color: #fff;
     /* backdrop-filterはスクロール中に白フラッシュを起こすことがあるため
