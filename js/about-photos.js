@@ -37,6 +37,7 @@
   if (!grid || !tabsWrap) return;
 
   const FOLDERS = {
+    recent: "images/gallery/recent",
     all: "images/gallery",
     "disaster-relief": "images/gallery/disaster-relief",
     "heart-flags": "images/gallery/heart-flags",
@@ -48,6 +49,12 @@
     "images/gallery/03.jpg",
     "images/gallery/04.jpg",
   ];
+  const RECENT_DAYS = 95; // 3ヶ月+若干の余裕
+  const RECENT_EMPTY_MESSAGE =
+    "直近3ヶ月以内の活動写真はまだ登録されていません。" +
+    "活動のたびに images/gallery/recent フォルダへ写真を追加してください。";
+  const DEFAULT_EMPTY_MESSAGE =
+    "このカテゴリの写真はまだ登録されていません。images/gallery/ 内の対応フォルダに写真を追加すると表示されます。";
 
   const ACTIVE_CLASS = ["border-[#c8102e]", "text-white", "bg-[#c8102e]"];
   const INACTIVE_CLASS = ["border-gray-200", "text-gray-600", "bg-white"];
@@ -60,9 +67,12 @@
     });
   }
 
-  function renderGallery(urls) {
+  function renderGallery(urls, emptyMessage) {
     grid.textContent = "";
-    if (emptyNote) emptyNote.classList.toggle("hidden", urls.length > 0);
+    if (emptyNote) {
+      emptyNote.classList.toggle("hidden", urls.length > 0);
+      if (emptyMessage) emptyNote.textContent = emptyMessage;
+    }
     urls.forEach((url, i) => {
       const item = document.createElement("div");
       item.className = "gallery-item group overflow-hidden rounded-lg";
@@ -93,14 +103,50 @@
     grid.querySelectorAll(".gallery-item").forEach((el) => observer.observe(el));
   }
 
+  // 「直近の活動」タブ: 各写真のExif撮影日を読み取り、
+  // 3ヶ月以内のものだけを新しい順に並べる。撮影日が読めない写真は
+  // 除外せず一覧の末尾にファイル名順で残す(誤って消えるより安全)。
+  function loadRecentTab(urls) {
+    if (typeof window.readExifDate !== "function") {
+      renderGallery(urls, RECENT_EMPTY_MESSAGE); // 読み取り機能が無ければそのまま表示
+      return;
+    }
+    const now = Date.now();
+    const limitMs = RECENT_DAYS * 24 * 60 * 60 * 1000;
+
+    Promise.all(urls.map((url) => window.readExifDate(url).catch(() => null))).then(
+      (dates) => {
+        const withDate = [];
+        const withoutDate = [];
+        urls.forEach((url, i) => {
+          const d = dates[i];
+          if (d && now - d.getTime() <= limitMs) {
+            withDate.push({ url, time: d.getTime() });
+          } else if (!d) {
+            withoutDate.push(url);
+          }
+          // 撮影日が読めて、かつ3ヶ月より古い場合は表示しない
+        });
+        withDate.sort((a, b) => b.time - a.time); // 新しい順
+        const ordered = withDate.map((x) => x.url).concat(withoutDate);
+        renderGallery(ordered, RECENT_EMPTY_MESSAGE);
+      }
+    );
+  }
+
   function loadTab(tab) {
     setActiveTab(tab);
+    const emptyMessage = tab === "recent" ? RECENT_EMPTY_MESSAGE : DEFAULT_EMPTY_MESSAGE;
     listImages(FOLDERS[tab] || FOLDERS.all).then((urls) => {
       if (urls === null) {
-        renderGallery(tab === "all" ? ALL_FALLBACK : []);
+        renderGallery(tab === "all" ? ALL_FALLBACK : [], emptyMessage);
         return;
       }
-      renderGallery(urls);
+      if (tab === "recent") {
+        loadRecentTab(urls);
+        return;
+      }
+      renderGallery(urls, emptyMessage);
     });
   }
 
@@ -108,5 +154,5 @@
     btn.addEventListener("click", () => loadTab(btn.dataset.tab));
   });
 
-  loadTab("all");
+  loadTab("recent");
 })();
