@@ -60,6 +60,38 @@
     "heart-flags": "images/gallery/heartrugby",
     community: "images/gallery/community",
   };
+  // 「すべて」タブは、カテゴリ別サブフォルダ + gallery直下の写真をすべて集約して
+  // 表示する。写真をサブフォルダに振り分けても「すべて」で一覧できるようにするため。
+  const ALL_SOURCE_FOLDERS = [
+    "images/gallery",
+    "images/gallery/saigaifukkou",
+    "images/gallery/heartrugby",
+    "images/gallery/community",
+    "images/gallery/recent",
+  ];
+
+  // 全フォルダの写真を集約。ファイル名(番号)順に並べ、同名は1枚に重複排除する。
+  function listAllImages() {
+    return Promise.all(
+      ALL_SOURCE_FOLDERS.map((f) => listImages(f).then((u) => u || []))
+    ).then((lists) => {
+      const seen = new Set();
+      const combined = [];
+      lists.forEach((urls) => {
+        urls.forEach((url) => {
+          const name = url.split("/").pop();
+          if (!seen.has(name)) {
+            seen.add(name);
+            combined.push(url);
+          }
+        });
+      });
+      combined.sort((a, b) =>
+        a.split("/").pop().localeCompare(b.split("/").pop(), "ja")
+      );
+      return combined;
+    });
+  }
   const ALL_FALLBACK = [
     "images/gallery/01.jpg",
     "images/gallery/02.jpg",
@@ -158,17 +190,22 @@
   function loadTab(tab) {
     setActiveTab(tab);
     const emptyMessage = tab === "recent" ? RECENT_EMPTY_MESSAGE : DEFAULT_EMPTY_MESSAGE;
+
+    // 「すべて」は全カテゴリを集約して表示
+    if (tab === "all") {
+      listAllImages().then((urls) => {
+        loadWithRecency(urls.length ? urls : ALL_FALLBACK, false, emptyMessage);
+      });
+      return;
+    }
+
     listImages(FOLDERS[tab] || FOLDERS.all).then((urls) => {
       if (urls === null) {
-        renderGallery(tab === "all" ? ALL_FALLBACK : [], emptyMessage);
+        renderGallery([], emptyMessage);
         return;
       }
       if (tab === "recent") {
         loadWithRecency(urls, true, emptyMessage);
-        return;
-      }
-      if (tab === "all") {
-        loadWithRecency(urls, false, emptyMessage);
         return;
       }
       renderGallery(urls, emptyMessage);
