@@ -232,39 +232,70 @@
       <h2 class="text-3xl md:text-4xl font-black mb-4 reveal">組織体制</h2>
       <div class="w-16 h-1 bg-[#c8102e] mb-8"></div>
 
-      <div class="space-y-6">
-        <!-- 理事長 -->
-        <div class="bg-white rounded-lg p-6 sm:p-8 border-l-4 border-[#c8102e] reveal">
-          <h3 class="font-bold text-sm text-gray-500 uppercase tracking-widest mb-3">理事長</h3>
-          <p class="text-lg font-bold text-[#1e1e21]">園部 浩誉</p>
-        </div>
-
-        <!-- 副理事長 -->
-        <div class="bg-white rounded-lg p-6 sm:p-8 border-l-4 border-[#9c0c24] reveal">
-          <h3 class="font-bold text-sm text-gray-500 uppercase tracking-widest mb-3">副理事長</h3>
-          <div class="space-y-2">
-            <p class="text-lg font-bold text-[#1e1e21]">榊原 伸浩</p>
-            <p class="text-lg font-bold text-[#1e1e21]">笈沼 康弘</p>
-            <p class="text-lg font-bold text-[#1e1e21]">礒部 啓介</p>
-          </div>
-        </div>
-
-        <!-- 理事 -->
-        <div class="bg-white rounded-lg p-6 sm:p-8 border-l-4 border-[#c8102e] reveal">
-          <h3 class="font-bold text-sm text-gray-500 uppercase tracking-widest mb-3">理事</h3>
-          <div class="space-y-2">
-            <p class="text-lg font-bold text-[#1e1e21]">菅沼 守</p>
-            <p class="text-lg font-bold text-[#1e1e21]">松田 拓</p>
-            <p class="text-lg font-bold text-[#1e1e21]">磯貝 洸二</p>
-            <p class="text-lg font-bold text-[#1e1e21]">園部 暁美</p>
-          </div>
-        </div>
-
-        <!-- 監事 -->
-        <div class="bg-white rounded-lg p-6 sm:p-8 border-l-4 border-[#9c0c24] reveal">
-          <h3 class="font-bold text-sm text-gray-500 uppercase tracking-widest mb-3">監事</h3>
-          <p class="text-lg font-bold text-[#1e1e21]">梶山 友樹</p>
-        </div>
+      <!-- 役職ごとの氏名を横幅を生かした表組みで表示(縦方向を圧縮) -->
+      <div class="overflow-x-auto reveal">
+        <table class="w-full border-collapse">
+          <tbody class="align-top">
+            <tr class="border-t-2 border-[#c8102e]">
+              <th scope="row" class="py-5 pr-4 sm:pr-8 w-28 sm:w-48 text-left font-bold text-sm text-gray-500 uppercase tracking-widest whitespace-nowrap">理事長</th>
+              <td class="py-5">
+                <div class="flex flex-wrap gap-x-8 gap-y-2">
+                  <span class="text-lg font-bold text-[#1e1e21]">園部 浩誉</span>
+                </div>
+              </td>
+            </tr>
+            <tr class="border-t border-gray-200">
+              <th scope="row" class="py-5 pr-4 sm:pr-8 text-left font-bold text-sm text-gray-500 uppercase tracking-widest whitespace-nowrap">副理事長</th>
+              <td class="py-5">
+                <div class="flex flex-wrap gap-x-8 gap-y-2">
+                  <span class="text-lg font-bold text-[#1e1e21]">榊原 伸浩</span>
+                  <span class="text-lg font-bold text-[#1e1e21]">笈沼 康弘</span>
+                  <span class="text-lg font-bold text-[#1e1e21]">礒部 啓介</span>
+                </div>
+              </td>
+            </tr>
+            <tr class="border-t border-gray-200">
+              <th scope="row" class="py-5 pr-4 sm:pr-8 text-left font-bold text-sm text-gray-500 uppercase tracking-widest whitespace-nowrap">理事</th>
+              <td class="py-5">
+                <div class="flex flex-wrap gap-x-8 gap-y-2">
+                  <span class="text-lg font-bold text-[#1e1e21]">菅沼 守</span>
+                  <span class="text-lg font-bold text-[#1e1e21]">松田 拓</span>
+                  <span class="text-lg font-bold text-[#1e1e21]">磯貝 洸二</span>
+                  <span class="text-lg font-bold text-[#1e1e21]">園部 暁美</span>
+                </div>
+              </td>
+            </tr>
+            <tr class="border-t border-gray-200">
+              <th scope="row" class="py-5 pr-4 sm:pr-8 text-left font-bold text-sm text-gray-500 uppercase tracking-widest whitespace-nowrap">監事</th>
+              <td class="py-5">
+                <div class="flex flex-wrap gap-x-8 gap-y-2">
+                  <span class="text-lg font-bold text-[#1e1e21]">梶山 友樹</span>
+                </div>
+              </td>
+            </tr>
+            <tr class="border-t border-b border-gray-200">
+              <th scope="row" class="py-5 pr-4 sm:pr-8 text-left font-bold text-sm text-gray-500 uppercase tracking-widest whitespace-nowrap">社員</th>
+              <td class="py-5">
+                <div class="flex flex-wrap gap-x-8 gap-y-2">
+                  <span class="text-lg font-bold text-[#1e1e21]">園部 浩誉</span>
+                  <span class="text-lg font-bold text-[#1e1e21]">榊原 伸浩</span>
+                  <span class="text-lg font-bold text-[#1e1e21]">笈沼 康弘</span>
+                  <span class="text-lg font-bold text-[#1e1e21]">礒部 啓介</span>
+                  <span class="text-lg font-bold text-[#1e1e21]">菅沼 守</span>
+                  <span class="text-lg font-bold text-[#1e1e21]">松田 拓</span>
+                  <span class="text-lg font-bold text-[#1e1e21]">磯貝 洸二</span>
+                  <span class="text-lg font-bold text-[#1e1e21]">園部 暁美</span>
+                  <span class="text-lg font-bold text-[#1e1e21]">土持 禎寛</span>
+                  <span class="text-lg font-bold text-[#1e1e21]">櫛原 博人</span>
+                  <span class="text-lg font-bold text-[#1e1e21]">吉本 博幸</span>
+                  <span class="text-lg font-bold text-[#1e1e21]">鍜治屋 稔</span>
+                  <span class="text-lg font-bold text-[#1e1e21]">小野 史裕</span>
+                  <span class="text-lg font-bold text-[#1e1e21]">飯野 彰久</span>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </section>
