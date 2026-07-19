@@ -1,14 +1,19 @@
 // トップページのメインビジュアル(横スクロールスライダー)
 // images/hero/ フォルダ内の画像を自動で読み込んで横に流す。
-// 画像一覧はGitHub APIから取得し、失敗時は FALLBACK_IMAGES を使う。
-// 表示順はファイル名の昇順(01-xxx.jpg のように番号を付けると制御できる)。
+// 画像一覧はまず同一オリジンの静的ファイル list.json を読む
+// (「サイトを更新.bat」が生成)。これによりGitHub APIのレート制限
+// (1時間60回/IP)で画像が消える問題を避ける。list.json が無い場合のみ
+// GitHub APIにフォールバックする。表示順はファイル名の昇順。
 (function () {
+  const FOLDER = "images/hero";
+  const MANIFEST_URL = FOLDER + "/list.json";
   const API_URL =
     "https://api.github.com/repos/inquireinc01/furaiki-website/contents/images/hero?ref=master";
+  // 最終手段(list.json も API も読めなかった場合)。実在するコミット済み画像を指定。
   const FALLBACK_IMAGES = [
-    "images/hero/01-main.jpg",
-    "images/hero/02-rwc2019.jpg",
-    "images/hero/03-group.jpg",
+    "images/hero/02.jpg",
+    "images/hero/03-main.jpg",
+    "images/hero/IMG_4747.jpg",
   ];
   // スクロール速度(1秒あたりのピクセル数)。小さいほどゆっくり。
   const SPEED_PX_PER_SEC = 42;
@@ -18,6 +23,33 @@
 
   function isImage(name) {
     return /\.(jpe?g|png|webp|gif)$/i.test(name);
+  }
+
+  function toUrls(names) {
+    return names
+      .filter(isImage)
+      .sort((a, b) => a.localeCompare(b, "ja"))
+      .map((n) => FOLDER + "/" + encodeURIComponent(n));
+  }
+
+  // 1) 静的な一覧(list.json)を優先
+  function fromManifest() {
+    return fetch(MANIFEST_URL, { cache: "no-store" })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((names) => (Array.isArray(names) && names.length ? toUrls(names) : null))
+      .catch(() => null);
+  }
+
+  // 2) 予備手段: GitHub API
+  function fromApi() {
+    return fetch(API_URL, { cache: "no-store" })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((files) =>
+        Array.isArray(files)
+          ? toUrls(files.filter((f) => f.type === "file").map((f) => f.name))
+          : null
+      )
+      .catch(() => null);
   }
 
   function build(urls) {
@@ -80,17 +112,8 @@
 
   // 表示順(ファイル名順)が古いキャッシュのまま止まって見えないよう、
   // GitHub APIの応答は常に最新を取りに行く
-  fetch(API_URL, { cache: "no-store" })
-    .then((res) => {
-      if (!res.ok) throw new Error("GitHub API " + res.status);
-      return res.json();
-    })
-    .then((files) => {
-      const urls = files
-        .filter((f) => f.type === "file" && isImage(f.name))
-        .sort((a, b) => a.name.localeCompare(b.name, "ja"))
-        .map((f) => "images/hero/" + encodeURIComponent(f.name));
-      build(urls.length ? urls : FALLBACK_IMAGES);
-    })
+  fromManifest()
+    .then((urls) => (urls && urls.length ? urls : fromApi()))
+    .then((urls) => build(urls && urls.length ? urls : FALLBACK_IMAGES))
     .catch(() => build(FALLBACK_IMAGES));
 })();
