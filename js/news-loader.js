@@ -1,6 +1,7 @@
 // トップページのニュース自動読み込み
 // news/ フォルダ内の .txt をファイル名の降順(日付が新しい順)に表示する。
 // ファイル形式: 1行目=見出し、2行目〜=本文、最終行がURLなら「詳しく見る」リンク。
+// 最終行がYouTubeのURLの場合は、リンクの代わりに動画をそのまま埋め込む。
 // 一覧はGitHub APIから取得し、失敗時は FALLBACK を表示する。
 (function () {
   const API_URL =
@@ -32,6 +33,13 @@
     return m[1] + "年" + parseInt(m[2], 10) + "月" + parseInt(m[3], 10) + "日";
   }
 
+  // youtu.be/<id> や youtube.com/watch?v=<id> から埋め込み用URLを作る。
+  // YouTube以外のURLの場合は null(従来どおり「詳しく見る」リンクにする)。
+  function youtubeEmbedUrl(url) {
+    const m = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([\w-]{6,})/);
+    return m ? "https://www.youtube.com/embed/" + m[1] : null;
+  }
+
   function parseItem(name, text) {
     const lines = text.replace(/\r/g, "").split("\n").filter((l) => l.trim() !== "");
     if (!lines.length) return null;
@@ -40,7 +48,13 @@
     if (lines.length && /^https?:\/\//.test(lines[lines.length - 1].trim())) {
       url = lines.pop().trim();
     }
-    return { date: dateFromName(name), title, body: lines.join("\n"), url };
+    return {
+      date: dateFromName(name),
+      title,
+      body: lines.join("\n"),
+      url,
+      youtubeEmbed: url ? youtubeEmbedUrl(url) : null,
+    };
   }
 
   function render(items) {
@@ -72,7 +86,23 @@
       p.textContent = item.body;
       box.appendChild(p);
 
-      if (item.url) {
+      if (item.youtubeEmbed) {
+        const wrap = document.createElement("div");
+        wrap.className = "mt-3 max-w-md aspect-video rounded-lg overflow-hidden bg-black";
+        const iframe = document.createElement("iframe");
+        iframe.src = item.youtubeEmbed;
+        iframe.title = item.title;
+        iframe.loading = "lazy";
+        iframe.className = "w-full h-full";
+        iframe.setAttribute("frameborder", "0");
+        iframe.setAttribute(
+          "allow",
+          "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        );
+        iframe.allowFullscreen = true;
+        wrap.appendChild(iframe);
+        box.appendChild(wrap);
+      } else if (item.url) {
         const a = document.createElement("a");
         a.href = item.url;
         a.target = "_blank";
