@@ -22,5 +22,11 @@ package-lock.json
 # 内部メモ(公開リポジトリにプッシュしない)
 NOTES.md
 
+# 個人情報(住所など)を含む内部資料。公開リポジトリに絶対に上げない。
+# 役員・社員名簿の元Wordファイル等。定款PDF(公開用)は対象外。
+documents/*.docx
+documents/*.doc
+documents/*名簿*
+
 # Claude Code ローカル設定
 .claude/
