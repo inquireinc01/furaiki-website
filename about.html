@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet" />
 <script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="css/style.css?v=20260720f" />
+<link rel="stylesheet" href="css/style.css?v=20260720g" />
 </head>
 <body class="bg-white text-[#1e1e21]">
 
@@ -120,12 +120,13 @@
       </div>
 
       <!-- カテゴリタブ(トップページ「活動内容」と連動)。
-           「直近の活動」は写真の撮影日(Exif)から自動判定し、最初に表示する -->
+           初期表示は「すべて」。写真の撮影日(Exif)を自動判定し、
+           3ヶ月以内の直近の活動を「すべて」タブの最上段にも表示する -->
       <div id="galleryTabs" class="flex flex-wrap gap-2 mb-4 reveal">
-        <button type="button" data-tab="recent" class="gallery-tab px-5 py-2.5 rounded-full text-sm font-bold border-2 border-[#c8102e] text-white bg-[#c8102e]">直近の活動(3ヶ月以内)</button>
-        <button type="button" data-tab="all" class="gallery-tab px-5 py-2.5 rounded-full text-sm font-bold border-2 border-gray-200 text-gray-600 bg-white hover:border-[#c8102e] hover:text-[#c8102e] transition-colors">すべて</button>
+        <button type="button" data-tab="all" class="gallery-tab px-5 py-2.5 rounded-full text-sm font-bold border-2 border-[#c8102e] text-white bg-[#c8102e]">すべて</button>
+        <button type="button" data-tab="recent" class="gallery-tab px-5 py-2.5 rounded-full text-sm font-bold border-2 border-gray-200 text-gray-600 bg-white hover:border-[#c8102e] hover:text-[#c8102e] transition-colors">直近の活動(3ヶ月以内)</button>
         <button type="button" data-tab="disaster-relief" class="gallery-tab px-5 py-2.5 rounded-full text-sm font-bold border-2 border-gray-200 text-gray-600 bg-white hover:border-[#c8102e] hover:text-[#c8102e] transition-colors">①緊急災害復興支援</button>
-        <button type="button" data-tab="heart-flags" class="gallery-tab px-5 py-2.5 rounded-full text-sm font-bold border-2 border-gray-200 text-gray-600 bg-white hover:border-[#c8102e] hover:text-[#c8102e] transition-colors">②心の復興支援</button>
+        <button type="button" data-tab="heart-flags" class="gallery-tab px-5 py-2.5 rounded-full text-sm font-bold border-2 border-gray-200 text-gray-600 bg-white hover:border-[#c8102e] hover:text-[#c8102e] transition-colors">②心の復興支援(ラグビーイベント)</button>
         <button type="button" data-tab="community" class="gallery-tab px-5 py-2.5 rounded-full text-sm font-bold border-2 border-gray-200 text-gray-600 bg-white hover:border-[#c8102e] hover:text-[#c8102e] transition-colors">③地域コミュニティ・伝統文化継承支援</button>
       </div>
       <p id="galleryEmptyNote" class="hidden text-gray-500 text-sm mb-6">このカテゴリの写真はまだ登録されていません。<code class="bg-gray-200 px-1.5 py-0.5 rounded">images/gallery/</code> 内の対応フォルダに写真を追加すると表示されます。</p>
@@ -161,11 +162,11 @@
   </div>
 </footer>
 
-<script src="js/header-fit.js?v=20260720f"></script>
-<script src="js/menu.js?v=20260720f"></script>
-<script src="js/about-animation.js?v=20260720f"></script>
-<script src="js/exif-date.js?v=20260720f"></script>
-<script src="js/about-photos.js?v=20260720f"></script>
-<script src="js/scroll-reveal.js?v=20260720f"></script>
+<script src="js/header-fit.js?v=20260720g"></script>
+<script src="js/menu.js?v=20260720g"></script>
+<script src="js/about-animation.js?v=20260720g"></script>
+<script src="js/exif-date.js?v=20260720g"></script>
+<script src="js/about-photos.js?v=20260720g"></script>
+<script src="js/scroll-reveal.js?v=20260720g"></script>
 </body>
 </html>

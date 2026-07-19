@@ -39,8 +39,8 @@
   const FOLDERS = {
     recent: "images/gallery/recent",
     all: "images/gallery",
-    "disaster-relief": "images/gallery/disaster-relief",
-    "heart-flags": "images/gallery/heart-flags",
+    "disaster-relief": "images/gallery/saigaifukkou",
+    "heart-flags": "images/gallery/heartrugby",
     community: "images/gallery/community",
   };
   const ALL_FALLBACK = [
@@ -103,12 +103,13 @@
     grid.querySelectorAll(".gallery-item").forEach((el) => observer.observe(el));
   }
 
-  // 「直近の活動」タブ: 各写真のExif撮影日を読み取り、
-  // 3ヶ月以内のものだけを新しい順に並べる。撮影日が読めない写真は
-  // 除外せず一覧の末尾にファイル名順で残す(誤って消えるより安全)。
-  function loadRecentTab(urls) {
+  // 各写真のExif撮影日を読み取り、3ヶ月以内のものを新しい順に並べる。
+  // filterOnly=true(「直近の活動」タブ)なら3ヶ月以内のものだけに絞り込み、
+  // false(「すべて」タブ)なら3ヶ月以内のものを先頭に並べつつ、残りの写真も
+  // 元の並び順のまま後ろに続ける。撮影日が読めない写真は除外せず末尾に残す。
+  function loadWithRecency(urls, filterOnly, emptyMessage) {
     if (typeof window.readExifDate !== "function") {
-      renderGallery(urls, RECENT_EMPTY_MESSAGE); // 読み取り機能が無ければそのまま表示
+      renderGallery(urls, emptyMessage); // 読み取り機能が無ければそのまま表示
       return;
     }
     const now = Date.now();
@@ -125,11 +126,14 @@
           } else if (!d) {
             withoutDate.push(url);
           }
-          // 撮影日が読めて、かつ3ヶ月より古い場合は表示しない
+          // 撮影日が読めて、かつ3ヶ月より古い場合はwithDate/withoutDateどちらにも入れない
         });
         withDate.sort((a, b) => b.time - a.time); // 新しい順
-        const ordered = withDate.map((x) => x.url).concat(withoutDate);
-        renderGallery(ordered, RECENT_EMPTY_MESSAGE);
+        const recentUrls = new Set(withDate.map((x) => x.url));
+        const ordered = filterOnly
+          ? withDate.map((x) => x.url).concat(withoutDate)
+          : withDate.map((x) => x.url).concat(urls.filter((u) => !recentUrls.has(u)));
+        renderGallery(ordered, emptyMessage);
       }
     );
   }
@@ -143,7 +147,11 @@
         return;
       }
       if (tab === "recent") {
-        loadRecentTab(urls);
+        loadWithRecency(urls, true, emptyMessage);
+        return;
+      }
+      if (tab === "all") {
+        loadWithRecency(urls, false, emptyMessage);
         return;
       }
       renderGallery(urls, emptyMessage);
@@ -154,5 +162,5 @@
     btn.addEventListener("click", () => loadTab(btn.dataset.tab));
   });
 
-  loadTab("recent");
+  loadTab("all");
 })();
