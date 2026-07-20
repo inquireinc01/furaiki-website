@@ -7,11 +7,75 @@
 #      (1時間60回/IP)で画像が消える問題が起きない
 # いずれも元ファイルの更新日時を引き継ぐため、時系列順の並びに影響しない。
 # EXIF(撮影日時など)は「直近の活動」表示の判定に使うため、変換・縮小後も残す。
+import datetime
 import json
 import os
+import re
 import sys
 
 IMAGE_EXTS = (".jpg", ".jpeg", ".png", ".webp", ".gif")
+
+# ギャラリー系フォルダは、写真を「撮影日時のファイル名(yyyymmddhhmmss)」へ自動改名する。
+# → 連番(01,02..)管理の破綻(挿入時の振り直し・新着順に並べられない等)を回避し、
+#   名前だけで時系列ソート/新着順/直近判定ができるようにする。
+GALLERY_RENAME_FOLDERS = {
+    "images/gallery",
+    "images/gallery/recent",
+    "images/gallery/saigaifukkou",
+    "images/gallery/heartrugby",
+    "images/gallery/community",
+}
+_DATENAME_RE = re.compile(r"^\d{14}(_\d+)?\.(jpe?g|png|webp|gif)$", re.I)
+_EXIF_DT_RE = re.compile(r"(\d{4}):(\d{2}):(\d{2})\s+(\d{2}):(\d{2}):(\d{2})")
+
+
+def _capture_stamp(path, Image):
+    """撮影日時 yyyymmddhhmmss を返す。EXIF(DateTimeOriginal)優先、無ければ更新日時。"""
+    try:
+        with Image.open(path) as im:
+            exif = im.getexif()
+            dt = None
+            try:
+                sub = exif.get_ifd(0x8769)  # Exif サブIFD
+                dt = sub.get(0x9003) or sub.get(0x9004)  # DateTimeOriginal / Digitized
+            except Exception:
+                dt = None
+            if not dt:
+                dt = exif.get(0x0132)  # DateTime
+            if dt:
+                m = _EXIF_DT_RE.search(str(dt))
+                if m:
+                    return "".join(m.groups())
+    except Exception:
+        pass
+    t = datetime.datetime.fromtimestamp(os.path.getmtime(path))
+    return t.strftime("%Y%m%d%H%M%S")
+
+
+def rename_to_capture_datetime(folder_dir, Image):
+    """フォルダ直下の画像を撮影日時ファイル名へ改名(既に14桁形式のものは触らない)。"""
+    count = 0
+    for name in sorted(os.listdir(folder_dir)):
+        if not name.lower().endswith(IMAGE_EXTS) or name.startswith("."):
+            continue
+        if _DATENAME_RE.match(name):
+            continue  # 既に yyyymmddhhmmss 形式
+        src = os.path.join(folder_dir, name)
+        if not os.path.isfile(src):
+            continue
+        stamp = _capture_stamp(src, Image)
+        ext = os.path.splitext(name)[1].lower()
+        if ext == ".jpeg":
+            ext = ".jpg"
+        target = stamp + ext
+        n = 1
+        while os.path.exists(os.path.join(folder_dir, target)):
+            target = "%s_%d%s" % (stamp, n, ext)
+            n += 1
+        os.rename(src, os.path.join(folder_dir, target))
+        print("リネーム: %s -> %s" % (name, target))
+        count += 1
+    return count
 
 
 def write_manifest(folder_dir, valid_exts, exclude_prefixes=()):
@@ -64,7 +128,7 @@ def main():
     Image.MAX_IMAGE_PIXELS = None
 
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    converted = optimized = 0
+    converted = optimized = renamed = 0
 
     for folder, max_side, limit_kb in FOLDERS:
         d = os.path.join(root, folder)
@@ -98,6 +162,10 @@ def main():
                 converted += 1
             except Exception as e:
                 print("[ERROR] %s/%s: %s" % (folder, name, e))
+
+        # 1.5) ギャラリー系は撮影日時ファイル名へ改名(HEIC変換後・縮小前)
+        if folder in GALLERY_RENAME_FOLDERS:
+            renamed += rename_to_capture_datetime(d, Image)
 
         # 2) 大きすぎるJPG/PNGを縮小
         for name in sorted(os.listdir(d)):
@@ -144,8 +212,8 @@ def main():
             manifests += 1
 
     print(
-        "写真整形おわり: HEIC変換 %d件 / 縮小 %d件 / 一覧生成 %d件"
-        % (converted, optimized, manifests)
+        "写真整形おわり: HEIC変換 %d件 / 改名 %d件 / 縮小 %d件 / 一覧生成 %d件"
+        % (converted, renamed, optimized, manifests)
     )
     return 0
 

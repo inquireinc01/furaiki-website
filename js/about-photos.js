@@ -6,11 +6,21 @@
   const REPO_API =
     "https://api.github.com/repos/inquireinc01/furaiki-website/contents/";
 
+  // ファイル名(yyyymmddhhmmss…)の降順=新着順で並べる。
   function toUrls(folder, names) {
     return names
       .filter((n) => /\.(jpe?g|png|webp|gif)$/i.test(n))
-      .sort((a, b) => a.localeCompare(b, "ja"))
+      .sort((a, b) => b.localeCompare(a, "ja"))
       .map((n) => folder + "/" + encodeURIComponent(n));
+  }
+
+  // ファイル名の先頭 yyyymmddhhmmss から撮影日時を取り出す(無ければ null)。
+  function dateFromName(url) {
+    const name = decodeURIComponent(url.split("/").pop());
+    const m = name.match(/^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/);
+    if (!m) return null;
+    const d = new Date(+m[1], +m[2] - 1, +m[3], +m[4], +m[5], +m[6]);
+    return isNaN(d.getTime()) ? null : d;
   }
 
   // 予備手段: GitHub API(list.json が読めない場合のみ)
@@ -70,34 +80,32 @@
     "images/gallery/recent",
   ];
 
-  // 全フォルダの写真を集約。ファイル名(番号)順に並べ、同名は1枚に重複排除する。
+  // 全フォルダの写真を集約。ファイル名(撮影日時)の降順=新着順で並べ、同名は重複排除。
   function listAllImages() {
     return Promise.all(
       ALL_SOURCE_FOLDERS.map((f) => listImages(f).then((u) => u || []))
     ).then((lists) => {
+      // 重複排除はフルパス(url)で行う。撮影日時ファイル名は別フォルダ間で
+      // 同名になり得る(別の写真)ため、ファイル名だけで排除すると取りこぼす。
       const seen = new Set();
       const combined = [];
       lists.forEach((urls) => {
         urls.forEach((url) => {
-          const name = url.split("/").pop();
-          if (!seen.has(name)) {
-            seen.add(name);
+          if (!seen.has(url)) {
+            seen.add(url);
             combined.push(url);
           }
         });
       });
       combined.sort((a, b) =>
-        a.split("/").pop().localeCompare(b.split("/").pop(), "ja")
+        b.split("/").pop().localeCompare(a.split("/").pop(), "ja")
       );
       return combined;
     });
   }
-  const ALL_FALLBACK = [
-    "images/gallery/01.jpg",
-    "images/gallery/02.jpg",
-    "images/gallery/03.jpg",
-    "images/gallery/04.jpg",
-  ];
+  // list.json が全滅した場合のみ使う予備(通常は到達しない)。存在しない名前を
+  // 並べると壊れた画像が出るため、空にして「準備中」メッセージを表示させる。
+  const ALL_FALLBACK = [];
   const RECENT_DAYS = 95; // 3ヶ月+若干の余裕
   const RECENT_EMPTY_MESSAGE =
     "直近3ヶ月以内の活動写真はまだ登録されていません。" +
@@ -168,37 +176,38 @@
     grid.querySelectorAll(".gallery-item").forEach((el) => observer.observe(el));
   }
 
-  // 各写真のExif撮影日を読み取り、3ヶ月以内のものを新しい順に並べる。
-  // filterOnly=true(「直近の活動」タブ)なら3ヶ月以内のものだけに絞り込み、
-  // false(「すべて」タブ)なら3ヶ月以内のものを先頭に並べつつ、残りの写真も
-  // 元の並び順のまま後ろに続ける。撮影日が読めない写真は除外せず末尾に残す。
-  function loadWithRecency(urls, filterOnly, emptyMessage) {
-    if (typeof window.readExifDate !== "function") {
-      renderGallery(urls, emptyMessage); // 読み取り機能が無ければそのまま表示
-      return;
-    }
+  // 「直近の活動」タブ: ファイル名の撮影日時から3ヶ月以内の写真を新しい順に表示。
+  // ファイル名に日時が無い写真だけ、従来どおりExif(readExifDate)で補完判定する。
+  function loadRecent(urls, emptyMessage) {
     const now = Date.now();
     const limitMs = RECENT_DAYS * 24 * 60 * 60 * 1000;
+    const dated = []; // {url, time}
+    const needExif = []; // ファイル名から日時が取れなかったもの
 
-    Promise.all(urls.map((url) => window.readExifDate(url).catch(() => null))).then(
+    urls.forEach((url) => {
+      const d = dateFromName(url);
+      if (d) dated.push({ url, time: d.getTime() });
+      else needExif.push(url);
+    });
+
+    function finish() {
+      const recent = dated
+        .filter((x) => now - x.time <= limitMs)
+        .sort((a, b) => b.time - a.time) // 新しい順
+        .map((x) => x.url);
+      renderGallery(recent, emptyMessage);
+    }
+
+    if (!needExif.length || typeof window.readExifDate !== "function") {
+      finish();
+      return;
+    }
+    Promise.all(needExif.map((u) => window.readExifDate(u).catch(() => null))).then(
       (dates) => {
-        const withDate = [];
-        const withoutDate = [];
-        urls.forEach((url, i) => {
-          const d = dates[i];
-          if (d && now - d.getTime() <= limitMs) {
-            withDate.push({ url, time: d.getTime() });
-          } else if (!d) {
-            withoutDate.push(url);
-          }
-          // 撮影日が読めて、かつ3ヶ月より古い場合はwithDate/withoutDateどちらにも入れない
+        needExif.forEach((u, i) => {
+          if (dates[i]) dated.push({ url: u, time: dates[i].getTime() });
         });
-        withDate.sort((a, b) => b.time - a.time); // 新しい順
-        const recentUrls = new Set(withDate.map((x) => x.url));
-        const ordered = filterOnly
-          ? withDate.map((x) => x.url).concat(withoutDate)
-          : withDate.map((x) => x.url).concat(urls.filter((u) => !recentUrls.has(u)));
-        renderGallery(ordered, emptyMessage);
+        finish();
       }
     );
   }
@@ -207,10 +216,10 @@
     setActiveTab(tab);
     const emptyMessage = tab === "recent" ? RECENT_EMPTY_MESSAGE : DEFAULT_EMPTY_MESSAGE;
 
-    // 「すべて」は全カテゴリを集約して表示
+    // 「すべて」は全カテゴリを集約(新着順)して表示
     if (tab === "all") {
       listAllImages().then((urls) => {
-        loadWithRecency(urls.length ? urls : ALL_FALLBACK, false, emptyMessage);
+        renderGallery(urls.length ? urls : ALL_FALLBACK, emptyMessage);
       });
       return;
     }
@@ -221,10 +230,10 @@
         return;
       }
       if (tab === "recent") {
-        loadWithRecency(urls, true, emptyMessage);
+        loadRecent(urls, emptyMessage);
         return;
       }
-      renderGallery(urls, emptyMessage);
+      renderGallery(urls, emptyMessage); // urls は既に新着順(降順)
     });
   }
 
