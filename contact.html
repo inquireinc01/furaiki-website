@@ -108,7 +108,12 @@
       <div class="w-16 h-1 bg-[#c8102e] mb-8"></div>
 
       <div class="bg-white rounded-lg p-8 sm:p-10 shadow-sm reveal">
-        <form id="contact-form" class="space-y-6">
+        <!-- action/method/enctype は「JSが無効・失敗した場合のフォールバック」。
+             通常はJS(contact-form.js)がsubmitを横取りしてメール本文を組み立てるが、
+             JSが動かない環境では標準のGET送信になり、氏名・メール等がURL(履歴/ログ)に
+             残る恐れがある。それを防ぐため、フォールバックはmailtoへのPOSTにしておく
+             (URLにデータを載せずメールソフトを開く)。 -->
+        <form id="contact-form" action="mailto:info@furaiki.org" method="post" enctype="text/plain" class="space-y-6">
           <!-- お名前 -->
           <div>
             <label for="name" class="block text-sm font-bold text-gray-700 mb-2">
