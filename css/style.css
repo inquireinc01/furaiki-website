@@ -392,16 +392,20 @@ img {
   z-index: 2;
 }
 
-/* 複数枚の場合は「全部つなげて流しっぱなし」ではなく、1枚を表示→時間が
-   来たらふわっとクロスフェードで次の1枚に切り替える方式にしている。
-   常時アニメーションが走り続ける訳ではないため合成負荷が小さく、
-   次に出す1枚だけを事前読み込みする(js/hero-slider.js)ことで、
-   最初から全画像をまとめて読み込む必要が無く、通信量を大きく抑えられる。 */
-.hero-slide {
+.hero-track {
   position: absolute;
-  inset: 0;
-  opacity: 0;
-  transition: opacity 1.2s ease;
+  top: 0;
+  left: 0;
+  height: 100%;
+  display: flex;
+  width: max-content;
+  animation: heroMarquee linear infinite;
+  will-change: transform;
+}
+
+.hero-cell {
+  flex: 0 0 auto;
+  height: 100%;
   /* 巨大な1枚レイヤーになるとiOSでテクスチャ上限を超えて描画が乱れるため、
      写真1枚ごとに独立した合成レイヤーに分割する */
   transform: translateZ(0);
@@ -410,21 +414,31 @@ img {
   -webkit-backface-visibility: hidden;
 }
 
-.hero-slide.is-active {
-  opacity: 1;
-}
-
-.hero-slide img {
-  width: 100%;
+.hero-cell img {
+  width: auto;
   height: 100%;
-  object-fit: cover;
   display: block;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .hero-slide {
-    transition: none;
+@keyframes heroMarquee {
+  from {
+    transform: translateX(0);
   }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-track {
+    animation: none;
+  }
+}
+
+/* 画面外にスクロールしている間は合成負荷を下げるため一時停止する
+   (js/hero-slider.js が IntersectionObserver で付け外しする) */
+.hero-track.is-paused {
+  animation-play-state: paused;
 }
 
 .hero-content {

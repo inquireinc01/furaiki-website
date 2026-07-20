@@ -1,14 +1,15 @@
-// トップページのメインビジュアル(クロスフェード・スライドショー)
-// images/hero/ フォルダ内の画像を自動で読み込んで、1枚ずつふわっと
-// 切り替えて表示する。画像一覧はまず同一オリジンの静的ファイル list.json を
-// 読む(「サイトを更新.bat」が生成)。これによりGitHub APIのレート制限
+// トップページのメインビジュアル(横スクロールスライダー)
+// images/hero/ フォルダ内の画像を自動で読み込んで横に流す。
+// 画像一覧はまず同一オリジンの静的ファイル list.json を読む
+// (「サイトを更新.bat」が生成)。これによりGitHub APIのレート制限
 // (1時間60回/IP)で画像が消える問題を避ける。表示順はファイル名の昇順。
 //
-// 以前は全画像を横に2周分並べて流しっぱなしにする方式だったが、
-// メインビジュアルを最後まで眺め続ける人は少ない一方、その方式だと
-// 全画像(×2周分)を最初にまとめて読み込む必要があり通信量が重かった。
-// 現在は「今表示している1枚」と「次に出す1枚」だけを読み込む
-// 順次読み込み方式にして、通信量を大きく抑えている。
+// 見た目(横に流れっぱなし)は維持しつつ、読み込みの重さは以下で抑えている。
+// ①srcset(-480w/-800w)で、フル画質(最大1600px)ではなく画面幅に応じた
+//   軽い版を読み込む。②最初に見える1〜2枚だけ即読み込みし、残りは
+//   loading="lazy"でブラウザに任せる(画面外にある間はダウンロードされず、
+//   流れて近づくにつれて自動的に読み込まれる)。シームレスループ用の
+//   複製(2周目)も同じURLのため、ブラウザのキャッシュで実質追加通信なしで済む。
 (function () {
   const FOLDER = "images/hero";
   const MANIFEST_URL = FOLDER + "/list.json";
@@ -20,7 +21,10 @@
     "images/hero/03-main.jpg",
     "images/hero/IMG_4747.jpg",
   ];
-  const SLIDE_INTERVAL_MS = 6000; // 1枚あたりの表示時間
+  // スクロール速度(1秒あたりのピクセル数)。小さいほどゆっくり。
+  const SPEED_PX_PER_SEC = 42;
+  // 最初から即読み込みする枚数(画面に最初から見えている分だけで十分)。
+  const EAGER_COUNT = 2;
   // srcset用の軽量版(-480w/-800w)は tools/prepare_photos.py が生成する
   // (images/hero の縮小設定=1600pxがフルサイズの実寸)。
   const SRCSET_WIDTHS = [480, 800];
@@ -73,77 +77,73 @@
   function build(urls) {
     if (!urls.length) return;
 
-    // 1枚だけなら、切り替え不要の静止画として軽量版を表示
+    // 1枚だけなら静止背景として表示(軽量版で十分)
     if (urls.length === 1) {
+      container.style.backgroundImage = "none";
       const img = document.createElement("img");
       img.alt = "";
+      img.sizes = "100vw";
       img.src = withWidth(urls[0], SRCSET_WIDTHS[1]);
       img.srcset = buildSrcset(urls[0]);
-      img.sizes = "100vw";
       img.style.cssText = "position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;";
       container.appendChild(img);
       return;
     }
 
-    const slides = urls.map((url, i) => {
-      const slide = document.createElement("div");
-      slide.className = "hero-slide" + (i === 0 ? " is-active" : "");
-      const img = document.createElement("img");
-      img.alt = "";
-      img.sizes = "100vw";
-      if (i === 0) {
-        // 最初の1枚だけは初期表示に必要なので即読み込み
-        img.src = withWidth(url, SRCSET_WIDTHS[1]);
+    const track = document.createElement("div");
+    track.className = "hero-track";
+    const imgs = [];
+    let eagerLoaded = 0;
+
+    // シームレスにループさせるため同じ並びを2周分並べる。
+    // 2周目は1周目と同じURLなので、ブラウザのキャッシュにより
+    // 実質追加の通信なしで表示できる。
+    for (let lap = 0; lap < 2; lap++) {
+      urls.forEach((url) => {
+        const cell = document.createElement("div");
+        cell.className = "hero-cell";
+        const img = document.createElement("img");
+        img.alt = "";
+        img.sizes = "100vw";
         img.srcset = buildSrcset(url);
-      } else {
-        // 残りは出番が来る直前まで読み込みを遅らせる(初期表示を重くしない)
-        img.dataset.src = withWidth(url, SRCSET_WIDTHS[1]);
-        img.dataset.srcset = buildSrcset(url);
-      }
-      slide.appendChild(img);
-      container.appendChild(slide);
-      return slide;
-    });
-
-    function preload(index) {
-      const img = slides[index].querySelector("img");
-      if (img.dataset.src) {
-        img.src = img.dataset.src;
-        img.srcset = img.dataset.srcset;
-        delete img.dataset.src;
-        delete img.dataset.srcset;
-      }
+        img.src = withWidth(url, SRCSET_WIDTHS[1]);
+        img.decoding = "async";
+        // 最初に画面へ見えている分だけ即読み込みし、残りはブラウザ任せの
+        // 遅延読み込みにする(横に流れて近づくにつれて自動的に読み込まれる)
+        if (eagerLoaded < EAGER_COUNT) {
+          eagerLoaded++;
+        } else {
+          img.loading = "lazy";
+        }
+        cell.appendChild(img);
+        track.appendChild(cell);
+        imgs.push(img);
+      });
     }
 
-    // 動きを抑える設定のブラウザでは自動切り替えをせず、1枚目のみ表示する
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-    let current = 0;
-    let paused = false;
-
-    // 次に出す1枚だけを先読みしておく(表示直前に読み込み始めると
-    // 間に合わず一瞬透けて見えるため、切り替わった直後に前倒しで読み込む)
-    preload(1 % slides.length);
-
-    function advance() {
-      if (paused) return;
-      const next = (current + 1) % slides.length;
-      slides[current].classList.remove("is-active");
-      slides[next].classList.add("is-active");
-      current = next;
-      preload((current + 1) % slides.length);
+    // 写真の幅の合計から所要時間を計算し、常に一定のゆっくりした速度で流す。
+    // 画像が読み込まれるたびに幅が変わるので、その都度計算し直す。
+    function updateDuration() {
+      const halfWidth = track.scrollWidth / 2;
+      if (halfWidth > 0) {
+        track.style.animationDuration = halfWidth / SPEED_PX_PER_SEC + "s";
+      }
     }
+    imgs.forEach((img) => img.addEventListener("load", updateDuration));
+    window.addEventListener("resize", updateDuration);
 
-    setInterval(advance, SLIDE_INTERVAL_MS);
+    container.style.backgroundImage = "none";
+    container.appendChild(track);
+    updateDuration();
 
-    // 画面外にスクロールしている間は自動切り替え・先読みを止め、
-    // 無駄な通信・描画を避ける
+    // 画面外にスクロールしている間はアニメーションを一時停止し、
+    // スクロール中の合成負荷を下げる(モバイル端末での白フラッシュ対策)。
     const heroSection = container.closest(".hero-fullscreen");
     if (heroSection && "IntersectionObserver" in window) {
       const observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
-            paused = !entry.isIntersecting;
+            track.classList.toggle("is-paused", !entry.isIntersecting);
           });
         },
         { threshold: 0 }
