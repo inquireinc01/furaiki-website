@@ -15,7 +15,7 @@ import re
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SITE = "https://www.furaiki.org"        # 正規ドメイン(canonical / OGP の基準)
-V = "20260722b"                          # CSS/JS のキャッシュバスト用バージョン
+V = "20260722c"                          # CSS/JS のキャッシュバスト用バージョン
 TAILWIND_CDN = "https://cdn.tailwindcss.com/3.4.16"  # バージョン固定(最新追従による突然の崩壊を防ぐ)
 GA4_ID = ""                              # 例: "G-XXXXXXXXXX"。空の間はGA4タグを出力しない。
 OG_IMAGE = SITE + "/images/mascot.png"
@@ -299,6 +299,7 @@ def apply_all():
         html = replace_footer(html)
         html = ensure_skip_link(html)
         html = ensure_main_id(html)
+        html = bump_versions(html)  # 本文の <script ...?v=> も含め全ての ?v= を V に統一
         with open(path, "w", encoding="utf-8") as f:
             f.write(html)
         print("[OK]", page)

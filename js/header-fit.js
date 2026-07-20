@@ -32,6 +32,9 @@
     nav.style.left = "";
     donate.style.position = "";
     donate.style.left = "";
+    // 通常表示に戻すのでキーボード/支援技術からも操作可能にする
+    nav.removeAttribute("inert");
+    donate.removeAttribute("inert");
     hamburger.style.display = "none";
   }
 
@@ -43,6 +46,10 @@
     nav.style.left = "-9999px";
     donate.style.position = "absolute";
     donate.style.left = "-9999px";
+    // 画面外の測定用要素はキーボード/支援技術のフォーカス対象から除外する
+    // (inert非対応ブラウザでは無視されるだけで害はない)
+    nav.setAttribute("inert", "");
+    donate.setAttribute("inert", "");
     hamburger.style.display = "";
   }
 

@@ -123,14 +123,28 @@
       if (emptyMessage) emptyNote.textContent = emptyMessage;
     }
     urls.forEach((url, i) => {
+      // innerHTML でのHTML組み立ては避け、DOM APIで生成する
+      // (URL由来の文字列を属性に安全に入れ、エスケープ漏れによるリスクを排除)
       const item = document.createElement("div");
       item.className = "gallery-item group overflow-hidden rounded-lg";
       item.style.transitionDelay = (i % 3) * 100 + "ms";
-      item.innerHTML =
-        '<div class="gallery-image-wrapper relative bg-gray-300 aspect-[4/3]">' +
-        '<img src="' + url + '" alt="活動報告の様子' + (i + 1) + '" loading="lazy" class="gallery-image w-full h-full object-cover" />' +
-        '<div class="gallery-overlay absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300"></div>' +
-        "</div>";
+
+      const wrapper = document.createElement("div");
+      wrapper.className = "gallery-image-wrapper relative bg-gray-300 aspect-[4/3]";
+
+      const img = document.createElement("img");
+      img.src = url;
+      img.alt = "活動報告の様子" + (i + 1);
+      img.loading = "lazy";
+      img.className = "gallery-image w-full h-full object-cover";
+
+      const overlay = document.createElement("div");
+      overlay.className =
+        "gallery-overlay absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300";
+
+      wrapper.appendChild(img);
+      wrapper.appendChild(overlay);
+      item.appendChild(wrapper);
       grid.appendChild(item);
     });
 
