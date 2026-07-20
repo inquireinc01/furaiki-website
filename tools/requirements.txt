@@ -1,0 +1,7 @@
+# 写真処理(tools/prepare_photos.py)に必要なPythonライブラリ。
+# 初回セットアップ: Python 3.12 以降を入れて、次を実行:
+#   python -m pip install -r tools/requirements.txt
+#
+# バージョンは動作確認済みの下限で固定(将来の破壊的変更を避ける)。
+Pillow>=11,<13
+pillow-heif>=1,<2
