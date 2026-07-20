@@ -453,13 +453,43 @@ img {
 /* .hero-intro と .hero-lines を同じマス目に重ねて表示する
    (導入の3行が消えるのと入れ替わりに、常設の3行がふわっと重なって現れる) */
 .hero-content > .hero-intro,
-.hero-content > .hero-lines,
-.hero-content > .hero-particle-canvas {
+.hero-content > .hero-lines {
   grid-area: 1 / 1;
 }
 
-.hero-particle-canvas {
+/* 大きなラグビーボールが左から転がってきて、通り過ぎた分だけ常設3行の
+   文字が現れる演出(js/hero-ball-roll.js)。位置・回転はJSがフレームごとに
+   計算する。JS未対応環境ではこの要素は生成されず、.hero-lines側の
+   通常のふわっとフェード(heroFinalFadeIn)だけが効く */
+.hero-ball {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: clamp(48px, 8vw, 90px);
+  aspect-ratio: 1.55 / 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 32% 28%, #e2ab73, #b5713a 60%, #7a4a24 100%);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
   pointer-events: none;
+  z-index: 4;
+  will-change: transform;
+}
+
+.hero-ball::after {
+  /* ラグビーボールらしく、長軸方向に通る1本の縫い目(横線)と、
+     それを横切る短いステッチ(縦の短線)を3箇所に配置する */
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-image:
+    linear-gradient(0deg, transparent 47%, rgba(255, 255, 255, 0.92) 49%, rgba(255, 255, 255, 0.92) 51%, transparent 53%),
+    linear-gradient(90deg, transparent 44%, rgba(255, 255, 255, 0.8) 47%, rgba(255, 255, 255, 0.8) 53%, transparent 56%),
+    linear-gradient(90deg, transparent 44%, rgba(255, 255, 255, 0.8) 47%, rgba(255, 255, 255, 0.8) 53%, transparent 56%),
+    linear-gradient(90deg, transparent 44%, rgba(255, 255, 255, 0.8) 47%, rgba(255, 255, 255, 0.8) 53%, transparent 56%);
+  background-size: 100% 100%, 10% 46%, 10% 46%, 10% 46%;
+  background-position: center, 27% center, 50% center, 73% center;
+  background-repeat: no-repeat;
 }
 
 .hero-logo {
@@ -655,7 +685,7 @@ img {
   color: transparent;
   -webkit-text-fill-color: transparent;
   animation: flagShine 5s ease-in-out infinite;
-  animation-delay: 11.3s;
+  animation-delay: 10.8s;
 }
 
 @keyframes heroLineIn {
