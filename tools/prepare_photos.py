@@ -30,7 +30,20 @@ _EXIF_DT_RE = re.compile(r"(\d{4}):(\d{2}):(\d{2})\s+(\d{2}):(\d{2}):(\d{2})")
 
 
 def _capture_stamp(path, Image):
-    """撮影日時 yyyymmddhhmmss を返す。EXIF(DateTimeOriginal)優先、無ければ更新日時。"""
+    """(stamp14, how) を返す。how は 'name' / 'exif' / 'mtime'。
+    優先順位: ファイル名先頭の日付 > EXIF撮影日時 > 更新日時(アップロード日=概算)。
+    ※ LINE経由の写真はEXIFが消えるため、正しい日付にしたい場合は
+      ファイル名の先頭を日付(例 20250719 や 20250719120000)にしておくと尊重される。"""
+    name = os.path.basename(path)
+    # 1) ファイル名の先頭に日付(8桁 yyyymmdd、任意で+6桁 hhmmss)があれば最優先
+    m = re.match(r"^(\d{8})(\d{6})?", name)
+    if m:
+        try:
+            datetime.datetime.strptime(m.group(1), "%Y%m%d")
+            return m.group(1) + (m.group(2) or "120000"), "name"
+        except ValueError:
+            pass
+    # 2) EXIF DateTimeOriginal
     try:
         with Image.open(path) as im:
             exif = im.getexif()
@@ -43,27 +56,29 @@ def _capture_stamp(path, Image):
             if not dt:
                 dt = exif.get(0x0132)  # DateTime
             if dt:
-                m = _EXIF_DT_RE.search(str(dt))
-                if m:
-                    return "".join(m.groups())
+                m2 = _EXIF_DT_RE.search(str(dt))
+                if m2:
+                    return "".join(m2.groups()), "exif"
     except Exception:
         pass
+    # 3) 更新日時(アップロード日=概算。撮影日と異なる場合があるので最終手段)
     t = datetime.datetime.fromtimestamp(os.path.getmtime(path))
-    return t.strftime("%Y%m%d%H%M%S")
+    return t.strftime("%Y%m%d%H%M%S"), "mtime"
 
 
-def rename_to_capture_datetime(folder_dir, Image):
-    """フォルダ直下の画像を撮影日時ファイル名へ改名(既に14桁形式のものは触らない)。"""
+def rename_to_capture_datetime(folder_dir, Image, warn_mtime):
+    """フォルダ直下の画像を撮影日時ファイル名へ改名(既に14桁形式のものは触らない)。
+    更新日時でしか命名できなかったものは warn_mtime に記録して呼び出し側で警告する。"""
     count = 0
     for name in sorted(os.listdir(folder_dir)):
         if not name.lower().endswith(IMAGE_EXTS) or name.startswith("."):
             continue
         if _DATENAME_RE.match(name):
-            continue  # 既に yyyymmddhhmmss 形式
+            continue  # 既に yyyymmddhhmmss 形式(=手動補正済み含む)は絶対に触らない
         src = os.path.join(folder_dir, name)
         if not os.path.isfile(src):
             continue
-        stamp = _capture_stamp(src, Image)
+        stamp, how = _capture_stamp(src, Image)
         ext = os.path.splitext(name)[1].lower()
         if ext == ".jpeg":
             ext = ".jpg"
@@ -73,7 +88,10 @@ def rename_to_capture_datetime(folder_dir, Image):
             target = "%s_%d%s" % (stamp, n, ext)
             n += 1
         os.rename(src, os.path.join(folder_dir, target))
-        print("リネーム: %s -> %s" % (name, target))
+        print("リネーム(%s): %s -> %s" % (how, name, target))
+        if how == "mtime":
+            warn_mtime.append(folder_dir.split("images/")[-1] + "/" + target
+                              if "images/" in folder_dir else target)
         count += 1
     return count
 
@@ -129,6 +147,7 @@ def main():
 
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     converted = optimized = renamed = 0
+    mtime_warn = []  # 撮影日時が不明で更新日時(概算)で命名したもの
 
     for folder, max_side, limit_kb in FOLDERS:
         d = os.path.join(root, folder)
@@ -165,7 +184,7 @@ def main():
 
         # 1.5) ギャラリー系は撮影日時ファイル名へ改名(HEIC変換後・縮小前)
         if folder in GALLERY_RENAME_FOLDERS:
-            renamed += rename_to_capture_datetime(d, Image)
+            renamed += rename_to_capture_datetime(d, Image, mtime_warn)
 
         # 2) 大きすぎるJPG/PNGを縮小
         for name in sorted(os.listdir(d)):
@@ -215,6 +234,13 @@ def main():
         "写真整形おわり: HEIC変換 %d件 / 改名 %d件 / 縮小 %d件 / 一覧生成 %d件"
         % (converted, renamed, optimized, manifests)
     )
+    if mtime_warn:
+        print("")
+        print("[注意] 次の写真は撮影日時が読み取れず、アップロード日で命名しました。")
+        print("       日付が違う場合は、ファイル名の先頭を正しい日付に変えて再実行してください")
+        print("       (例: 20250719120000.jpg)。一度14桁の日付名にすれば以後は自動改名しません。")
+        for p in mtime_warn:
+            print("       - " + p)
     return 0
 
 
