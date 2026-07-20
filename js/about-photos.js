@@ -113,6 +113,8 @@
       const isActive = btn.dataset.tab === tab;
       btn.classList.remove(...ACTIVE_CLASS, ...INACTIVE_CLASS);
       btn.classList.add(...(isActive ? ACTIVE_CLASS : INACTIVE_CLASS));
+      // 支援技術に現在選択中のフィルターを伝える
+      btn.setAttribute("aria-pressed", isActive ? "true" : "false");
     });
   }
 
