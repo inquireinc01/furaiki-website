@@ -6,6 +6,24 @@
   const REPO_API =
     "https://api.github.com/repos/inquireinc01/furaiki-website/contents/";
 
+  // srcset用の軽量版(-480w/-800w)は tools/prepare_photos.py が生成する
+  // (元画像と同じフォルダに追加生成)。フルサイズの実寸はギャラリー系
+  // フォルダの縮小設定(1600px)に合わせている。画面幅に応じて、
+  // ブラウザが自動でこの中から最適な軽さの画像を選んでくれる。
+  const SRCSET_WIDTHS = [480, 800];
+  const FULL_WIDTH_HINT = 1600;
+  const GALLERY_SIZES = "(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw";
+
+  function withWidth(url, w) {
+    return url.replace(/(\.[a-z0-9]+)$/i, "-" + w + "w$1");
+  }
+
+  function buildSrcset(url) {
+    const parts = SRCSET_WIDTHS.map((w) => withWidth(url, w) + " " + w + "w");
+    parts.push(url + " " + FULL_WIDTH_HINT + "w");
+    return parts.join(", ");
+  }
+
   // ファイル名(yyyymmddhhmmss…)の降順=新着順で並べる。
   function toUrls(folder, names) {
     return names
@@ -143,7 +161,9 @@
       wrapper.className = "gallery-image-wrapper relative bg-gray-300 aspect-[4/3]";
 
       const img = document.createElement("img");
-      img.src = url;
+      img.src = withWidth(url, SRCSET_WIDTHS[0]);
+      img.srcset = buildSrcset(url);
+      img.sizes = GALLERY_SIZES;
       img.alt = "活動報告の様子" + (i + 1);
       img.loading = "lazy";
       img.className = "gallery-image w-full h-full object-cover";
