@@ -28,6 +28,10 @@ GALLERY_RENAME_FOLDERS = {
 _DATENAME_RE = re.compile(r"^\d{14}(_\d+)?\.(jpe?g|png|webp|gif)$", re.I)
 _EXIF_DT_RE = re.compile(r"(\d{4}):(\d{2}):(\d{2})\s+(\d{2}):(\d{2}):(\d{2})")
 
+# スマホ向けの軽量版(srcset用)のファイル名は "<元名>-<幅>w.jpg" という派生名になる。
+# 派生ファイル自身は「元画像」として扱わない(改名・再縮小・一覧掲載の対象外にする)。
+_WIDTH_SUFFIX_RE = re.compile(r"-\d+w\.(jpe?g|png|webp|gif)$", re.I)
+
 
 def _capture_stamp(path, Image):
     """(stamp14, how) を返す。how は 'name' / 'exif' / 'mtime'。
@@ -73,6 +77,8 @@ def rename_to_capture_datetime(folder_dir, Image, warn_mtime):
     for name in sorted(os.listdir(folder_dir)):
         if not name.lower().endswith(IMAGE_EXTS) or name.startswith("."):
             continue
+        if _WIDTH_SUFFIX_RE.search(name):
+            continue  # srcset用の派生ファイルは元画像として扱わない
         if _DATENAME_RE.match(name):
             continue  # 既に yyyymmddhhmmss 形式(=手動補正済み含む)は絶対に触らない
         src = os.path.join(folder_dir, name)
@@ -106,6 +112,7 @@ def write_manifest(folder_dir, valid_exts, exclude_prefixes=()):
             if n.lower().endswith(valid_exts)
             and not n.startswith(".")
             and not any(n.lower().startswith(p) for p in exclude_prefixes)
+            and not _WIDTH_SUFFIX_RE.search(n)  # srcset用の派生ファイルは一覧に出さない
             and os.path.isfile(os.path.join(folder_dir, n))
         ]
         names.sort()
@@ -130,6 +137,52 @@ FOLDERS = [
 ]
 QUALITY = 85
 
+# スマホ向けの軽量版(srcset用)を追加生成するフォルダと、その幅(px)。
+# ここに挙げたフォルダの写真は「<元名>-480w.jpg」「<元名>-800w.jpg」が
+# 元画像と同じフォルダに追加生成され、サイト側(JS)がsrcsetとして
+# 画面幅に応じた軽い方を自動選択できるようにする(通信量の削減が目的)。
+SRCSET_WIDTHS = (480, 800)
+SRCSET_FOLDERS = {
+    "images/hero",
+    "images/gallery",
+    "images/gallery/recent",
+    "images/gallery/saigaifukkou",
+    "images/gallery/heartrugby",
+    "images/gallery/community",
+    "images/org-highlights",
+}
+
+
+def generate_srcset_variants(folder_dir, Image, ImageOps, quality):
+    """フォルダ内の各写真について、より軽い縮小版(-480w/-800w)を生成する。
+    元画像より新しい派生ファイルが既にあれば再生成しない(繰り返し実行での
+    画質劣化・無駄な書き込みを防ぐ)。派生ファイル自身は対象から除外する。"""
+    count = 0
+    for name in sorted(os.listdir(folder_dir)):
+        if not name.lower().endswith((".jpg", ".jpeg", ".png")) or name.startswith("."):
+            continue
+        if _WIDTH_SUFFIX_RE.search(name):
+            continue
+        path = os.path.join(folder_dir, name)
+        if not os.path.isfile(path):
+            continue
+        stem = os.path.splitext(name)[0]
+        src_mtime = os.path.getmtime(path)
+        for w in SRCSET_WIDTHS:
+            out_path = os.path.join(folder_dir, "%s-%dw.jpg" % (stem, w))
+            if os.path.exists(out_path) and os.path.getmtime(out_path) >= src_mtime:
+                continue
+            try:
+                img = Image.open(path)
+                img = ImageOps.exif_transpose(img).convert("RGB")
+                img.thumbnail((w, w))
+                img.save(out_path, "JPEG", quality=quality, optimize=True)
+                os.utime(out_path, (src_mtime, src_mtime))
+                count += 1
+            except Exception as e:
+                print("[ERROR] srcset %s/%s: %s" % (folder_dir, name, e))
+    return count
+
 
 def main():
     sys.stdout.reconfigure(errors="replace")
@@ -146,7 +199,7 @@ def main():
     Image.MAX_IMAGE_PIXELS = None
 
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    converted = optimized = renamed = 0
+    converted = optimized = renamed = srcset = 0
     mtime_warn = []  # 撮影日時が不明で更新日時(概算)で命名したもの
 
     for folder, max_side, limit_kb in FOLDERS:
@@ -190,6 +243,8 @@ def main():
         for name in sorted(os.listdir(d)):
             if not name.lower().endswith((".jpg", ".jpeg", ".png")):
                 continue
+            if _WIDTH_SUFFIX_RE.search(name):
+                continue  # srcset用の派生ファイルはここでは扱わない
             path = os.path.join(d, name)
             try:
                 kb = os.path.getsize(path) // 1024
@@ -217,6 +272,10 @@ def main():
             except Exception as e:
                 print("[ERROR] %s/%s: %s" % (folder, name, e))
 
+        # 2.5) スマホ向けの軽量版(srcset用)を生成
+        if folder in SRCSET_FOLDERS:
+            srcset += generate_srcset_variants(d, Image, ImageOps, QUALITY)
+
     # 3) 各フォルダの写真一覧(list.json)を生成。サイト側はこれを読む。
     manifests = 0
     for folder, _max_side, _limit_kb in FOLDERS:
@@ -231,8 +290,8 @@ def main():
             manifests += 1
 
     print(
-        "写真整形おわり: HEIC変換 %d件 / 改名 %d件 / 縮小 %d件 / 一覧生成 %d件"
-        % (converted, renamed, optimized, manifests)
+        "写真整形おわり: HEIC変換 %d件 / 改名 %d件 / 縮小 %d件 / srcset生成 %d件 / 一覧生成 %d件"
+        % (converted, renamed, optimized, srcset, manifests)
     )
     if mtime_warn:
         print("")

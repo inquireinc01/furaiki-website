@@ -9,6 +9,19 @@
     { file: "images/org-highlights/noto.jpg", caption: "能登の被災地での瓦礫撤去活動" },
   ];
 
+  // srcset用の軽量版(-480w/-800w)は tools/prepare_photos.py が生成する
+  // (images/org-highlights の縮小設定=1600pxがフルサイズの実寸)。
+  const SRCSET_WIDTHS = [480, 800];
+  const FULL_WIDTH_HINT = 1600;
+  function withWidth(url, w) {
+    return url.replace(/(\.[a-z0-9]+)$/i, "-" + w + "w$1");
+  }
+  function buildSrcset(url) {
+    return SRCSET_WIDTHS.map((w) => withWidth(url, w) + " " + w + "w")
+      .concat([url + " " + FULL_WIDTH_HINT + "w"])
+      .join(", ");
+  }
+
   Promise.all(
     CANDIDATES.map(
       (c) =>
@@ -23,9 +36,18 @@
     results.filter(Boolean).forEach((c) => {
       const fig = document.createElement("figure");
       fig.className = "rounded-lg overflow-hidden reveal";
-      fig.innerHTML =
-        '<img src="' + c.file + '" alt="' + c.caption + '" class="w-full h-48 object-cover" />' +
-        '<figcaption class="text-xs text-gray-500 mt-2">' + c.caption + "</figcaption>";
+      const img = document.createElement("img");
+      img.src = withWidth(c.file, SRCSET_WIDTHS[0]);
+      img.srcset = buildSrcset(c.file);
+      img.sizes = "(min-width: 640px) 50vw, 100vw";
+      img.alt = c.caption;
+      img.loading = "lazy";
+      img.className = "w-full h-48 object-cover";
+      const caption = document.createElement("figcaption");
+      caption.className = "text-xs text-gray-500 mt-2";
+      caption.textContent = c.caption;
+      fig.appendChild(img);
+      fig.appendChild(caption);
       wrap.appendChild(fig);
     });
   });
