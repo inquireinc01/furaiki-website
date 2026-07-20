@@ -36,8 +36,8 @@ def write_manifest(folder_dir, valid_exts, exclude_prefixes=()):
 
 # (フォルダ, 長辺の最大px, 縮小を始めるサイズKB)
 FOLDERS = [
-    ("images/hero", 2400, 800),
-    ("images/about-hero", 2400, 800),
+    ("images/hero", 1600, 500),
+    ("images/about-hero", 1920, 600),
     ("images/gallery", 1600, 500),
     ("images/gallery/recent", 1600, 500),
     ("images/gallery/saigaifukkou", 1600, 500),
