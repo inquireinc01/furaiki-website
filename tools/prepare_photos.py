@@ -39,12 +39,20 @@ def _capture_stamp(path, Image):
     ※ LINE経由の写真はEXIFが消えるため、正しい日付にしたい場合は
       ファイル名の先頭を日付(例 20250719 や 20250719120000)にしておくと尊重される。"""
     name = os.path.basename(path)
-    # 1) ファイル名の先頭に日付(8桁 yyyymmdd、任意で+6桁 hhmmss)があれば最優先
-    m = re.match(r"^(\d{8})(\d{6})?", name)
+    # 1) ファイル名の先頭に日付(8桁 yyyymmdd、任意で+6桁 hhmmssまたは+4桁 hhmm)
+    #    があれば最優先。4桁(hhmm)は秒を00で補う。時刻が無ければ12:00:00とする
+    #    (※ 以前は6桁ちょうどでない時刻表記を無視して時刻無し扱いにしてしまい、
+    #      hhmmで秒を省略した場合に指定した時刻が失われるバグがあった)
+    m = re.match(r"^(\d{8})(\d{6}|\d{4})?", name)
     if m:
         try:
             datetime.datetime.strptime(m.group(1), "%Y%m%d")
-            return m.group(1) + (m.group(2) or "120000"), "name"
+            time_part = m.group(2)
+            if time_part is None:
+                time_part = "120000"
+            elif len(time_part) == 4:
+                time_part += "00"
+            return m.group(1) + time_part, "name"
         except ValueError:
             pass
     # 2) EXIF DateTimeOriginal
@@ -70,6 +78,31 @@ def _capture_stamp(path, Image):
     return t.strftime("%Y%m%d%H%M%S"), "mtime"
 
 
+def _next_free_name(folder_dir, stamp, ext):
+    """同じタイムスタンプのファイルが既にあれば、秒を1つずつ繰り上げて
+    空いているファイル名を探す(末尾に_1/_2を付けず、綺麗な14桁のまま保つ)。
+    ※ ファイル名の先頭に日付だけ書いて時刻を省略した場合、時刻部分は
+      12:00:00で補完される(_capture_stamp)。同じ日付の写真が複数あると
+      元々は全部同じ14桁になり"_1"等の連番が必要だったが、この関数が
+      1秒ずつ繰り上げて空きを探すため、連番無しの綺麗な14桁のまま並べられる。
+    stampが不正な形式(壊れた手動リネーム等でパース不能)の場合のみ、
+    従来通り末尾に_連番を付けて衝突を回避する。"""
+    try:
+        dt = datetime.datetime.strptime(stamp, "%Y%m%d%H%M%S")
+    except ValueError:
+        target = stamp + ext
+        n = 1
+        while os.path.exists(os.path.join(folder_dir, target)):
+            target = "%s_%d%s" % (stamp, n, ext)
+            n += 1
+        return target
+    while True:
+        target = dt.strftime("%Y%m%d%H%M%S") + ext
+        if not os.path.exists(os.path.join(folder_dir, target)):
+            return target
+        dt += datetime.timedelta(seconds=1)
+
+
 def rename_to_capture_datetime(folder_dir, Image, warn_mtime):
     """フォルダ直下の画像を撮影日時ファイル名へ改名(既に14桁形式のものは触らない)。
     更新日時でしか命名できなかったものは warn_mtime に記録して呼び出し側で警告する。"""
@@ -88,11 +121,7 @@ def rename_to_capture_datetime(folder_dir, Image, warn_mtime):
         ext = os.path.splitext(name)[1].lower()
         if ext == ".jpeg":
             ext = ".jpg"
-        target = stamp + ext
-        n = 1
-        while os.path.exists(os.path.join(folder_dir, target)):
-            target = "%s_%d%s" % (stamp, n, ext)
-            n += 1
+        target = _next_free_name(folder_dir, stamp, ext)
         os.rename(src, os.path.join(folder_dir, target))
         print("リネーム(%s): %s -> %s" % (how, name, target))
         if how == "mtime":
