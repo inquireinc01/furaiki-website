@@ -15,7 +15,7 @@ import re
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SITE = "https://www.furaiki.org"        # 正規ドメイン(canonical / OGP の基準)
-V = "20260722g"                          # CSS/JS のキャッシュバスト用バージョン
+V = "20260722h"                          # CSS/JS のキャッシュバスト用バージョン
 TAILWIND_CDN = "https://cdn.tailwindcss.com/3.4.16"  # バージョン固定(最新追従による突然の崩壊を防ぐ)
 GA4_ID = "G-53J7NCFSF3"                   # Googleアナリティクス4 測定ID。空にするとGA4タグを出力しない。
 OG_IMAGE = SITE + "/images/mascot.png"
