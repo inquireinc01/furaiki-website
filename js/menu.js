@@ -12,14 +12,22 @@ document.addEventListener('DOMContentLoaded', function() {
       return !mobileMenu.classList.contains('hidden');
     }
 
-    function setMenu(open) {
+    function setMenu(open, opts) {
+      opts = opts || {};
       mobileMenu.classList.toggle('hidden', !open);
       menuButton.setAttribute('aria-expanded', open ? 'true' : 'false');
+      // キーボード操作の配慮: 開いたら先頭項目へ、閉じたらボタンへフォーカスを戻す
+      if (open) {
+        var first = mobileMenu.querySelector('a');
+        if (first && opts.focus !== false) first.focus();
+      } else if (opts.focus !== false) {
+        menuButton.focus();
+      }
     }
 
-    // タップで開閉+スライム風プルプル
+    // タップで開閉+スライム風プルプル(タップ時はフォーカス移動しない=見た目優先)
     menuButton.addEventListener('click', function() {
-      setMenu(!openState());
+      setMenu(!openState(), { focus: false });
       menuButton.classList.remove('jiggling');
       void menuButton.offsetWidth; // アニメーションを最初から再生し直すためのリフロー
       menuButton.classList.add('jiggling');
@@ -30,14 +38,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // メニュー項目をクリックしたらメニューを閉じる
     mobileMenu.querySelectorAll('a').forEach(function(link) {
-      link.addEventListener('click', function() { setMenu(false); });
+      link.addEventListener('click', function() { setMenu(false, { focus: false }); });
     });
 
     // メニューの外側をタップしたら閉じる
     document.addEventListener('click', function(e) {
       if (!openState()) return;
       if (menuButton.contains(e.target) || mobileMenu.contains(e.target)) return;
-      setMenu(false);
+      setMenu(false, { focus: false });
+    });
+
+    // Escapeキーで閉じてボタンへフォーカスを戻す
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && openState()) setMenu(false);
     });
   }
 

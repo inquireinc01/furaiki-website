@@ -95,10 +95,9 @@
         iframe.loading = "lazy";
         iframe.className = "w-full h-full";
         iframe.setAttribute("frameborder", "0");
-        iframe.setAttribute(
-          "allow",
-          "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        );
+        iframe.setAttribute("referrerpolicy", "strict-origin-when-cross-origin");
+        // 必要最小限の権限のみ許可(自動再生・端末センサー等は付与しない)
+        iframe.setAttribute("allow", "encrypted-media; picture-in-picture; fullscreen");
         iframe.allowFullscreen = true;
         wrap.appendChild(iframe);
         box.appendChild(wrap);

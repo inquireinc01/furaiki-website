@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet" />
 <script src="https://cdn.tailwindcss.com/3.4.16"></script>
-<link rel="stylesheet" href="css/style.css?v=20260722b" />
+<link rel="stylesheet" href="css/style.css?v=20260722c" />
 <noscript><style>.reveal,.gallery-item{opacity:1!important;transform:none!important}</style></noscript>
 </head>
 <body class="bg-white text-[#1e1e21]">
@@ -116,6 +116,7 @@
               id="name"
               name="name"
               required
+              autocomplete="name"
               placeholder="富来旗 太郎"
               class="w-full px-4 py-3 rounded-lg border border-gray-300 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#c8102e] focus:ring-2 focus:ring-[#c8102e]/10 transition-colors"
             />
@@ -131,6 +132,7 @@
               id="email"
               name="email"
               required
+              autocomplete="email"
               placeholder="example@example.com"
               class="w-full px-4 py-3 rounded-lg border border-gray-300 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#c8102e] focus:ring-2 focus:ring-[#c8102e]/10 transition-colors"
             />
@@ -145,6 +147,7 @@
               type="tel"
               id="phone"
               name="phone"
+              autocomplete="tel"
               placeholder="09012345678"
               class="w-full px-4 py-3 rounded-lg border border-gray-300 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#c8102e] focus:ring-2 focus:ring-[#c8102e]/10 transition-colors"
             />
@@ -220,7 +223,7 @@
               class="mt-1 w-4 h-4 text-[#c8102e] border-gray-300 rounded focus:ring-[#c8102e] cursor-pointer"
             />
             <label for="agree" class="ml-3 text-sm text-gray-600">
-              <a href="privacy.html" target="_blank" class="text-[#c8102e] hover:underline">プライバシーポリシー</a>に同意します
+              <a href="privacy.html" target="_blank" rel="noopener noreferrer" class="text-[#c8102e] hover:underline">プライバシーポリシー</a>に同意します
             </label>
           </div>
 
@@ -232,7 +235,7 @@
             メールで送信
           </button>
 
-          <p id="contact-form-note" class="text-xs text-gray-500 text-center">
+          <p id="contact-form-note" role="status" aria-live="polite" class="text-xs text-gray-500 text-center">
             ※ 送信ボタンを押すとメールアプリが開きます。内容を確認のうえ、折り返しご連絡させていただきます
           </p>
         </form>
@@ -321,9 +324,9 @@
   </div>
 </footer>
 
-<script src="js/header-fit.js?v=20260722a"></script>
-<script src="js/menu.js?v=20260722a"></script>
-<script src="js/contact-form.js?v=20260722a"></script>
-<script src="js/scroll-reveal.js?v=20260722a"></script>
+<script src="js/header-fit.js?v=20260722c"></script>
+<script src="js/menu.js?v=20260722c"></script>
+<script src="js/contact-form.js?v=20260722c"></script>
+<script src="js/scroll-reveal.js?v=20260722c"></script>
 </body>
 </html>
