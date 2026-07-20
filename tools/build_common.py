@@ -113,13 +113,33 @@ def _ga4_snippet():
     )
 
 
+# トップページに埋め込む団体の構造化データ(検索エンジン向け)。
+# 住所は登記上の主たる事務所(公開情報)。個人宅住所は含めない。
+JSON_LD_INDEX = (
+    '\n<script type="application/ld+json">'
+    '{"@context":"https://schema.org","@type":"NGO",'
+    '"name":"特定非営利活動法人フライキプロジェクト",'
+    '"alternateName":"フライキプロジェクト",'
+    '"url":"' + SITE + '/",'
+    '"logo":"' + SITE + '/images/mascot.png",'
+    '"foundingDate":"2026-07-01",'
+    '"address":{"@type":"PostalAddress","postalCode":"102-0083",'
+    '"addressRegion":"東京都","addressLocality":"千代田区",'
+    '"streetAddress":"麹町5-5-3 DUARES麹町ONYX503","addressCountry":"JP"},'
+    '"sameAs":["https://lin.ee/nkWK6v7","https://www.youtube.com/@FURAIKIProject",'
+    '"https://congrant.com/project/furaiki/22163"]}'
+    '</script>'
+)
+
+
 def head_html(page):
     title, desc = PAGES[page]
     canonical = _canonical(page)
-    # ブレースを含む noscript/GA4 は f-string を避けて連結する
+    # ブレースを含む noscript/GA4/JSON-LD は f-string を避けて連結する
     noscript = (
         '<noscript><style>.reveal,.gallery-item{opacity:1!important;transform:none!important}</style></noscript>'
     )
+    json_ld = JSON_LD_INDEX if page == "index.html" else ""
     return (
         '<head>\n'
         '<meta charset="UTF-8" />\n'
@@ -145,7 +165,7 @@ def head_html(page):
         '<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet" />\n'
         '<script src="' + TAILWIND_CDN + '"></script>\n'
         '<link rel="stylesheet" href="css/style.css?v=' + V + '" />\n'
-        + noscript + _ga4_snippet() + '\n'
+        + noscript + json_ld + _ga4_snippet() + '\n'
         '</head>'
     )
 
@@ -285,6 +305,28 @@ def bump_versions(html):
     return re.sub(r'\?v=[0-9a-zA-Z]+"', f'?v={V}"', html)
 
 
+def write_seo_files():
+    """robots.txt と sitemap.xml を PAGES / SITE から生成(内容と自動同期)。"""
+    # robots.txt: 全クロール許可 + sitemap の場所を明示
+    robots = "User-agent: *\nAllow: /\n\nSitemap: " + SITE + "/sitemap.xml\n"
+    with open(os.path.join(ROOT, "robots.txt"), "w", encoding="utf-8", newline="\n") as f:
+        f.write(robots)
+
+    # sitemap.xml: 公開8ページのURL一覧
+    urls = "".join(
+        "  <url><loc>%s</loc></url>\n" % _canonical(p) for p in PAGES
+    )
+    sitemap = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        + urls +
+        "</urlset>\n"
+    )
+    with open(os.path.join(ROOT, "sitemap.xml"), "w", encoding="utf-8", newline="\n") as f:
+        f.write(sitemap)
+    print("[OK] robots.txt / sitemap.xml")
+
+
 def apply_all():
     for page in PAGES:
         path = os.path.join(ROOT, page)
@@ -307,4 +349,5 @@ def apply_all():
 
 if __name__ == "__main__":
     apply_all()
+    write_seo_files()
     print("共通部の再生成おわり (V=%s, GA4=%s)" % (V, GA4_ID or "無効"))
