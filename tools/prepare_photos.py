@@ -184,6 +184,32 @@ def generate_srcset_variants(folder_dir, Image, ImageOps, quality):
     return count
 
 
+def cleanup_orphan_srcset(folder_dir):
+    """元画像が削除・改名されて無くなった場合、対応するsrcset派生ファイル
+    (-480w/-800w)だけが残ってしまうのを防ぐため、元画像が無い派生ファイルを削除する。"""
+    count = 0
+    try:
+        existing = set(os.listdir(folder_dir))
+    except OSError:
+        return count
+    for name in sorted(existing):
+        m = re.match(r"^(.*)-\d+w\.(jpe?g|png|webp|gif)$", name, re.I)
+        if not m:
+            continue
+        stem = m.group(1)
+        base_exists = any(
+            (stem + ext) in existing for ext in (".jpg", ".jpeg", ".png", ".webp", ".gif")
+        )
+        if not base_exists:
+            try:
+                os.remove(os.path.join(folder_dir, name))
+                print("削除(孤立したsrcset派生): %s" % name)
+                count += 1
+            except OSError as e:
+                print("[ERROR] cleanup %s/%s: %s" % (folder_dir, name, e))
+    return count
+
+
 def main():
     sys.stdout.reconfigure(errors="replace")
     try:
@@ -199,7 +225,7 @@ def main():
     Image.MAX_IMAGE_PIXELS = None
 
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    converted = optimized = renamed = srcset = 0
+    converted = optimized = renamed = srcset = srcset_cleaned = 0
     mtime_warn = []  # 撮影日時が不明で更新日時(概算)で命名したもの
 
     for folder, max_side, limit_kb in FOLDERS:
@@ -272,8 +298,9 @@ def main():
             except Exception as e:
                 print("[ERROR] %s/%s: %s" % (folder, name, e))
 
-        # 2.5) スマホ向けの軽量版(srcset用)を生成
+        # 2.5) 元画像が消えた派生ファイルを掃除してから、srcset用の軽量版を生成
         if folder in SRCSET_FOLDERS:
+            srcset_cleaned += cleanup_orphan_srcset(d)
             srcset += generate_srcset_variants(d, Image, ImageOps, QUALITY)
 
     # 3) 各フォルダの写真一覧(list.json)を生成。サイト側はこれを読む。
@@ -290,8 +317,9 @@ def main():
             manifests += 1
 
     print(
-        "写真整形おわり: HEIC変換 %d件 / 改名 %d件 / 縮小 %d件 / srcset生成 %d件 / 一覧生成 %d件"
-        % (converted, renamed, optimized, srcset, manifests)
+        "写真整形おわり: HEIC変換 %d件 / 改名 %d件 / 縮小 %d件 / srcset生成 %d件"
+        " / srcset孤立削除 %d件 / 一覧生成 %d件"
+        % (converted, renamed, optimized, srcset, srcset_cleaned, manifests)
     )
     if mtime_warn:
         print("")
