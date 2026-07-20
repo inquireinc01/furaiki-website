@@ -453,8 +453,13 @@ img {
 /* .hero-intro と .hero-lines を同じマス目に重ねて表示する
    (導入の3行が消えるのと入れ替わりに、常設の3行がふわっと重なって現れる) */
 .hero-content > .hero-intro,
-.hero-content > .hero-lines {
+.hero-content > .hero-lines,
+.hero-content > .hero-particle-canvas {
   grid-area: 1 / 1;
+}
+
+.hero-particle-canvas {
+  pointer-events: none;
 }
 
 .hero-logo {
@@ -650,7 +655,7 @@ img {
   color: transparent;
   -webkit-text-fill-color: transparent;
   animation: flagShine 5s ease-in-out infinite;
-  animation-delay: 10.9s;
+  animation-delay: 11.3s;
 }
 
 @keyframes heroLineIn {
