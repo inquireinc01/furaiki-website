@@ -484,14 +484,14 @@ img {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.6rem;
   font-family: "Noto Sans JP", "Hiragino Sans", sans-serif;
   opacity: 1;
   animation: heroIntroFadeOut 1.6s ease-in-out forwards;
-  animation-delay: 9.3s;
+  animation-delay: 9.1s;
 }
 
-/* 1行ずつ2秒おきに浮かび上がり、3行揃ってから4秒表示して消える。
+/* 1行ずつ2秒おきに、左からふわっと(クリップで)現れ、3行揃ってから4秒表示して消える。
    あわせて、上品にきらめくよう(スワロフスキーのような光)、
    ①白〜淡いゴールドの光暈がゆっくり呼吸するように明滅する(heroIntroGlow)
    ②文字の上を一度だけ光の筋がすっと通り抜ける(heroIntroShine, ::afterで実装)*/
@@ -499,18 +499,33 @@ img {
   position: relative;
   display: block;
   opacity: 0;
-  transform: translateY(14px);
-  animation: heroLineIn 1s ease-out forwards, heroIntroGlow 2.6s ease-in-out infinite;
+  clip-path: inset(0 100% 0 0);
+  animation: heroIntroWipeIn 0.8s ease-out forwards, heroIntroGlow 2.6s ease-in-out infinite;
   color: white;
-  font-size: clamp(0.75rem, 3.6vw, 1.5rem);
+  font-size: clamp(1.5rem, 7.2vw, 3rem);
   font-weight: 700;
   letter-spacing: 0.03em;
-  white-space: nowrap;
+  white-space: normal;
+  max-width: 90vw;
 }
 
 .hero-intro-line:nth-child(1) { animation-delay: 0.3s, 0.3s; }
 .hero-intro-line:nth-child(2) { animation-delay: 2.3s, 2.3s; }
 .hero-intro-line:nth-child(3) { animation-delay: 4.3s, 4.3s; }
+
+@keyframes heroIntroWipeIn {
+  0% {
+    opacity: 0;
+    clip-path: inset(0 100% 0 0);
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+  }
+}
 
 @keyframes heroIntroGlow {
   0%, 100% {
@@ -545,9 +560,9 @@ img {
   animation: heroIntroShine 1.4s ease-in-out forwards;
 }
 
-.hero-intro-line:nth-child(1)::after { animation-delay: 1.3s; }
-.hero-intro-line:nth-child(2)::after { animation-delay: 3.3s; }
-.hero-intro-line:nth-child(3)::after { animation-delay: 5.3s; }
+.hero-intro-line:nth-child(1)::after { animation-delay: 1.1s; }
+.hero-intro-line:nth-child(2)::after { animation-delay: 3.1s; }
+.hero-intro-line:nth-child(3)::after { animation-delay: 5.1s; }
 
 @keyframes heroIntroShine {
   0% { opacity: 0; background-position: 200% 0; }
@@ -574,7 +589,7 @@ img {
   text-align: center;
   opacity: 0;
   animation: heroFinalFadeIn 1.8s ease-out forwards;
-  animation-delay: 9.3s;
+  animation-delay: 9.1s;
 }
 
 @keyframes heroFinalFadeIn {
@@ -635,7 +650,7 @@ img {
   color: transparent;
   -webkit-text-fill-color: transparent;
   animation: flagShine 5s ease-in-out infinite;
-  animation-delay: 11.1s;
+  animation-delay: 10.9s;
 }
 
 @keyframes heroLineIn {
