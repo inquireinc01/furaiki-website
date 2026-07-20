@@ -3,20 +3,31 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.furaiki.org https://raw.githubusercontent.com https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://api.github.com https://www.google-analytics.com https://region1.google-analytics.com; frame-src https://www.youtube.com https://www.youtube-nocookie.com; base-uri 'self'; form-action 'self' mailto:; object-src 'none'" />
+<meta name="referrer" content="strict-origin-when-cross-origin" />
 <title>代表挨拶 | NPO法人フライキプロジェクト</title>
 <meta name="description" content="特定非営利活動法人フライキプロジェクト 代表理事 園部浩誉からのご挨拶。ラグビーで培った絆と体力を、復興への力に。" />
+<link rel="canonical" href="https://www.furaiki.org/message.html" />
 <meta property="og:type" content="website" />
-<meta property="og:image" content="https://raw.githubusercontent.com/inquireinc01/furaiki-website/master/images/mascot.png" />
-<meta property="og:url" content="https://inquireinc01.github.io/furaiki-website/message.html" />
+<meta property="og:site_name" content="特定非営利活動法人フライキプロジェクト" />
+<meta property="og:title" content="代表挨拶 | NPO法人フライキプロジェクト" />
+<meta property="og:description" content="特定非営利活動法人フライキプロジェクト 代表理事 園部浩誉からのご挨拶。ラグビーで培った絆と体力を、復興への力に。" />
+<meta property="og:url" content="https://www.furaiki.org/message.html" />
+<meta property="og:image" content="https://www.furaiki.org/images/mascot.png" />
 <meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="代表挨拶 | NPO法人フライキプロジェクト" />
+<meta name="twitter:description" content="特定非営利活動法人フライキプロジェクト 代表理事 園部浩誉からのご挨拶。ラグビーで培った絆と体力を、復興への力に。" />
+<meta name="twitter:image" content="https://www.furaiki.org/images/mascot.png" />
 <link rel="icon" href="images/mascot.png" type="image/png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet" />
-<script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="css/style.css?v=20260722a" />
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<link rel="stylesheet" href="css/style.css?v=20260722b" />
+<noscript><style>.reveal,.gallery-item{opacity:1!important;transform:none!important}</style></noscript>
 </head>
 <body class="bg-white text-[#1e1e21]">
+<a href="#main" class="skip-link">本文へスキップ</a>
 
 <!-- ===== グローバルヘッダー ===== -->
 <header id="site-header" class="sticky top-0 z-50 bg-white border-b border-gray-100">
@@ -36,9 +47,9 @@
       <!-- ナビゲーション: 固定の画面幅ではなく、実際に収まるかをJS(header-fit.js)が
            判定して表示を切り替える。初期状態は安全側(非表示・測定専用)にしておく。
            flex-1 + justify-evenly で、ロゴ〜寄付ボタンの間全体に等間隔で配置する -->
-      <nav id="desktopNav" class="flex-1 items-center justify-evenly mx-6" style="position:absolute; left:-9999px; display:flex;">
+      <nav id="desktopNav" aria-label="メインナビゲーション" class="flex-1 items-center justify-evenly mx-6" style="position:absolute; left:-9999px; display:flex;">
         <a href="organization.html" class="text-sm font-medium text-gray-700 hover:text-[#c8102e] transition-colors whitespace-nowrap">団体概要</a>
-        <a href="message.html" class="text-sm font-bold text-[#c8102e] whitespace-nowrap">代表挨拶</a>
+        <a href="message.html" aria-current="page" class="text-sm font-bold text-[#c8102e] whitespace-nowrap">代表挨拶</a>
         <a href="about.html" class="text-sm font-medium text-gray-700 hover:text-[#c8102e] transition-colors whitespace-nowrap">活動報告</a>
         <a href="financial.html" class="text-sm font-medium text-gray-700 hover:text-[#c8102e] transition-colors whitespace-nowrap">決算報告</a>
         <a href="corporate.html" class="text-sm font-medium text-gray-700 hover:text-[#c8102e] transition-colors whitespace-nowrap">企業・団体様へ</a>
@@ -51,8 +62,8 @@
           <img src="images/mascot.png" alt="" class="h-12 w-auto -my-2" />
           寄付・支援はこちら
         </a>
-        <button id="menu-button" type="button" aria-expanded="false" class="p-2 text-gray-800">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <button id="menu-button" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="メニューを開く" class="p-2 text-gray-800">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
           </svg>
         </button>
@@ -62,10 +73,10 @@
 
   <!-- ナビが収まらない画面幅で使うメニュー(表示判定はheader-fit.jsが行う) -->
   <div id="mobile-menu" class="hidden border-t border-gray-100 bg-white">
-    <nav class="flex flex-col p-3">
+    <nav aria-label="モバイルナビゲーション" class="flex flex-col p-3">
       <a href="index.html" class="block px-5 py-3.5 text-sm font-bold text-white/95 rounded-xl hover:bg-white/10 transition-colors">ホーム</a>
       <a href="organization.html" class="block px-5 py-3.5 text-sm font-bold text-white/95 rounded-xl hover:bg-white/10 transition-colors">団体概要</a>
-      <a href="message.html" class="block px-5 py-3.5 text-sm font-bold text-white rounded-xl bg-white/15">代表挨拶</a>
+      <a href="message.html" aria-current="page" class="block px-5 py-3.5 text-sm font-bold text-white rounded-xl bg-white/15">代表挨拶</a>
       <a href="about.html" class="block px-5 py-3.5 text-sm font-bold text-white/95 rounded-xl hover:bg-white/10 transition-colors">活動報告</a>
       <a href="financial.html" class="block px-5 py-3.5 text-sm font-bold text-white/95 rounded-xl hover:bg-white/10 transition-colors">決算報告</a>
       <a href="corporate.html" class="block px-5 py-3.5 text-sm font-bold text-white/95 rounded-xl hover:bg-white/10 transition-colors">企業・団体様へ</a>
@@ -76,7 +87,7 @@
   </div>
 </header>
 
-<main>
+<main id="main">
 
   <!-- ===== ページヘッダー ===== -->
   <section class="bg-gradient-to-br from-[#1e1e21] to-[#2d2d31] text-white py-12 sm:py-16 md:py-20">
@@ -170,7 +181,7 @@
 <!-- ===== フッター ===== -->
 <footer class="bg-[#1e1e21] text-white py-12 sm:py-16">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex flex-wrap gap-x-8 gap-y-3 justify-center mb-8">
+    <nav aria-label="フッターナビゲーション" class="flex flex-wrap gap-x-8 gap-y-3 justify-center mb-8">
         <a href="index.html" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">ホーム</a>
         <a href="organization.html" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">団体概要</a>
         <a href="organization.html#history" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">沿革</a>
@@ -184,7 +195,7 @@
         <a href="https://lin.ee/nkWK6v7" target="_blank" rel="noopener" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">LINE公式アカウント</a>
         <a href="https://www.youtube.com/@FURAIKIProject" target="_blank" rel="noopener" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">YouTube</a>
         <a href="https://furaiki.jimdofree.com/" target="_blank" rel="noopener" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">一般社団法人フライキプロジェクト<span class="block text-xs text-gray-400 font-normal">(旧ホームページ)</span></a>
-    </div>
+    </nav>
     <div class="border-t border-gray-700 pt-8 text-center text-sm text-gray-400">
       <p>©2026 特定非営利活動法人フライキプロジェクト All rights reserved.</p>
     </div>

@@ -23,10 +23,14 @@ package-lock.json
 NOTES.md
 
 # 個人情報(住所など)を含む内部資料。公開リポジトリに絶対に上げない。
-# 役員・社員名簿の元Wordファイル等。定款PDF(公開用)は対象外。
+# 役員・社員名簿の元Wordファイル、制作指示書などの作業メモ等。
+# 定款PDFなど「公開してよいPDF」だけを個別にコミットする運用にする
+# (「サイトを更新.bat」が git add -A するため、既定で除外して事故を防ぐ)。
 documents/*.docx
 documents/*.doc
+documents/*.txt
 documents/*名簿*
+documents/*指示書*
 
 # Claude Code ローカル設定
 .claude/
