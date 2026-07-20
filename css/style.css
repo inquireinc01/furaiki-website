@@ -20,6 +20,63 @@ html {
   scroll-margin-top: 6rem;
 }
 
+/* スクリーンリーダー専用(視覚的に隠す)。フォーカス時のみ表示するスキップリンク用 */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* 本文へスキップリンク: 通常は画面外、キーボードフォーカス時のみ左上に表示 */
+.skip-link {
+  position: fixed;
+  top: 0.5rem;
+  left: 0.5rem;
+  z-index: 100;
+  padding: 0.6rem 1rem;
+  background: var(--color-red);
+  color: #fff;
+  font-weight: 700;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  transform: translateY(-150%);
+  transition: transform 0.2s ease;
+}
+.skip-link:focus {
+  transform: translateY(0);
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+/* 動きに敏感な利用者向け: 装飾アニメーションと自動スクロールを抑制する
+   (個別の @media は各所にもあるが、ここで漏れ(flagShine/heroLineIn 等)を一括で止める) */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .hero-flag-shine::after,
+  .hero-line,
+  .logo-badge img {
+    animation: none !important;
+  }
+  .hero-line {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .reveal,
+  .gallery-item {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
 body {
   font-family: "Noto Sans JP", "Hiragino Sans", "Yu Gothic", sans-serif;
   color: var(--color-charcoal);
