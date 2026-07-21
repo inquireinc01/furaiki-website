@@ -40,6 +40,30 @@
     return m ? "https://www.youtube.com/embed/" + m[1] : null;
   }
 
+  // 本文中に混ざったURLだけをリンク化し、それ以外はテキストのまま追加する
+  // (innerHTML は使わず、URL部分だけ<a>要素として組み立てる)
+  function appendTextWithLinks(container, text) {
+    const re = /https?:\/\/[^\s]+/g;
+    let last = 0;
+    let m;
+    while ((m = re.exec(text))) {
+      if (m.index > last) {
+        container.appendChild(document.createTextNode(text.slice(last, m.index)));
+      }
+      const a = document.createElement("a");
+      a.href = m[0];
+      a.target = "_blank";
+      a.rel = "noopener";
+      a.className = "text-[#c8102e] font-bold hover:underline";
+      a.textContent = m[0];
+      container.appendChild(a);
+      last = m.index + m[0].length;
+    }
+    if (last < text.length) {
+      container.appendChild(document.createTextNode(text.slice(last)));
+    }
+  }
+
   function parseItem(name, text) {
     const lines = text.replace(/\r/g, "").split("\n").filter((l) => l.trim() !== "");
     if (!lines.length) return null;
@@ -83,7 +107,7 @@
 
       const p = document.createElement("p");
       p.className = "text-sm text-gray-600 mt-1 leading-relaxed whitespace-pre-line";
-      p.textContent = item.body;
+      appendTextWithLinks(p, item.body);
       box.appendChild(p);
 
       if (item.youtubeEmbed) {
