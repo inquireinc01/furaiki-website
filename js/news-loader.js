@@ -1,7 +1,9 @@
 // トップページのニュース自動読み込み
 // news/ フォルダ内の .txt をファイル名の降順(日付が新しい順)に表示する。
-// ファイル形式: 1行目=見出し、2行目〜=本文、最終行がURLなら「詳しく見る」リンク。
-// 最終行がYouTubeのURLの場合は、リンクの代わりに動画をそのまま埋め込む。
+// ファイル形式: 1行目=見出し、2行目〜=本文。本文中で1行がURLだけの場合、
+// その位置に「詳しく見る」リンクが挿入される(好きな位置に置ける)。
+// ただしYouTubeのURLだけは「詳しく見る」にせず、URLをそのままリンク表示する
+// (埋め込み再生はしない)。文中に混ざったURLも自動でリンク化される。
 // 一覧はGitHub APIから取得し、失敗時は FALLBACK を表示する。
 (function () {
   const API_URL =
@@ -10,8 +12,10 @@
     {
       date: "2026年7月18日",
       title: "公式ホームページをリニューアル・LINE公式アカウント開設",
-      body: "NPO法人設立を機にホームページを全面リニューアルしました。あわせてLINE公式アカウントを開設し、活動情報やボランティア募集情報を配信しています。",
-      url: "https://lin.ee/nkWK6v7",
+      bodyLines: [
+        "NPO法人設立を機にホームページを全面リニューアルしました。あわせてLINE公式アカウントを開設し、活動情報やボランティア募集情報を配信しています。",
+        "https://lin.ee/nkWK6v7",
+      ],
     },
   ];
 
@@ -68,16 +72,10 @@
     const lines = text.replace(/\r/g, "").split("\n").filter((l) => l.trim() !== "");
     if (!lines.length) return null;
     const title = lines.shift().trim();
-    let url = "";
-    if (lines.length && /^https?:\/\//.test(lines[lines.length - 1].trim())) {
-      url = lines.pop().trim();
-    }
     return {
       date: dateFromName(name),
       title,
-      body: lines.join("\n"),
-      url,
-      youtubeEmbed: url ? youtubeEmbedUrl(url) : null,
+      bodyLines: lines.map((l) => l.trim()),
     };
   }
 
@@ -106,34 +104,29 @@
       box.appendChild(h);
 
       const p = document.createElement("p");
-      p.className = "text-sm text-gray-600 mt-1 leading-relaxed whitespace-pre-line";
-      appendTextWithLinks(p, item.body);
+      p.className = "text-sm text-gray-600 mt-1 leading-relaxed";
+      (item.bodyLines || []).forEach((line, i) => {
+        if (i > 0) p.appendChild(document.createElement("br"));
+        if (/^https?:\/\/\S+$/.test(line)) {
+          const a = document.createElement("a");
+          a.href = line;
+          a.target = "_blank";
+          a.rel = "noopener";
+          if (youtubeEmbedUrl(line)) {
+            // YouTubeのURLは埋め込みにせず、URLそのものをリンクとして表示する
+            a.className = "text-[#c8102e] font-bold hover:underline break-all";
+            a.textContent = line;
+          } else {
+            // それ以外の単独URL行は「詳しく見る」リンクにする(本文中の好きな位置に置ける)
+            a.className = "inline-block mt-1 font-bold text-[#c8102e] hover:underline";
+            a.textContent = "詳しく見る →";
+          }
+          p.appendChild(a);
+        } else {
+          appendTextWithLinks(p, line);
+        }
+      });
       box.appendChild(p);
-
-      if (item.youtubeEmbed) {
-        const wrap = document.createElement("div");
-        wrap.className = "mt-3 max-w-md aspect-video rounded-lg overflow-hidden bg-black";
-        const iframe = document.createElement("iframe");
-        iframe.src = item.youtubeEmbed;
-        iframe.title = item.title;
-        iframe.loading = "lazy";
-        iframe.className = "w-full h-full";
-        iframe.setAttribute("frameborder", "0");
-        iframe.setAttribute("referrerpolicy", "strict-origin-when-cross-origin");
-        // 必要最小限の権限のみ許可(自動再生・端末センサー等は付与しない)
-        iframe.setAttribute("allow", "encrypted-media; picture-in-picture; fullscreen");
-        iframe.allowFullscreen = true;
-        wrap.appendChild(iframe);
-        box.appendChild(wrap);
-      } else if (item.url) {
-        const a = document.createElement("a");
-        a.href = item.url;
-        a.target = "_blank";
-        a.rel = "noopener";
-        a.className = "inline-block mt-2 text-sm font-bold text-[#c8102e] hover:underline";
-        a.textContent = "詳しく見る →";
-        box.appendChild(a);
-      }
       article.appendChild(box);
       list.appendChild(article);
     });
