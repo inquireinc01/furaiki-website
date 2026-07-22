@@ -2,8 +2,10 @@
 // news/ フォルダ内の .txt をファイル名の降順(日付が新しい順)に表示する。
 // ファイル形式: 1行目=見出し、2行目〜=本文。本文中で1行がURLだけの場合、
 // その位置に「詳しく見る」リンクが挿入される(好きな位置に置ける)。
-// ただしYouTubeのURLだけは「詳しく見る」にせず、URLをそのままリンク表示する
-// (埋め込み再生はしない)。文中に混ざったURLも自動でリンク化される。
+// その行がYouTubeのURLだけの場合は、リンクの代わりに動画をそのまま埋め込む
+// (埋め込みたくない場合は、URLの前に一言添えるなどして「URLだけの行」に
+// しなければ、文中リンクとして扱われ埋め込まれない)。
+// 文中に混ざったURLも自動でリンク化される。
 // 一覧はGitHub APIから取得し、失敗時は FALLBACK を表示する。
 (function () {
   const API_URL =
@@ -103,30 +105,50 @@
       h.textContent = item.title;
       box.appendChild(h);
 
-      const p = document.createElement("p");
-      p.className = "text-sm text-gray-600 mt-1 leading-relaxed";
-      (item.bodyLines || []).forEach((line, i) => {
-        if (i > 0) p.appendChild(document.createElement("br"));
+      let p = null;
+      function openParagraph() {
+        p = document.createElement("p");
+        p.className = "text-sm text-gray-600 mt-1 leading-relaxed";
+        box.appendChild(p);
+      }
+      openParagraph();
+
+      (item.bodyLines || []).forEach((line) => {
+        const embedUrl = /^https?:\/\/\S+$/.test(line) ? youtubeEmbedUrl(line) : null;
+        if (embedUrl) {
+          // YouTubeの単独URL行は動画をそのまま埋め込む
+          const wrap = document.createElement("div");
+          wrap.className = "mt-3 max-w-md aspect-video rounded-lg overflow-hidden bg-black";
+          const iframe = document.createElement("iframe");
+          iframe.src = embedUrl;
+          iframe.title = item.title;
+          iframe.loading = "lazy";
+          iframe.className = "w-full h-full";
+          iframe.setAttribute("frameborder", "0");
+          iframe.setAttribute("referrerpolicy", "strict-origin-when-cross-origin");
+          // 必要最小限の権限のみ許可(自動再生・端末センサー等は付与しない)
+          iframe.setAttribute("allow", "encrypted-media; picture-in-picture; fullscreen");
+          iframe.allowFullscreen = true;
+          wrap.appendChild(iframe);
+          box.appendChild(wrap);
+          openParagraph(); // 埋め込みの後に続く行のため、新しい段落を始める
+          return;
+        }
+        if (p.childNodes.length) p.appendChild(document.createElement("br"));
         if (/^https?:\/\/\S+$/.test(line)) {
+          // 単独URL行(YouTube以外)は「詳しく見る」リンクにする(本文中の好きな位置に置ける)
           const a = document.createElement("a");
           a.href = line;
           a.target = "_blank";
           a.rel = "noopener";
-          if (youtubeEmbedUrl(line)) {
-            // YouTubeのURLは埋め込みにせず、URLそのものをリンクとして表示する
-            a.className = "text-[#c8102e] font-bold hover:underline break-all";
-            a.textContent = line;
-          } else {
-            // それ以外の単独URL行は「詳しく見る」リンクにする(本文中の好きな位置に置ける)
-            a.className = "inline-block mt-1 font-bold text-[#c8102e] hover:underline";
-            a.textContent = "詳しく見る →";
-          }
+          a.className = "inline-block mt-1 font-bold text-[#c8102e] hover:underline";
+          a.textContent = "詳しく見る →";
           p.appendChild(a);
         } else {
           appendTextWithLinks(p, line);
         }
       });
-      box.appendChild(p);
+      if (!p.childNodes.length) p.remove();
       article.appendChild(box);
       list.appendChild(article);
     });
