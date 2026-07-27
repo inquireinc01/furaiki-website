@@ -154,6 +154,33 @@ body {
   color: var(--color-charcoal);
 }
 
+/* 言語切替(ヘッダー右上)。画面幅によらず常に表示するため、
+   ナビや寄付ボタンより小さく控えめな見た目にしている。 */
+.lang-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.lang-current {
+  color: var(--color-charcoal);
+}
+.lang-sep {
+  color: var(--color-gray-200, #e5e7eb);
+}
+.lang-alt {
+  color: #6b7280;
+  transition: color 0.2s ease;
+}
+.lang-alt:hover,
+.lang-alt:focus-visible {
+  color: var(--color-red);
+  text-decoration: underline;
+}
+
 /* モバイルメニュー(表示切替は hidden クラスで行う) */
 
 /* ヒーロー背景の日の出風グラデーション */

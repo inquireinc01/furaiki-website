@@ -1,11 +1,100 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://www.furaiki.org/</loc></url>
-  <url><loc>https://www.furaiki.org/organization.html</loc></url>
-  <url><loc>https://www.furaiki.org/message.html</loc></url>
-  <url><loc>https://www.furaiki.org/about.html</loc></url>
-  <url><loc>https://www.furaiki.org/financial.html</loc></url>
-  <url><loc>https://www.furaiki.org/corporate.html</loc></url>
-  <url><loc>https://www.furaiki.org/contact.html</loc></url>
-  <url><loc>https://www.furaiki.org/privacy.html</loc></url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://www.furaiki.org/</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.furaiki.org/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.furaiki.org/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.furaiki.org/"/>
+  </url>
+  <url>
+    <loc>https://www.furaiki.org/en/</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.furaiki.org/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.furaiki.org/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.furaiki.org/"/>
+  </url>
+  <url>
+    <loc>https://www.furaiki.org/organization.html</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.furaiki.org/organization.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.furaiki.org/en/organization.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.furaiki.org/organization.html"/>
+  </url>
+  <url>
+    <loc>https://www.furaiki.org/en/organization.html</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.furaiki.org/organization.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.furaiki.org/en/organization.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.furaiki.org/organization.html"/>
+  </url>
+  <url>
+    <loc>https://www.furaiki.org/message.html</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.furaiki.org/message.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.furaiki.org/en/message.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.furaiki.org/message.html"/>
+  </url>
+  <url>
+    <loc>https://www.furaiki.org/en/message.html</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.furaiki.org/message.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.furaiki.org/en/message.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.furaiki.org/message.html"/>
+  </url>
+  <url>
+    <loc>https://www.furaiki.org/about.html</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.furaiki.org/about.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.furaiki.org/en/about.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.furaiki.org/about.html"/>
+  </url>
+  <url>
+    <loc>https://www.furaiki.org/en/about.html</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.furaiki.org/about.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.furaiki.org/en/about.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.furaiki.org/about.html"/>
+  </url>
+  <url>
+    <loc>https://www.furaiki.org/financial.html</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.furaiki.org/financial.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.furaiki.org/en/financial.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.furaiki.org/financial.html"/>
+  </url>
+  <url>
+    <loc>https://www.furaiki.org/en/financial.html</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.furaiki.org/financial.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.furaiki.org/en/financial.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.furaiki.org/financial.html"/>
+  </url>
+  <url>
+    <loc>https://www.furaiki.org/corporate.html</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.furaiki.org/corporate.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.furaiki.org/en/corporate.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.furaiki.org/corporate.html"/>
+  </url>
+  <url>
+    <loc>https://www.furaiki.org/en/corporate.html</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.furaiki.org/corporate.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.furaiki.org/en/corporate.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.furaiki.org/corporate.html"/>
+  </url>
+  <url>
+    <loc>https://www.furaiki.org/contact.html</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.furaiki.org/contact.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.furaiki.org/en/contact.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.furaiki.org/contact.html"/>
+  </url>
+  <url>
+    <loc>https://www.furaiki.org/en/contact.html</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.furaiki.org/contact.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.furaiki.org/en/contact.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.furaiki.org/contact.html"/>
+  </url>
+  <url>
+    <loc>https://www.furaiki.org/privacy.html</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.furaiki.org/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.furaiki.org/en/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.furaiki.org/privacy.html"/>
+  </url>
+  <url>
+    <loc>https://www.furaiki.org/en/privacy.html</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.furaiki.org/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.furaiki.org/en/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.furaiki.org/privacy.html"/>
+  </url>
 </urlset>

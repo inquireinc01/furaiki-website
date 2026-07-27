@@ -6,6 +6,11 @@
   const REPO_API =
     "https://api.github.com/repos/inquireinc01/furaiki-website/contents/";
 
+  // 英語版(en/about.html)は1階層下にあるため、images/ への相対パスがずれる。
+  // <html data-base="../"> を基点にして組み立てる(日本語版では空文字)。
+  const EN = document.documentElement.lang === "en";
+  const BASE = document.documentElement.dataset.base || "";
+
   // srcset用の軽量版(-480w/-800w)は tools/prepare_photos.py が生成する
   // (元画像と同じフォルダに追加生成)。フルサイズの実寸はギャラリー系
   // フォルダの縮小設定(1600px)に合わせている。画面幅に応じて、
@@ -25,11 +30,12 @@
   }
 
   // ファイル名(yyyymmddhhmmss…)の降順=新着順で並べる。
+  // folder はリポジトリ上のパス(images/gallery 等)。表示に使うURLだけ BASE を前置する。
   function toUrls(folder, names) {
     return names
       .filter((n) => /\.(jpe?g|png|webp|gif)$/i.test(n))
       .sort((a, b) => b.localeCompare(a, "ja"))
-      .map((n) => folder + "/" + encodeURIComponent(n));
+      .map((n) => BASE + folder + "/" + encodeURIComponent(n));
   }
 
   // ファイル名の先頭 yyyymmddhhmmss から撮影日時を取り出す(無ければ null)。
@@ -58,7 +64,7 @@
   // 左右されず確実に読めるため、通常はこちらだけで完結する。
   // 空配列([])はそのフォルダに写真が無いことを示す(nullとは区別する)。
   function listImages(folder) {
-    return fetch(folder + "/list.json", { cache: "no-store" })
+    return fetch(BASE + folder + "/list.json", { cache: "no-store" })
       .then((res) => (res.ok ? res.json() : null))
       .then((names) =>
         Array.isArray(names) ? toUrls(folder, names) : listImagesFromApi(folder)
@@ -70,7 +76,7 @@
   const heroBg = document.getElementById("aboutHeroBg");
   if (heroBg) {
     listImages("images/about-hero").then((urls) => {
-      const list = urls && urls.length ? urls : ["images/banner-record1.jpg"];
+      const list = urls && urls.length ? urls : [BASE + "images/banner-record1.jpg"];
       heroBg.style.backgroundImage = "url('" + list[0] + "')";
     });
   }
@@ -125,11 +131,15 @@
   // 並べると壊れた画像が出るため、空にして「準備中」メッセージを表示させる。
   const ALL_FALLBACK = [];
   const RECENT_DAYS = 95; // 3ヶ月+若干の余裕
-  const RECENT_EMPTY_MESSAGE =
-    "直近3ヶ月以内の活動写真はまだ登録されていません。" +
-    "活動のたびに images/gallery/recent フォルダへ写真を追加してください。";
-  const DEFAULT_EMPTY_MESSAGE =
-    "このカテゴリの写真はまだ登録されていません。images/gallery/ 内の対応フォルダに写真を追加すると表示されます。";
+  const RECENT_EMPTY_MESSAGE = EN
+    ? "No photos registered for activities within the last 3 months yet. " +
+      "Please add photos to the images/gallery/recent folder after each activity."
+    : "直近3ヶ月以内の活動写真はまだ登録されていません。" +
+      "活動のたびに images/gallery/recent フォルダへ写真を追加してください。";
+  const DEFAULT_EMPTY_MESSAGE = EN
+    ? "No photos registered in this category yet. Photos added to the corresponding folder in images/gallery/ will be displayed here."
+    : "このカテゴリの写真はまだ登録されていません。images/gallery/ 内の対応フォルダに写真を追加すると表示されます。";
+  const PHOTO_ALT = EN ? "Photos from our activities " : "活動報告の様子";
 
   const ACTIVE_CLASS = ["border-[#c8102e]", "text-white", "bg-[#c8102e]"];
   const INACTIVE_CLASS = ["border-gray-200", "text-gray-600", "bg-white"];
@@ -164,7 +174,7 @@
       img.src = withWidth(url, SRCSET_WIDTHS[0]);
       img.srcset = buildSrcset(url);
       img.sizes = GALLERY_SIZES;
-      img.alt = "活動報告の様子" + (i + 1);
+      img.alt = PHOTO_ALT + (i + 1);
       img.loading = "lazy";
       img.className = "gallery-image w-full h-full object-cover";
 
