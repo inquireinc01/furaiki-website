@@ -15,7 +15,7 @@ import re
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SITE = "https://www.furaiki.org"        # 正規ドメイン(canonical / OGP の基準)
-V = "20260722r"                          # CSS/JS のキャッシュバスト用バージョン
+V = "20260727a"                        # CSS/JS のキャッシュバスト用バージョン
 TAILWIND_CDN = "https://cdn.tailwindcss.com/3.4.16"  # バージョン固定(最新追従による突然の崩壊を防ぐ)
 GA4_ID = "G-53J7NCFSF3"                   # Googleアナリティクス4 測定ID。空にするとGA4タグを出力しない。
 OG_IMAGE = SITE + "/images/mascot.png"
@@ -203,7 +203,7 @@ def header_html(active):
         <span class="logo-badge-img">
           <img src="images/メインロゴ.jpg" alt="" />
         </span>
-        <span class="logo-badge-text">
+        <span class="logo-badge-text" translate="no">
           <span class="logo-badge-line1">特定非営利活動法人</span>
           <span class="logo-badge-line2">フライキプロジェクト</span>
         </span>
@@ -258,7 +258,7 @@ def footer_html():
 {links}
     </nav>
     <div class="border-t border-gray-700 pt-8 text-center text-sm text-gray-400">
-      <p>©2026 特定非営利活動法人フライキプロジェクト All rights reserved.</p>
+      <p>©2026 <span translate="no">特定非営利活動法人フライキプロジェクト</span> All rights reserved.</p>
     </div>
   </div>
 </footer>'''

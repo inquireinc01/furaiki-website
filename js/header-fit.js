@@ -91,6 +91,15 @@
   if (window.ResizeObserver) {
     new ResizeObserver(scheduleUpdate).observe(row);
   }
+  // ブラウザの自動翻訳はナビの文字を後から差し替える。ヘッダー行自体の寸法は
+  // 変わらないため ResizeObserver では気づけず、英訳で長くなったナビが
+  // 溢れたまま残ってしまう。文字の差し替えを直接見て判定し直す。
+  if (window.MutationObserver) {
+    const navWatcher = new MutationObserver(scheduleUpdate);
+    [nav, donate].forEach((el) =>
+      navWatcher.observe(el, { childList: true, characterData: true, subtree: true })
+    );
+  }
   if (document.fonts && document.fonts.ready) {
     document.fonts.ready.then(update);
   }
