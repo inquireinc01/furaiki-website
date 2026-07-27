@@ -4,9 +4,23 @@
   const wrap = document.getElementById("orgHighlights");
   if (!wrap) return;
 
+  // 英語版(en/organization.html)は1階層下にあるため相対パスがずれる
+  const EN = document.documentElement.lang === "en";
+  const BASE = document.documentElement.dataset.base || "";
+
   const CANDIDATES = [
-    { file: "images/org-highlights/kamaishi.jpg", caption: "2019年 ラグビーW杯釜石開催 スタジアムでのフライキ掲揚" },
-    { file: "images/org-highlights/noto.jpg", caption: "能登の被災地での瓦礫撤去活動" },
+    {
+      file: BASE + "images/org-highlights/kamaishi.jpg",
+      caption: EN
+        ? "Furaiki flags displayed at Kamaishi Stadium during Rugby World Cup 2019"
+        : "2019年 ラグビーW杯釜石開催 スタジアムでのフライキ掲揚",
+    },
+    {
+      file: BASE + "images/org-highlights/noto.jpg",
+      caption: EN
+        ? "Debris removal in a disaster-affected area of Noto"
+        : "能登の被災地での瓦礫撤去活動",
+    },
   ];
 
   // srcset用の軽量版(-480w/-800w)は tools/prepare_photos.py が生成する

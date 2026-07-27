@@ -11,15 +11,18 @@
 //   流れて近づくにつれて自動的に読み込まれる)。シームレスループ用の
 //   複製(2周目)も同じURLのため、ブラウザのキャッシュで実質追加通信なしで済む。
 (function () {
-  const FOLDER = "images/hero";
+  // 英語版(en/index.html)は1階層下にあるため、images/ への相対パスがずれる。
+  // <html data-base="../"> を基点にする(日本語版では空文字)。
+  const BASE = document.documentElement.dataset.base || "";
+  const FOLDER = BASE + "images/hero";
   const MANIFEST_URL = FOLDER + "/list.json";
   const API_URL =
     "https://api.github.com/repos/inquireinc01/furaiki-website/contents/images/hero?ref=master";
   // 最終手段(list.json も API も読めなかった場合)。実在するコミット済み画像を指定。
   const FALLBACK_IMAGES = [
-    "images/hero/02.jpg",
-    "images/hero/03-main.jpg",
-    "images/hero/IMG_4747.jpg",
+    FOLDER + "/02.jpg",
+    FOLDER + "/03-main.jpg",
+    FOLDER + "/IMG_4747.jpg",
   ];
   // スクロール速度(1秒あたりのピクセル数)。小さいほどゆっくり。
   const SPEED_PX_PER_SEC = 42;
@@ -34,7 +37,10 @@
   if (!container) return;
 
   function isImage(name) {
-    return /\.(jpe?g|png|webp|gif)$/i.test(name);
+    // srcset用の軽量版(-480w/-800w)は元画像として扱わない。
+    // list.json は生成時に除外済みだが、予備手段のGitHub APIは素の一覧を返すため
+    // ここでも弾かないと "01-480w-800w.jpg" のような存在しないURLを組み立ててしまう。
+    return /\.(jpe?g|png|webp|gif)$/i.test(name) && !/-\d+w\.[a-z0-9]+$/i.test(name);
   }
 
   function toUrls(names) {

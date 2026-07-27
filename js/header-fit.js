@@ -14,6 +14,10 @@
   const row = header.querySelector(".relative.flex.items-center.justify-between");
   if (!row) return;
 
+  // 言語切替は画面幅によらず常に表示するため、測定用に隠すことはせず、
+  // 「常に場所を取っている要素」として必要幅に加算する。
+  const langSwitch = document.getElementById("langSwitch");
+
   const CTA_GAP = 16; // CTAエリア内 gap-4
   const SAFETY = 32; // 余裕分
   const LOGO_WIDTH_FALLBACK = 300; // sm以上でのロゴ実測幅の目安。ロゴがdisplay:noneの間の代替値
@@ -22,8 +26,9 @@
     // 768px未満はロゴ自体が(スマホ専用デザインのため)display:noneになり
     // getBoundingClientRect() が 0 を返すので、実測できない場合は既定値で補う
     const logoW = logo.getBoundingClientRect().width || LOGO_WIDTH_FALLBACK;
+    const langW = langSwitch ? langSwitch.getBoundingClientRect().width + CTA_GAP : 0;
     const available = row.clientWidth;
-    const need = logoW + nav.scrollWidth + donate.scrollWidth + CTA_GAP * 2 + SAFETY;
+    const need = logoW + langW + nav.scrollWidth + donate.scrollWidth + CTA_GAP * 2 + SAFETY;
     return need <= available;
   }
 

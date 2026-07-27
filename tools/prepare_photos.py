@@ -339,11 +339,14 @@ def main():
         if os.path.isdir(d):
             if write_manifest(d, IMAGE_EXTS) >= 0:
                 manifests += 1
-    # ニュース(.txt)の一覧も同様に生成(README は除外)
-    news_dir = os.path.join(root, "news")
-    if os.path.isdir(news_dir):
-        if write_manifest(news_dir, (".txt",), exclude_prefixes=("readme",)) >= 0:
-            manifests += 1
+    # ニュース(.txt)の一覧も同様に生成(README は除外)。
+    # news/ = 日本語版、news/en/ = 英語版(同じファイル名で置く)。
+    # write_manifest はサブフォルダを含めないので、news/ の一覧に en/ は混ざらない。
+    for sub in ("news", os.path.join("news", "en")):
+        news_dir = os.path.join(root, sub)
+        if os.path.isdir(news_dir):
+            if write_manifest(news_dir, (".txt",), exclude_prefixes=("readme",)) >= 0:
+                manifests += 1
 
     print(
         "写真整形おわり: HEIC変換 %d件 / 改名 %d件 / 縮小 %d件 / srcset生成 %d件"

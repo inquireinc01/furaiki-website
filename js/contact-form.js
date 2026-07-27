@@ -5,14 +5,56 @@
 const contactForm = document.getElementById("contact-form");
 
 if (contactForm) {
-  const SUBJECT_LABELS = {
-    donation: "ご寄付について",
-    volunteer: "ボランティアについて",
-    inquiry: "一般的なお問合せ",
-    partnership: "パートナーシップについて",
-    media: "メディア取材について",
-    other: "その他",
-  };
+  // 英語版(en/contact.html)からの送信は、件名・本文の項目名も英語にする
+  const EN = document.documentElement.lang === "en";
+
+  const SUBJECT_LABELS = EN
+    ? {
+        donation: "Donations",
+        volunteer: "Volunteering",
+        inquiry: "General Inquiry",
+        partnership: "Partnerships",
+        media: "Media Inquiry",
+        other: "Other",
+      }
+    : {
+        donation: "ご寄付について",
+        volunteer: "ボランティアについて",
+        inquiry: "一般的なお問合せ",
+        partnership: "パートナーシップについて",
+        media: "メディア取材について",
+        other: "その他",
+      };
+
+  const T = EN
+    ? {
+        quiz: "Please solve this simple math problem: ",
+        badEmail: "Invalid email format (e.g., example@example.com)",
+        badQuiz: "The answer to the CAPTCHA calculation is incorrect. Please double-check.",
+        opening: "Your email app will open. If it does not open, please send an email directly to info@furaiki.org.",
+        defaultSubject: "Inquiry",
+        subjectPrefix: "[Website Inquiry] ",
+        name: "[Name]",
+        email: "[Email Address]",
+        phone: "[Phone Number]",
+        topic: "[Inquiry Type]",
+        message: "[Message]",
+        blank: "(Not provided)",
+      }
+    : {
+        quiz: "かんたんな計算にお答えください: ",
+        badEmail: "メールアドレスの形式が正しくありません(例: example@example.com)",
+        badQuiz: "ロボット確認の計算の答えが違います。もう一度お確かめください",
+        opening: "メールアプリが開きます。開かない場合は info@furaiki.org 宛に直接お送りください。",
+        defaultSubject: "お問合せ",
+        subjectPrefix: "【HPお問合せ】",
+        name: "【お名前】",
+        email: "【メールアドレス】",
+        phone: "【電話番号】",
+        topic: "【お問合せ内容】",
+        message: "【メッセージ】",
+        blank: "(未記入)",
+      };
 
   const fields = contactForm.elements;
   const emailInput = fields["email"];
@@ -24,7 +66,7 @@ if (contactForm) {
   const quizB = 1 + Math.floor(Math.random() * 9);
   const quizQuestion = document.getElementById("quiz-question");
   if (quizQuestion) {
-    quizQuestion.textContent = "かんたんな計算にお答えください: " + quizA + " + " + quizB + " = ?";
+    quizQuestion.textContent = T.quiz + quizA + " + " + quizB + " = ?";
   }
 
   function isValidEmail(value) {
@@ -59,7 +101,7 @@ if (contactForm) {
     if (!isValidEmail(emailInput.value)) {
       markError(emailInput, true);
       emailInput.focus();
-      if (note) note.textContent = "メールアドレスの形式が正しくありません(例: example@example.com)";
+      if (note) note.textContent = T.badEmail;
       return;
     }
 
@@ -69,7 +111,7 @@ if (contactForm) {
       if (answer !== quizA + quizB) {
         markError(quizInput, true);
         quizInput.focus();
-        if (note) note.textContent = "ロボット確認の計算の答えが違います。もう一度お確かめください";
+        if (note) note.textContent = T.badQuiz;
         return;
       }
       markError(quizInput, false);
@@ -80,34 +122,34 @@ if (contactForm) {
     const phone = fields["phone"].value.trim();
     const subjectKey = fields["subject"].value;
     const message = fields["message"].value.trim();
-    const subjectLabel = SUBJECT_LABELS[subjectKey] || "お問合せ";
+    const subjectLabel = SUBJECT_LABELS[subjectKey] || T.defaultSubject;
 
     const body = [
-      "【お名前】",
+      T.name,
       name,
       "",
-      "【メールアドレス】",
+      T.email,
       email,
       "",
-      "【電話番号】",
-      phone || "(未記入)",
+      T.phone,
+      phone || T.blank,
       "",
-      "【お問合せ内容】",
+      T.topic,
       subjectLabel,
       "",
-      "【メッセージ】",
+      T.message,
       message,
     ].join("\n");
 
     const mailto =
       "mailto:info@furaiki.org" +
-      "?subject=" + encodeURIComponent("【HPお問合せ】" + subjectLabel + " - " + name) +
+      "?subject=" + encodeURIComponent(T.subjectPrefix + subjectLabel + " - " + name) +
       "&body=" + encodeURIComponent(body);
 
     window.location.href = mailto;
 
     if (note) {
-      note.textContent = "メールアプリが開きます。開かない場合は info@furaiki.org 宛に直接お送りください。";
+      note.textContent = T.opening;
     }
   });
 }

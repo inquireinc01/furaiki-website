@@ -1,0 +1,280 @@
+﻿ID	ページ	場所	備考	日本語	英語(記入欄)
+C001	共通	text		本文へスキップ	
+C002	共通	a[aria-label]		フライキプロジェクト トップページ	
+C003	共通	nav[aria-label]		メインナビゲーション	
+C004	共通	text		団体概要	
+C005	共通	text		代表挨拶	
+C006	共通	text		活動報告	
+C007	共通	text		決算報告	
+C008	共通	text		企業・団体様へ	
+C009	共通	text		お問合せ	
+C010	共通	text		寄付・支援はこちら	
+C011	共通	button[aria-label]		メニューを開く	
+C012	共通	nav[aria-label]		モバイルナビゲーション	
+C013	共通	text		ホーム	
+C014	共通	h3		LINE公式アカウント	
+C015	共通	nav[aria-label]		フッターナビゲーション	
+C016	共通	text		沿革	
+C017	共通	text		プライバシーポリシー	
+C018	共通	text		寄付する	
+C019	共通	text		一般社団法人フライキプロジェクト	
+C020	共通	text		(旧ホームページ)	
+P021	index.html	L8 title		NPO法人フライキプロジェクト | ラグビーの精神で被災地を「ワンチーム」に	
+P022	index.html	L9 meta description		特定非営利活動法人フライキプロジェクトの公式サイト。ラグビーの精神と大漁旗「フライキ」で被災地に心の復興を届ける活動を行っています。	
+P023	index.html	L101 p		フライキプロジェクトは2026年8月で活動15年	
+P024	index.html	L102 p		多くの人に支えられこの夏	
+P025	index.html	L103 p		一般社団法人から特定非営利活動法人へ	
+P026	index.html	L105 h1		災害ラガーボランティア ⏎ ⏎ ラグビーの精神と大漁旗「フライキ」で復興支援	
+P027	index.html	L117 h2		参加資格は 「ラグビーを愛する者」 ⏎ それ以外にはありません	
+P028	index.html	L119 p		陰ながら応援したいだけの方も LINE公式アカウント に登録いただくと大きな力になります！	
+P029	index.html	L130 p		活動予定やボランティア募集などの最新情報をLINEでお届けします。まずは友だち追加を！	
+P030	index.html	L132 text		友だち追加する →	
+P031	index.html	L141 h3		公式YouTube	
+P032	index.html	L142 p		被災地での活動やイベントの様子を動画で紹介しています	
+P033	index.html	L144 text		チャンネルを見る →	
+P034	index.html	L155 h3		寄付で応援	
+P035	index.html	L156 p		500円から寄付いただけます。活動へのご支援をよろしくお願いいたします。	
+P036	index.html	L158 text		寄付ページ(コングラント)へ →	
+P037	index.html	L167 h2		数字で見るフライキプロジェクト	
+P038	index.html	L171 p		活動開始	
+P039	index.html	L172 p		東日本大震災を機にスタート	
+P040	index.html	L176 p		応援フライキ贈呈	
+P041	index.html	L177 p		全国のラグビーチームへ贈呈	
+P042	index.html	L181 p		復興支援活動	
+P043	index.html	L182 p		延べ数千人のラガーマンが参加	
+P044	index.html	L186 p		ネットワーク	
+P045	index.html	L187 p		全国のラガーマンが参加	
+P046	index.html	L197 h2		ニュース	
+P047	index.html	L205 text		最新情報はLINEで配信中	
+P048	organization.html	L8 title		団体概要 | NPO法人フライキプロジェクト	
+P049	organization.html	L9 meta description		NPO法人フライキプロジェクトの団体概要、役員情報、設立趣意書をご紹介します。	
+P050	organization.html	L100 p		NPO法人フライキプロジェクトの基本情報と組織体制	
+P051	organization.html	L107 h2		基本情報	
+P052	organization.html	L112 h3		正式名称	
+P053	organization.html	L113 p		特定非営利活動法人 ⏎ フライキプロジェクト	
+P054	organization.html	L122 h3		法人所在地	
+P055	organization.html	L123 p		〒102-0083 ⏎ 東京都千代田区麹町５－５－３ ⏎ DUARES麹町ONYX５０３	
+P056	organization.html	L131 h3		創立日	
+P057	organization.html	L132 p		2026年7月1日	
+P058	organization.html	L137 h3		代表	
+P059	organization.html	L138 p		園部 浩誉（理事長）	
+P060	organization.html	L144 h3		定款	
+P061	organization.html	L145 p		特定非営利活動法人フライキプロジェクト定款	
+P062	organization.html	L148 text		PDFを見る	
+P063	organization.html	L161 p		2011年から現在まで、フライキプロジェクトの歩み	
+P064	organization.html	L172 p		2011年8月	
+P065	organization.html	L173 h3		プロジェクト発足	
+P066	organization.html	L174 p		東日本大震災の発生直後、発起人が過去の震災時に支援できなかった後悔を胸に行動を開始。東北のラグビーチームに大漁旗「フライキ」を贈り、エールを届ける活動をスタートしました。	
+P067	organization.html	L177 img[alt]		2011年8月 プロジェクト発足	
+P068	organization.html	L187 p		2011年〜2018年	
+P069	organization.html	L188 h3		応援フライキの贈呈活動	
+P070	organization.html	L189 p		クラウドファンディングなどを活用しながら、東北のラグビーチームや、大きな怪我や病気と闘う仲間たちへ継続的に「応援フライキ」を贈呈。有志を中心とした活動を展開してきました。	
+P071	organization.html	L199 p		2019年	
+P072	organization.html	L200 h3		ラグビーW杯釜石開催でのフライキ掲揚	
+P073	organization.html	L201 p		日本で初開催されたラグビーワールドカップ。釜石スタジアムの観客席を無数のフライキで彩り、復興の姿と感謝の思いを世界へ発信しました。	
+P074	organization.html	L204 img[alt]		2019年 ラグビーW杯釜石開催でのフライキ掲揚	
+P075	organization.html	L214 p		2024年1月〜	
+P076	organization.html	L215 h3		能登半島地震・豪雨災害対応	
+P077	organization.html	L216 p		能登半島地震・豪雨災害の直後から「災害ラガーボランティア」を組織。全国から集まったラグビー経験者たちが、輪島市の瓦礫撤去や階段作り、伝統行事「曽々木大祭」の運営支援に携わりました。	
+P078	organization.html	L219 img[alt]		2024年 能登半島地震・豪雨災害対応	
+P079	organization.html	L230 h3		NPO法人化	
+P080	organization.html	L231 p		活動の透明性と社会的信用を高め、企業や行政、多くの賛同者との連携を強化するため、特定非営利活動法人として新たな一歩を踏み出しました。	
+P081	organization.html	L234 img[alt]		2026年7月 NPO法人化	
+P082	organization.html	L246 h2		組織体制	
+P083	organization.html	L254 th		理事長	
+P084	organization.html	L255 td		園部 浩誉	
+P085	organization.html	L262 th		副理事長	
+P086	organization.html	L263 td		榊原 伸浩 ／ 笈沼 康弘 ／ 礒部 啓介	
+P087	organization.html	L272 th		理事	
+P088	organization.html	L273 td		菅沼 守 ／ 松田 拓 ／ 磯貝 洸二 ／ 園部 暁美	
+P089	organization.html	L283 th		監事	
+P090	organization.html	L284 td		梶山 友樹	
+P091	organization.html	L291 th		社員	
+P092	organization.html	L292 td		園部 浩誉 ／ 榊原 伸浩 ／ 笈沼 康弘 ／ 礒部 啓介 ／ 菅沼 守 ／ 松田 拓 ／ 磯貝 洸二 ／ 園部 暁美 ／ 土持 禎寛 ／ 櫛原 博人 ／ 吉本 博幸 ／ 鍜治屋 稔 ／ 小野 史裕 ／ 飯野 彰久 ／ 山北 和徳	
+P093	organization.html	L321 h2		設立趣意書	
+P094	organization.html	L328 h3		1. 設立の趣旨	
+P095	organization.html	L330 p		日本は常に自然災害と隣り合わせにある「災害大国」です。被災地が真の復興を遂げるためには、がれきの撤去やインフラの復旧といった物理的な支援だけでなく、被災された方々が前を向いて歩み出すための「心の復興」が不可欠です。	
+P096	organization.html	L332 p		当プロジェクトの発起人は、過去の震災時に支援できなかった後悔を胸に、2011年の東日本大震災の発生直後から行動を起こしました。東北のラグビーの象徴であり、「富が来る旗」を意味する大漁旗「フライキ（富来旗）」を被災地のラグビーチームなどに贈り、エールを届ける活動を開始しました。	
+P097	organization.html	L334 p		ラグビーには、「One for all, All for one（一人はみんなのために、みんなは一人のために）」という献身的な精神やチームプレイの精神、そして試合が終われば敵味方なく互いを称え合う「ノーサイドの精神」があります。	
+P098	organization.html	L336 p		多様な個性を持つ人々がひとつの目標に向かって結束するラグビーの力は、被災地支援や地域コミュニティの再生においても大きな力を発揮します。	
+P099	organization.html	L338 p		私たちは、このラグビーの精神と経験者の持つ類まれなチームワーク・行動力を被災地支援に結集させるため、「特定非営利活動法人（NPO法人）フライキプロジェクト」を設立いたします。	
+P100	organization.html	L343 h3		2. これまでの活動実績	
+P101	organization.html	L345 p		2011年8月のプロジェクト立ち上げ以来、クラウドファンディングなどを活用しながら、東北のラグビーチームや、大きな怪我や病気と闘う仲間たちへ120旗以上の「応援フライキ」を贈呈してきました。	
+P102	organization.html	L347 p		2019年のラグビーワールドカップ釜石開催においては、スタジアムの観客席を無数のフライキで彩り、復興の姿と感謝の思いを世界へと発信しました。	
+P103	organization.html	L349 p		さらに、2024年の能登半島地震・豪雨災害の直後から「災害ラガーボランティア」を組織し、被災地へ駆けつけました。全国から集まったラグビー経験者たちが、全壊した輪島市の岩倉寺での瓦礫撤去や階段作り、さらには伝統行事である「曽々木大祭」の運営支援などに携わりました。毎月継続して地元の行事を支援することで、被災された方々から多くの信頼と感謝の言葉をいただいております。	
+P104	organization.html	L356 h3		3. 法人化に至る経緯と目的	
+P105	organization.html	L358 p		これまでは有志を中心とした活動を続けてまいりましたが、災害が頻発する現代において、より迅速かつ持続的な支援体制の構築が急務となっています。現在、男女問わず全国のラグビー経験者が自主的にボランティアに参加、あるいは企画できるプラットフォーム（アプリなど）の開発も視野に入れています。	
+P106	organization.html	L360 p		活動の透明性と社会的信用を高め、企業や行政、多くの賛同者との連携を強化するとともに、全国規模での支援ネットワークを確立するため、特定非営利活動法人（NPO法人）として新たな一歩を踏み出す決意をいたしました。	
+P107	organization.html	L365 h3		4. 今後の主な活動内容	
+P108	organization.html	L366 p		本法人は、上記の目的を達成するため、次に掲げる種類の特定非営利活動を行います。	
+P109	organization.html	L368 li	強調	災害ラガーボランティアの組織・派遣: 災害発生時に全国のラグビー経験者等のネットワークを活用し、迅速な復旧作業支援を行います。	
+P110	organization.html	L369 li	強調	「心の復興」支援事業: 被災地や困難に立ち向かう人々へ「応援フライキ」を贈呈し、精神的なサポートを継続します。	
+P111	organization.html	L370 li	強調	地域交流・文化継承支援: 被災地の伝統行事への参加や支援を通じて、地域コミュニティの再生と活性化に貢献します。	
+P112	organization.html	L371 li	強調	プラットフォームの構築: 誰もがボランティア活動に円滑に参加・運営できるアプリ等のシステム開発・運用を行います。	
+P113	organization.html	L372 li	強調	ラグビーの価値向上・普及活動: 支援活動を通じてラグビーの精神（結束力、献身、ノーサイド）を社会に発信します。	
+P114	organization.html	L377 h3		5. 結び	
+P115	organization.html	L379 p		「フライキ」が掲げられると、そこを目指して全国からジャージを着た仲間たちが自然と集まってくる——。そのような温かく力強い支援の仕組みを作り上げることが私たちの目標です。最終的には、全国どこでどんな災害が起こっても、たくさんのラガーマンが集まって、問題を次々と解決していくような組織を目指しております。また、ラグビーを通じた被災地支援が、地域をワンチームにし、人と人との繋がりを広げていくことを信じて活動してまいります。	
+P116	organization.html	L381 p		皆様の温かいご理解とご賛同、そして幅広いご支援を賜りますよう、心よりお願い申し上げます。	
+P117	organization.html	L387 p		特定非営利活動法人フライキプロジェクト	
+P118	organization.html	L388 p		設立発起人 代表 園部 浩誉	
+P119	message.html	L8 title		代表挨拶 | NPO法人フライキプロジェクト	
+P120	message.html	L9 meta description		特定非営利活動法人フライキプロジェクト 代表理事 園部浩誉からのご挨拶。ラグビーで培った絆と体力を、復興への力に。	
+P121	message.html	L100 p		代表理事 園部浩誉より皆さまへ	
+P122	message.html	L109 img[alt]		代表理事 園部浩誉	
+P123	message.html	L110 p		代表理事	
+P124	message.html	L111 p		園部浩誉	
+P125	message.html	L115 h2		ラグビーで培った「絆」と「体力」を、 ⏎ 復興への力に	
+P126	message.html	L119 p		私は高校2年生からラグビーを始めましたが、ラグビーという競技に出会ったことで、人生が大きく変わったと実感しています。ラグビーを通じて得られた最も大きな財産は、何物にも代えがたい「一生涯付き合える仲間」との出会いです。ラグビーから派生して広がるその絆は、単なる知人という枠を超え、強固な信頼関係で結ばれています。	
+P127	message.html	L120 p		このラグビーを通じて培ってきた「強い絆」と「無尽蔵の体力」。これらを何かに活かせる場所こそが、ボランティアという活動の場であると考えています。	
+P128	message.html	L121 p		現在、私たちは能登での活動に注力していますが、今後いつどこで災害が起きるかは誰にも分かりません。もし次の困難が起きたとき、自ら手を挙げ、全国からラグビー仲間が集まってくる。そして、まるで「ラグビーの合宿」をするような熱量で活動する。それが私たちの目指すボランティアの形です。	
+P129	message.html	L122 p		私のコンセプトは、「ボランティアを全力で楽しむ」ことです。被災地の現場は、瓦礫が広がる悲惨な状況かもしれません。しかし、そのような場所だからこそ、暗い顔で作業をするのではなく、明るく前向きに、楽しみながら取り組むことが大切だと信じています。その方が作業もはかどり、何より関わる人すべてに活力を与えることができるからです。	
+P130	message.html	L123 p		全力で汗を流した後は、仲間と風呂に入り、お酒を酌み交わしながら語り合う。そんな風に、ラグビー精神そのままにボランティアに取り組んでいければ幸いです。	
+P131	message.html	L124 p		もし次の現場で、皆さんと共に活動できる日が来れば、これほど嬉しいことはありません。	
+P132	message.html	L135 h2		MESSAGES / 応援コメント	
+P133	message.html	L137 p		法人の理念や被災地での圧倒的な行動力に共感いただいた、著名人の方やラグビー界のリーダーの皆様からメッセージをいただきました。	
+P134	message.html	L146 p		ご寄稿者 1	
+P135	message.html	L147 p		準備中	
+P136	message.html	L153 p		ご寄稿者 2	
+P137	message.html	L160 p		ご寄稿者 3	
+P138	message.html	L167 p		ご寄稿者 4	
+P139	message.html	L174 p		ご寄稿者 5	
+P140	about.html	L8 title		活動報告 | NPO法人フライキプロジェクト	
+P141	about.html	L9 meta description		特定非営利活動法人フライキプロジェクトの活動報告。緊急災害復興支援・心の復興支援・地域コミュニティ支援の様子をご紹介します。	
+P142	about.html	L102 p		被災地支援の現場から	
+P143	about.html	L111 h2		私たちの活動	
+P144	about.html	L115 p		2011年の東日本大震災から現在まで、フライキプロジェクトは被災地の皆様とともに歩んできました。単なる物資提供や瓦礫撤去だけではなく、「心の復興」を最も大切にした活動を続けています。	
+P145	about.html	L118 p		全国のラガーマンが集まり、ラグビーの精神「ノーサイド」——試合が終わったら敵も味方もない、みんなで一緒に前に進もう——という価値観を持ち寄って、被災地との深い関係性を築いてきました。	
+P146	about.html	L121 p		ここにご紹介するのは、その活動の中から、心に残る瞬間の数々です。カテゴリ別にもご覧いただけます。	
+P147	about.html	L124 p	リンク	2011年〜2023年(一般社団法人時代)の活動の記録は、 旧公式サイト でご覧いただけます。	
+P148	about.html	L136 h2		活動フォトギャラリー	
+P149	about.html	L144 button		すべて	
+P150	about.html	L145 button		直近の活動(3ヶ月以内)	
+P151	about.html	L146 button		①緊急災害復興支援	
+P152	about.html	L147 button		②心の復興支援(ラグビーイベント)	
+P153	about.html	L148 button		③地域コミュニティ・伝統文化継承支援	
+P154	about.html	L150 p		このカテゴリの写真はまだ登録されていません。 images/gallery/ 内の対応フォルダに写真を追加すると表示されます。	
+P155	financial.html	L8 title		決算報告 | NPO法人フライキプロジェクト	
+P156	financial.html	L9 meta description		特定非営利活動法人フライキプロジェクトの決算報告・事業報告書のご案内。第1期決算報告は2027年7月頃公開予定です。	
+P157	financial.html	L100 p		特定非営利活動法人フライキプロジェクトの決算・事業報告	
+P158	financial.html	L107 h2		決算期について	
+P159	financial.html	L110 p	強調	当法人の決算期は 毎年5月 です。	
+P160	financial.html	L111 p	強調	第1期(設立〜2027年5月)の決算報告および事業報告書は、 2027年7月頃 の公開を予定しております。準備が整い次第、本ページにて公開いたします。	
+P161	financial.html	L119 h2		事業報告書	
+P162	financial.html	L124 p		第1期 事業報告書(PDF)	
+P163	financial.html	L125 p		2027年7月頃 公開予定	
+P164	financial.html	L126 text		準備中	
+P165	corporate.html	L8 title		企業・団体様へ | NPO法人フライキプロジェクト	
+P166	corporate.html	L9 meta description		特定非営利活動法人フライキプロジェクトとのCSR連携・協賛・共同プロジェクトのご案内。	
+P167	corporate.html	L100 p		CSR・協賛・共同プロジェクトのご相談を承ります	
+P168	corporate.html	L107 h2		CSR活動としての連携	
+P169	corporate.html	L109 p		フライキプロジェクトは、ラグビー経験者のネットワークと行動力を活かし、被災地の「心の復興」を支える活動を続けています。企業・団体様の社会貢献活動(CSR)の一環として、社員ボランティアの派遣、活動資金のご支援、物資協力など、さまざまな形での連携が可能です。共に社会課題の解決に取り組むパートナーとして、ぜひお力添えください。	
+P170	corporate.html	L118 h2		共同プロジェクトの実績	
+P171	corporate.html	L122 img[alt]		株式会社TK&Company	
+P172	corporate.html	L125 p		東京都千代田区	
+P173	corporate.html	L135 h2		協賛方法	
+P174	corporate.html	L139 h3		資金協賛	
+P175	corporate.html	L140 p		活動費・フライキ製作費等へのご支援。法人向け寄付にも対応しています。	
+P176	corporate.html	L143 h3		物資協賛	
+P177	corporate.html	L144 p		現場活動で使用する装備・資材等のご提供。	
+P178	corporate.html	L147 h3		人的協力	
+P179	corporate.html	L148 p		社員ボランティアの派遣、共同イベントの企画・運営。	
+P180	corporate.html	L157 h2		企業・団体様専用窓口	
+P181	corporate.html	L160 p		CSR連携・協賛・共同プロジェクトに関するお問合せは、下記までご連絡ください。	
+P182	contact.html	L8 title		お問合せ | NPO法人フライキプロジェクト	
+P183	contact.html	L9 meta description		NPO法人フライキプロジェクトへのお問合せ、ご寄付、ボランティア参加のご案内。	
+P184	contact.html	L100 p		ご質問、ご協力のお申し込みはこちらから	
+P185	contact.html	L107 h2		お問合せフォーム	
+P186	contact.html	L119 label		お名前 *	
+P187	contact.html	L136 label		メールアドレス *	
+P188	contact.html	L152 label		電話番号	
+P189	contact.html	L167 label		お問合せ内容 *	
+P190	contact.html	L176 option		選択してください	
+P191	contact.html	L177 option		ご寄付について	
+P192	contact.html	L178 option		ボランティアについて	
+P193	contact.html	L179 option		一般的なお問合せ	
+P194	contact.html	L180 option		パートナーシップについて	
+P195	contact.html	L181 option		メディア取材について	
+P196	contact.html	L182 option		その他	
+P197	contact.html	L188 label		メッセージ *	
+P198	contact.html	L191 textarea[placeholder]		ご質問やご相談の内容をお書きください	
+P199	contact.html	L203 label		ロボットでないことの確認 *	
+P200	contact.html	L206 p		かんたんな計算にお答えください	
+P201	contact.html	L207 input[placeholder]		答えの数字をご入力ください	
+P202	contact.html	L221 label		会社名(この欄は入力しないでください)	
+P203	contact.html	L234 label	リンク	プライバシーポリシー に同意します	
+P204	contact.html	L240 button		メールで送信	
+P205	contact.html	L247 p		※ 送信ボタンを押すとメールアプリが開きます。内容を確認のうえ、折り返しご連絡させていただきます	
+P206	contact.html	L258 h2		よくあるご質問	
+P207	contact.html	L264 summary		最小いくらから寄付できますか？	
+P208	contact.html	L270 p		500円からご寄付いただけます。毎月の継続寄付や、お好きな金額での単発寄付など、様々な方法をご用意しています。	
+P209	contact.html	L275 summary		ボランティアに参加するには？	
+P210	contact.html	L281 p		まずはお問合せフォームからご連絡ください。活動情報は公式LINEで配信しており、ラグビー経験の有無は問いません。全国からの参加者を随時募集しています。	
+P211	contact.html	L286 summary		寄付金はどのように使われますか？	
+P212	contact.html	L292 p		現場活動費（交通費、宿泊費など）、フライキ製作費、法人運営費として活用されます。詳細な使途については、定期的に報告書を公開しています。	
+P213	contact.html	L297 summary		寄付金控除は受けられますか？	
+P214	contact.html	L303 p		現在、当法人は認定NPO法人・特例認定NPO法人ではないため、認定NPO法人等への寄付に適用される税制上の優遇措置(寄付金控除)は、現時点では適用されません。認定の取得は、要件を満たした段階で検討します。個別の税務上のお取り扱いは、税務署または税理士にご確認ください。	
+P215	privacy.html	L8 title		プライバシーポリシー | NPO法人フライキプロジェクト	
+P216	privacy.html	L9 meta description		NPO法人フライキプロジェクトの個人情報保護方針(プライバシーポリシー)です。	
+P217	privacy.html	L100 p		個人情報の取り扱いについて	
+P218	privacy.html	L107 p		NPO法人フライキプロジェクト(以下「当法人」といいます)は、当法人の活動に関わるすべての方の個人情報の重要性を認識し、個人情報の保護に関する法律(個人情報保護法)およびその他の関係法令を遵守するとともに、以下の方針に基づき個人情報を適切に取り扱います。	
+P219	privacy.html	L113 h2		1. 取得する個人情報	
+P220	privacy.html	L115 p		当法人は、お問合せ、ご寄付、ボランティア活動へのご参加などに際して、氏名、メールアドレス、電話番号、その他ご連絡・活動運営に必要な情報を取得することがあります。	
+P221	privacy.html	L119 h2		2. 利用目的	
+P222	privacy.html	L121 p		取得した個人情報は、以下の目的の範囲内で利用します。	
+P223	privacy.html	L123 li		お問合せへの回答およびご連絡	
+P224	privacy.html	L124 li		ボランティア活動・イベントのご案内および運営(保険加入手続き等を含む)	
+P225	privacy.html	L125 li		ご寄付の受領確認、領収書の発行およびご報告	
+P226	privacy.html	L126 li		活動報告やお知らせなどの情報配信	
+P227	privacy.html	L127 li		法令に基づく手続きへの対応	
+P228	privacy.html	L132 h2		3. 第三者への提供	
+P229	privacy.html	L134 p		当法人は、法令に基づく場合、ご本人の同意がある場合、または活動運営上必要な範囲で業務を委託する場合(ボランティア保険の加入手続き等)を除き、個人情報を第三者に提供しません。	
+P230	privacy.html	L138 h2		4. 外部サービスの利用	
+P231	privacy.html	L140 p		当法人は、以下の外部サービスを利用しています。各サービスにおける個人情報の取り扱いは、それぞれの事業者のプライバシーポリシーに従います。	
+P232	privacy.html	L142 li		寄付決済:コングラント株式会社(congrant.com)	
+P233	privacy.html	L143 li		情報配信・ご連絡:LINE公式アカウント(LINEヤフー株式会社)	
+P234	privacy.html	L144 li		動画配信:YouTube(Google LLC)	
+P235	privacy.html	L145 li		アクセス解析:Googleアナリティクス(Google LLC)	
+P236	privacy.html	L146 li		Webフォント配信:Google Fonts(Google LLC)	
+P237	privacy.html	L148 p	リンク	当法人のホームページでは、サイトの利用状況を把握し改善に役立てるため、Googleアナリティクス(GA4)を利用しています。Googleアナリティクスはトラフィックデータの収集のためにCookieを使用します。このデータは匿名で収集されており、個人を特定するものではありません。Cookieの利用を望まれない場合は、ブラウザの設定で無効にできます。収集されるデータの取り扱いについては Googleのプライバシーポリシー 、無効化の方法については Googleアナリティクス オプトアウト アドオン をご確認ください。	
+P238	privacy.html	L152 h2		5. 写真・動画の取り扱い	
+P239	privacy.html	L154 p		活動中に撮影した写真・動画は、当法人のホームページ、SNS、YouTube、活動報告書等で使用することがあります。掲載を希望されない場合は、撮影時または掲載後でもお申し出ください。速やかに対応いたします。	
+P240	privacy.html	L158 h2		6. 安全管理措置・保存期間	
+P241	privacy.html	L160 p		当法人は、個人情報への不正アクセス、紛失、漏えい等を防止するため、必要かつ適切な安全管理措置を講じます。取得した個人情報は、利用目的の達成に必要な期間、または法令で保存が義務付けられた期間に限り保有し、目的達成後は速やかに消去または廃棄します。	
+P242	privacy.html	L164 h2		7. 開示・訂正・削除のご請求	
+P243	privacy.html	L166 p		ご本人から個人情報の開示、訂正、利用停止、削除のお申し出があった場合は、ご本人であることを確認のうえ、速やかに対応いたします。	
+P244	privacy.html	L170 h2		8. 本ポリシーの改定	
+P245	privacy.html	L172 p		本ポリシーの内容は、法令の改正や活動内容の変化に応じて、予告なく改定することがあります。改定後の内容は本ページに掲載した時点から効力を生じます。	
+P246	privacy.html	L176 h2		9. お問合せ窓口	
+P247	privacy.html	L178 p	リンク	個人情報の取り扱いに関するお問合せ・開示等のご請求は、下記までご連絡ください。 ⏎ ⏎ 特定非営利活動法人フライキプロジェクト ⏎ 所在地:〒102-0083 東京都千代田区麹町５－５－３ DUARES麹町ONYX５０３ ⏎ 個人情報保護管理者:代表理事 園部 浩誉 ⏎ メール: info@furaiki.org	
+P248	privacy.html	L188 p		制定日:2026年7月18日	
+P249	404.html	L7 title		ページが見つかりません | NPO法人フライキプロジェクト	
+P250	404.html	L20 h1		ページが見つかりませんでした	
+P251	404.html	L21 p		お探しのページは移動または削除された可能性があります。 ⏎ お手数ですが、下記からお進みください。	
+P252	404.html	L26 text		トップページへ	
+J253	js/news-loader.js	ニュース日付の書式		2026年7月18日 (=YYYY年M月D日)	
+J254	js/news-loader.js	記事リンク		詳しく見る →	
+J255	js/news-loader.js	ニュース読込失敗時の代替記事(見出し)		公式ホームページをリニューアル・LINE公式アカウント開設	
+J256	js/news-loader.js	ニュース読込失敗時の代替記事(本文)		NPO法人設立を機にホームページを全面リニューアルしました。あわせてLINE公式アカウントを開設し、活動情報やボランティア募集情報を配信しています。	
+J257	js/about-photos.js	写真なし(直近の活動)		直近3ヶ月以内の活動写真はまだ登録されていません。活動のたびに images/gallery/recent フォルダへ写真を追加してください。	
+J258	js/about-photos.js	写真なし(その他カテゴリ)		このカテゴリの写真はまだ登録されていません。images/gallery/ 内の対応フォルダに写真を追加すると表示されます。	
+J259	js/about-photos.js	写真のalt(連番付き)		活動報告の様子	
+J260	js/organization-photos.js	沿革写真キャプション		2019年 ラグビーW杯釜石開催 スタジアムでのフライキ掲揚	
+J261	js/organization-photos.js	沿革写真キャプション		能登の被災地での瓦礫撤去活動	
+J262	js/contact-form.js	件名ラベル(メール本文用)		ご寄付について / ボランティアについて / 一般的なお問合せ / パートナーシップについて / メディア取材について / その他	
+J263	js/contact-form.js	ロボット確認の設問		かんたんな計算にお答えください: 3 + 4 = ?	
+J264	js/contact-form.js	エラー		メールアドレスの形式が正しくありません(例: example@example.com)	
+J265	js/contact-form.js	エラー		ロボット確認の計算の答えが違います。もう一度お確かめください	
+J266	js/contact-form.js	送信後の案内		メールアプリが開きます。開かない場合は info@furaiki.org 宛に直接お送りください。	
+J267	js/contact-form.js	メール本文の項目名		【お名前】/【メールアドレス】/【電話番号】/【お問合せ内容】/【メッセージ】/(未記入)	
+J268	js/contact-form.js	メール件名の接頭辞		【HPお問合せ】	
+J269	js/contact-form.js	件名未選択時の既定		お問合せ	
+N270	news/20260501-寄付受付開始.txt	見出し		寄付サイト「コングラント」で寄付受付を開始	
+N271	news/20260501-寄付受付開始.txt	本文		月々500円からの継続寄付・単発寄付をクレジットカードでお申し込みいただけるようになりました。皆さまのご支援をお願いいたします。	
+N272	news/20260718-リニューアル.txt	見出し		公式ホームページをリニューアル・LINE公式アカウント開設	
+N273	news/20260718-リニューアル.txt	本文		NPO法人設立を機にホームページを全面リニューアルしました。あわせてLINE公式アカウントを開設し、活動情報やボランティア募集情報を配信しています。	
+N274	news/20260719-ワールドラグビー日本チャンネル掲載.txt	見出し		ワールドラグビー日本チャンネル(公式YouTube)に活動が取り上げられました	
+N275	news/20260719-ワールドラグビー日本チャンネル掲載.txt	本文		6年前、当団体の活動がワールドラグビー日本チャンネルの公式YouTubeで取り上げられました。当時の映像を改めてご紹介します。	
+N276	news/20260722-スクラムジャパンプログラムレポート掲載.txt	見出し		スクラム・ジャパン・プログラム様の活動レポートで紹介されました	
+N277	news/20260722-スクラムジャパンプログラムレポート掲載.txt	本文		JRFU「スクラム・ジャパン・プログラム」企画「共に創ろう、スクラムジャパン！」にて、当団体の活動をご紹介いただきました。詳細は下記レポートをご覧ください。	
+N278	news/20260722-スクラムジャパンプログラムレポート掲載.txt	本文		なお、当日の活動の様子はYouTubeにて公開しておりますので、こちらも併せてご覧ください。	
+N279	news/20260722-スクラムジャパンプログラムレポート掲載.txt	本文		YouTube: https://www.youtube.com/watch?v=3ej7gddw0NQ&t=3s	

@@ -38,3 +38,6 @@ documents/*指示書*
 
 # Claude Code ローカル設定
 .claude/
+
+# 翻訳作業の中間ドラフト(最終版 translation/*.md / *.tsv だけをコミットする)
+translation/‗old/

@@ -7,18 +7,40 @@
 // しなければ、文中リンクとして扱われ埋め込まれない)。
 // 文中に混ざったURLも自動でリンク化される。
 // 一覧はGitHub APIから取得し、失敗時は FALLBACK を表示する。
+//
+// 英語版(en/index.html)からは news/en/ の同名ファイルを読む。英語版の記事が
+// 1件も無い場合だけ、日本語の記事をそのまま表示する(空欄になるのを防ぐため)。
 (function () {
-  const API_URL =
-    "https://api.github.com/repos/inquireinc01/furaiki-website/contents/news?ref=master";
-  const FALLBACK = [
-    {
-      date: "2026年7月18日",
-      title: "公式ホームページをリニューアル・LINE公式アカウント開設",
-      bodyLines: [
-        "NPO法人設立を機にホームページを全面リニューアルしました。あわせてLINE公式アカウントを開設し、活動情報やボランティア募集情報を配信しています。",
-        "https://lin.ee/nkWK6v7",
-      ],
-    },
+  // 英語版は en/ 配下にあるため、相対パスの基点が1階層ずれる(data-base="../")
+  const EN = document.documentElement.lang === "en";
+  const BASE = document.documentElement.dataset.base || "";
+  const NEWS_DIR = BASE + (EN ? "news/en" : "news");
+  const API_URL = "https://api.github.com/repos/inquireinc01/furaiki-website/contents/";
+  const FALLBACK = EN
+    ? [
+        {
+          date: "July 18, 2026",
+          title: "Website Relaunched and Official LINE Account Launched",
+          bodyLines: [
+            "Following our incorporation as an NPO, we completely relaunched our website. We also launched an official LINE account where we share activity updates and volunteer opportunities.",
+            "https://lin.ee/nkWK6v7",
+          ],
+        },
+      ]
+    : [
+        {
+          date: "2026年7月18日",
+          title: "公式ホームページをリニューアル・LINE公式アカウント開設",
+          bodyLines: [
+            "NPO法人設立を機にホームページを全面リニューアルしました。あわせてLINE公式アカウントを開設し、活動情報やボランティア募集情報を配信しています。",
+            "https://lin.ee/nkWK6v7",
+          ],
+        },
+      ];
+  const MORE_LABEL = EN ? "Read More →" : "詳しく見る →";
+  const MONTHS = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December",
   ];
 
   const list = document.getElementById("newsList");
@@ -36,6 +58,9 @@
   function dateFromName(name) {
     const m = name.match(/^(\d{4})(\d{2})(\d{2})/);
     if (!m) return "";
+    if (EN) {
+      return MONTHS[parseInt(m[2], 10) - 1] + " " + parseInt(m[3], 10) + ", " + m[1];
+    }
     return m[1] + "年" + parseInt(m[2], 10) + "月" + parseInt(m[3], 10) + "日";
   }
 
@@ -88,7 +113,7 @@
       article.className = "flex items-start gap-4 py-6 border-b border-gray-200";
 
       const img = document.createElement("img");
-      img.src = "images/mascot.png";
+      img.src = BASE + "images/mascot.png";
       img.alt = "";
       img.className = "h-10 w-auto shrink-0 mt-1";
       article.appendChild(img);
@@ -142,7 +167,7 @@
           a.target = "_blank";
           a.rel = "noopener";
           a.className = "inline-block mt-1 font-bold text-[#c8102e] hover:underline";
-          a.textContent = "詳しく見る →";
+          a.textContent = MORE_LABEL;
           p.appendChild(a);
         } else {
           appendTextWithLinks(p, line);
@@ -158,17 +183,18 @@
     return /\.txt$/i.test(name) && !/^readme/i.test(name);
   }
 
-  // まず同一オリジンの静的な一覧(news/list.json)を読む。GitHub APIの
+  // まず同一オリジンの静的な一覧(list.json)を読む。GitHub APIの
   // レート制限に左右されず確実に読める。無い場合のみ API にフォールバック。
-  function fromManifest() {
-    return fetch("news/list.json", { cache: "no-store" })
+  function fromManifest(dir) {
+    return fetch(dir + "/list.json", { cache: "no-store" })
       .then((res) => (res.ok ? res.json() : null))
       .then((names) => (Array.isArray(names) ? names.filter(isNewsTxt) : null))
       .catch(() => null);
   }
 
-  function fromApi() {
-    return fetch(API_URL)
+  // dir はサイト上の相対パス。リポジトリ内のパスは BASE("../")を外したもの。
+  function fromApi(dir) {
+    return fetch(API_URL + dir.replace(BASE, "") + "?ref=master")
       .then((res) => (res.ok ? res.json() : null))
       .then((files) =>
         Array.isArray(files)
@@ -178,22 +204,30 @@
       .catch(() => null);
   }
 
-  fromManifest()
-    .then((names) => (names && names.length ? names : fromApi()))
-    .then((names) => {
-      if (!names || !names.length) return null;
-      const ordered = names.slice().sort((a, b) => b.localeCompare(a, "ja"));
-      return Promise.all(
-        ordered.map((name) =>
-          fetch("news/" + encodeURIComponent(name))
-            .then((r) => r.arrayBuffer())
-            .then((buf) => parseItem(name, decodeText(buf)))
-        )
-      );
-    })
+  function loadFrom(dir) {
+    return fromManifest(dir)
+      .then((names) => (names && names.length ? names : fromApi(dir)))
+      .then((names) => {
+        if (!names || !names.length) return [];
+        const ordered = names.slice().sort((a, b) => b.localeCompare(a, "ja"));
+        return Promise.all(
+          ordered.map((name) =>
+            fetch(dir + "/" + encodeURIComponent(name))
+              .then((r) => r.arrayBuffer())
+              .then((buf) => parseItem(name, decodeText(buf)))
+              .catch(() => null)
+          )
+        );
+      })
+      .then((items) => (items || []).filter(Boolean));
+  }
+
+  loadFrom(NEWS_DIR)
     .then((items) => {
-      const valid = (items || []).filter(Boolean);
-      render(valid.length ? valid : FALLBACK);
+      // 英語版の記事がまだ用意されていない場合は、空欄にせず日本語の記事を出す
+      if (!items.length && EN) return loadFrom(BASE + "news");
+      return items;
     })
+    .then((items) => render(items.length ? items : FALLBACK))
     .catch(() => render(FALLBACK));
 })();
