@@ -163,6 +163,10 @@ FOLDERS = [
     ("images/gallery/community", 1600, 500),
     ("images/timeline", 1200, 400),
     ("images/org-highlights", 1600, 500),
+    # 応援メッセージの顔写真。円形に小さく表示するだけなので長辺800pxで十分。
+    # ファイル名をHTMLから直接参照するため、撮影日時への自動改名
+    # (GALLERY_RENAME_FOLDERS)には絶対に入れないこと。
+    ("images/messages", 800, 200),
 ]
 QUALITY = 85
 
