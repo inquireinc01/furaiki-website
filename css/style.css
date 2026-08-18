@@ -480,8 +480,12 @@ img {
 /* .hero-intro と .hero-lines を同じマス目に重ねて表示する
    (導入の3行が消えるのと入れ替わりに、常設の3行がふわっと重なって現れる) */
 .hero-content > .hero-intro,
-.hero-content > .hero-lines {
+.hero-content > .hero-lines,
+.hero-content > .hero-areas {
   grid-area: 1 / 1;
+  /* マス目の高さは一番背の高い第3段(地図)に合わせて決まるため、
+     第1段・第2段が上に寄らないよう、それぞれを縦中央に置く */
+  align-self: center;
 }
 
 .hero-logo {
@@ -514,8 +518,8 @@ img {
   gap: 0.6rem;
   font-family: "Noto Sans JP", "Hiragino Sans", sans-serif;
   opacity: 1;
-  animation: heroIntroFadeOut 1.6s ease-in-out forwards;
-  animation-delay: 9.1s;
+  animation: heroIntroFadeOut 1.2s ease-in-out forwards;
+  animation-delay: 5.9s;
 }
 
 /* 1行ずつ2秒おきに、左からふわっと(クリップで)現れ、3行揃ってから4秒表示して消える。
@@ -537,8 +541,8 @@ img {
 }
 
 .hero-intro-line:nth-child(1) { animation-delay: 0.3s, 0.3s; }
-.hero-intro-line:nth-child(2) { animation-delay: 2.3s, 2.3s; }
-.hero-intro-line:nth-child(3) { animation-delay: 4.3s, 4.3s; }
+.hero-intro-line:nth-child(2) { animation-delay: 1.9s, 1.9s; }
+.hero-intro-line:nth-child(3) { animation-delay: 3.5s, 3.5s; }
 
 @keyframes heroIntroWipeIn {
   0% {
@@ -615,8 +619,10 @@ img {
   font-family: "Noto Sans JP", "Hiragino Sans", sans-serif;
   text-align: center;
   opacity: 0;
-  animation: heroFinalFadeIn 2.6s ease-out forwards;
-  animation-delay: 9.1s;
+  /* 現れて約2.6秒見せたあと、第3段の地図と入れ替わりで消える */
+  animation:
+    heroFinalFadeIn 1.4s ease-out 6.1s forwards,
+    heroIntroFadeOut 1.0s ease-in-out 10.1s forwards;
 }
 
 @keyframes heroFinalFadeIn {
@@ -631,7 +637,7 @@ img {
   display: block;
   color: white;
   animation: heroIntroGlow 2.8s ease-in-out infinite;
-  animation-delay: 9.1s;
+  animation-delay: 6.1s;
   /* スマホ・iPadでも各行を必ず1行で表示する。画面幅に応じて
      文字サイズを縮小し、折り返さないようにする */
   white-space: nowrap;
@@ -690,7 +696,7 @@ img {
   color: transparent;
   -webkit-text-fill-color: transparent;
   animation: flagShine 5s ease-in-out infinite;
-  animation-delay: 11.7s;
+  animation-delay: 7.7s;
 }
 
 @keyframes heroLineIn {
@@ -933,6 +939,9 @@ img {
   width: 100%;
   max-width: min(1180px, 94%);
   margin: 0 auto;
+  /* 第3段。第2段のタイトルが消えるのと入れ替わりで現れ、以降は出したまま */
+  opacity: 0;
+  animation: heroFinalFadeIn 1.3s ease-out 11.0s forwards;
 }
 
 .hero-areas-head {
@@ -948,13 +957,14 @@ img {
   white-space: nowrap;
   margin-bottom: 1.1rem;
   animation: heroIntroGlow 2.8s ease-in-out infinite;
+  animation-delay: 12.3s;
 }
 
 /* 光の筋(.hero-flag-shine)は旧タイトル用に11.7秒待つ設定だったので、
    導入アニメーションが無くなったこちらでは早めに走らせる。
    ベース側の text-shadow(光暈)を重ねると二重に見えるため打ち消す */
 .hero-areas-title.hero-flag-shine::after {
-  animation-delay: 1.4s;
+  animation-delay: 12.7s;
   text-shadow: none;
 }
 
@@ -1091,6 +1101,7 @@ img {
 .hero-areas-legend {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 0.75rem;
   margin-top: 0.75rem;
   font-size: 0.6875rem;
@@ -1148,7 +1159,17 @@ img {
   .hero-areas-branch { text-align: center; }
 }
 
+/* 英語版はタイトルが長く、狭い画面では1行に収まらないので折り返しを許可する
+   (日本語は収まるため見た目は変わらない) */
+@media (max-width: 640px) {
+  .hero-areas-title { white-space: normal; line-height: 1.35; }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  /* 3段の演出は飛ばし、最後の地図だけを最初から表示する */
+  .hero-intro,
+  .hero-lines { display: none; }
+  .hero-areas { opacity: 1; animation: none; }
   .hero-areas-title,
   .hero-areas-title.hero-flag-shine::after { animation: none; }
 }

@@ -109,29 +109,42 @@
          読み込み前は .hero-bg の背景色(濃紺)が出るので、ここでは画像を指定しない -->
     <div class="hero-bg" id="heroSlider"></div>
     <div class="hero-content">
+      <!-- 第1段: 節目のメッセージ3行 -->
+      <div class="hero-intro" aria-hidden="true">
+        <p class="hero-intro-line" data-text="The Furaiki Project celebrates 15 years of activity in August 2026">The Furaiki Project celebrates 15 years of activity in August 2026</p>
+        <p class="hero-intro-line" data-text="Thanks to the support of so many people, this summer we are">Thanks to the support of so many people, this summer we are</p>
+        <p class="hero-intro-line" data-text="transitioning from a general incorporated association to a specified non-profit corporation (NPO)">transitioning from a general incorporated association to a specified non-profit corporation (NPO)</p>
+      </div>
+      <!-- 第2段: 常設タイトル3行(第1段と入れ替わりで現れ、第3段の地図に譲って消える) -->
+      <h1 class="hero-lines">
+        <span class="hero-line hero-line-sub hero-flag-shine" data-text="Disaster Relief Rugby Volunteers">Disaster Relief Rugby Volunteers</span>
+        <span class="hero-line hero-line-main hero-flag-shine" translate="no" data-text="Furaiki Project">Furaiki Project</span>
+        <span class="hero-line hero-line-sub hero-flag-shine" data-text="Recovery Support Through the Spirit of Rugby and Furaiki Flags">Recovery Support Through the Spirit of Rugby and Furaiki Flags</span>
+      </h1>
+      <!-- 第3段: 活動地域マップ -->
       <div class="hero-areas">
         <div class="hero-areas-head">
-          <h1 class="hero-areas-title hero-flag-shine" data-text="Furaiki Project Areas of Activity">Furaiki Project Areas of Activity</h1>
+          <p class="hero-areas-title hero-flag-shine" data-text="Furaiki Project Current Areas of Activity">Furaiki Project Current Areas of Activity</p>
         </div>
         <div class="hero-areas-grid">
           <!-- 地図は images/japan-map.svg(外部ファイル)。都道府県の塗り分けは
                SVG 側に焼き込んであるため、色を変えるときは tools/ の生成物を作り直す -->
           <div class="hero-areas-map">
             <img src="../images/japan-map.svg?v=20260819a" alt="" width="1028" height="1148" />
-            <span class="hero-areas-pin" style="left:41.37%;top:44.94%" title="Noto, Ishikawa">
+            <span class="hero-areas-pin" style="left:41.37%;top:44.94%" title="2024 Noto Peninsula Earthquake &amp; Oku-Noto Heavy Rain">
               <span class="hero-areas-stem"></span><span class="hero-areas-dot"></span>
               <span class="hero-areas-mark"><img src="../images/メインロゴ.jpg?v=20260819a" alt="" width="34" height="34" /></span>
             </span>
-            <span class="hero-areas-pin" style="left:11.82%;top:69.56%" title="Kumamoto">
+            <span class="hero-areas-pin" style="left:11.82%;top:69.56%" title="2026 Kumamoto Earthquake">
               <span class="hero-areas-stem"></span><span class="hero-areas-dot"></span>
               <span class="hero-areas-mark"><img src="../images/メインロゴ.jpg?v=20260819a" alt="" width="34" height="34" /></span>
             </span>
           </div>
           <div class="hero-areas-side">
             <ul class="hero-areas-list">
-              <li><span class="hero-areas-badge is-active">Active</span><span class="hero-areas-name">Noto, Ishikawa</span></li>
-              <li><span class="hero-areas-badge is-active">Active</span><span class="hero-areas-name">Kumamoto</span></li>
-              <li><span class="hero-areas-badge is-plan">Planned</span><span class="hero-areas-name">Chiba</span></li>
+              <li><span class="hero-areas-badge is-active">Active</span><span class="hero-areas-name">2024 Noto Peninsula Earthquake &amp; Oku-Noto Heavy Rain</span></li>
+              <li><span class="hero-areas-badge is-active">Active</span><span class="hero-areas-name">2026 Kumamoto Earthquake</span></li>
+              <li><span class="hero-areas-badge is-plan">Planned</span><span class="hero-areas-name">August 2026 Chiba Heavy Rain</span></li>
             </ul>
             <div class="hero-areas-legend">
               <span><i class="is-active"></i>Currently active</span>
@@ -139,7 +152,7 @@
             </div>
             <div class="hero-areas-branch">
               <b>12 branches nationwide</b>
-              <span>Miyazaki, Nagano, Kyoto, Osaka, Ishikawa, Saitama, Aichi, Tokyo, Iwate, Kumamoto, Fukuoka, Okinawa</span>
+              <span>Iwate, Nagano, Ishikawa, Saitama, Tokyo, Aichi, Kyoto, Osaka, Fukuoka, Kumamoto, Miyazaki, Okinawa</span>
             </div>
           </div>
         </div>
