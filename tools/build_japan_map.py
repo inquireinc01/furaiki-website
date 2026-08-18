@@ -167,18 +167,43 @@ def main():
     oymin = min(p[1] for p in op)
     oymax = max(p[1] for p in op)
 
-    # 枠は九州のすぐ south-west、地図の左下に置く。南西諸島は九州から南西へ連なるので、
-    # この位置なら実際の方角とも食い違わない。本土の一番下から INSET_GAP だけ空けた
-    # ところに枠を置き、その分だけ地図(viewBox)の下を広げる。
+    # 枠は地図の左上に置く。北海道が右上、九州が左下にあるため、ここが一番大きく空く。
+    # 日本の地図で沖縄を別枠にするときの定番の位置でもある。
+    # 枠が本土に当たる場合だけ、当たらなくなる分だけ本土を下へずらす(地図が縦に伸びる)。
     oscale = INSET_SIZE / max(oxmax - oxmin, oymax - oymin)
     box_w = (oxmax - oxmin) * oscale + 40
     box_h = (oymax - oymin) * oscale + 40
-    box_x = INSET_MARGIN
-    box_y = (vh - pad) + INSET_GAP
-    vh = int(round(box_y + box_h + INSET_MARGIN))
+    box_x = box_y = INSET_MARGIN
+
+    x0, x1 = box_x - INSET_GAP, box_x + box_w + INSET_GAP
+    y1 = box_y + box_h + INSET_GAP
+    in_range = [to_svg(x, y)[1] for rings in mainland.values() for r in rings
+                for x, y in r if x0 <= to_svg(x, y)[0] <= x1]
+    shift = max(0.0, y1 - min(in_range)) if in_range else 0.0
+    if shift:
+        base_to_svg = to_svg
+
+        def to_svg(x, y, _f=base_to_svg, _d=shift):     # noqa: F811 (本土を下へずらす)
+            sx, sy = _f(x, y)
+            return sx, sy + _d
+
+        vh = int(round(vh + shift))
+
     ox, oy = box_x + 20, box_y + 20
-    sys.stdout.write("インセット: 長辺%dpx / 枠 %dx%d @ (%d,%d) / viewBox高 %d\n"
-                     % (INSET_SIZE, box_w, box_h, box_x, box_y, vh))
+    sys.stdout.write("インセット: 長辺%dpx / 枠 %dx%d @ (%d,%d) / 本土のずらし %dpx / viewBox高 %d\n"
+                     % (INSET_SIZE, box_w, box_h, box_x, box_y, shift, vh))
+
+    # 本土をずらした場合は描き直す
+    if shift:
+        base, hot = [], []
+        for name, rings in mainland.items():
+            d = to_path(rings, to_svg)
+            if name in ACTIVE:
+                hot.append('<path fill="%s" fill-opacity="1" stroke-opacity=".7" d="%s"/>' % (COLOR_ACTIVE, d))
+            elif name in PLAN:
+                hot.append('<path fill="%s" fill-opacity="1" stroke-opacity=".7" d="%s"/>' % (COLOR_PLAN, d))
+            else:
+                base.append('<path d="%s"/>' % d)
 
     def to_oki(x, y):
         return (ox + (x - oxmin) * oscale, oy + (y - oymin) * oscale)
