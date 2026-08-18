@@ -415,7 +415,7 @@ img {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.35);
+  background: rgba(0, 0, 0, 0.56);
   z-index: 2;
 }
 
@@ -910,4 +910,245 @@ img {
 ::selection {
   background-color: var(--color-red);
   color: #fff;
+}
+
+/* ===== ヒーロー: 活動地域マップ =====
+   背景写真(スライドショー)の上に日本地図と一覧を重ねる。どのスライドでも読めるよう
+   ①全面の暗幕を濃くし ②外周をさらに落とし ③地図の下だけもう一段暗くする、の3層構成。 */
+.hero-fullscreen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at 50% 45%,
+    rgba(0, 0, 0, 0.10) 0%,
+    rgba(0, 0, 0, 0.45) 70%,
+    rgba(0, 0, 0, 0.62) 100%
+  );
+}
+
+.hero-areas {
+  width: 100%;
+  max-width: min(1180px, 94%);
+  margin: 0 auto;
+}
+
+.hero-areas-head {
+  text-align: center;
+}
+
+.hero-areas-title {
+  display: inline-block;
+  color: white;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  font-size: clamp(1.05rem, 4.2vw, 2.125rem);
+  white-space: nowrap;
+  margin-bottom: 1.1rem;
+  animation: heroIntroGlow 2.8s ease-in-out infinite;
+}
+
+/* 光の筋(.hero-flag-shine)は旧タイトル用に11.7秒待つ設定だったので、
+   導入アニメーションが無くなったこちらでは早めに走らせる。
+   ベース側の text-shadow(光暈)を重ねると二重に見えるため打ち消す */
+.hero-areas-title.hero-flag-shine::after {
+  animation-delay: 1.4s;
+  text-shadow: none;
+}
+
+.hero-areas-grid {
+  display: grid;
+  grid-template-columns: auto minmax(13.75rem, 17.5rem);
+  gap: clamp(1rem, 3vw, 2.75rem);
+  align-items: center;
+  justify-content: center;
+}
+
+/* 地図。inline-block にして枠を画像そのものの大きさに合わせることで、
+   ピンの left/top(%) が地図の座標と一致する */
+.hero-areas-map {
+  position: relative;
+  display: inline-block;
+  height: min(58vh, 32.5rem);
+  isolation: isolate;
+}
+
+.hero-areas-map::before {
+  content: "";
+  position: absolute;
+  left: -14%;
+  right: -14%;
+  top: -6%;
+  bottom: -6%;
+  z-index: -1;
+  background: radial-gradient(
+    ellipse at 50% 50%,
+    rgba(0, 0, 0, 0.62) 0%,
+    rgba(0, 0, 0, 0.42) 55%,
+    rgba(0, 0, 0, 0) 78%
+  );
+}
+
+.hero-areas-map > img {
+  height: 100%;
+  width: auto;
+  display: block;
+  filter: drop-shadow(0 3px 10px rgba(0, 0, 0, 0.65));
+}
+
+/* 支援活動中の場所に立てるロゴマーク。要素自体は大きさ0の基準点で、
+   実際の地点を .hero-areas-dot が指し、その真上にマークを浮かせている */
+.hero-areas-pin {
+  position: absolute;
+  width: 0;
+  height: 0;
+  --pin-r: 17px;
+}
+
+.hero-areas-dot {
+  position: absolute;
+  left: -4px;
+  top: -4px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ff2d4b;
+  box-shadow: 0 0 0 3px rgba(255, 45, 75, 0.3);
+}
+
+.hero-areas-stem {
+  position: absolute;
+  left: -1px;
+  bottom: 4px;
+  width: 2px;
+  height: 13px;
+  background: white;
+  opacity: 0.6;
+}
+
+.hero-areas-mark {
+  position: absolute;
+  bottom: 15px;
+  left: calc(-1 * var(--pin-r));
+  width: calc(var(--pin-r) * 2);
+  height: calc(var(--pin-r) * 2);
+  border-radius: 50%;
+  overflow: hidden;
+  background: white;
+  border: 2px solid white;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.5);
+}
+
+.hero-areas-mark img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.hero-areas-list {
+  background: rgba(14, 14, 17, 0.55);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 1rem;
+  padding: 0.6rem 1rem;
+}
+
+.hero-areas-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.55rem 0.125rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.hero-areas-list li:last-child {
+  border-bottom: 0;
+}
+
+.hero-areas-badge {
+  font-size: 0.625rem;
+  font-weight: 700;
+  padding: 0.1875rem 0.4375rem;
+  border-radius: 5px;
+  flex: 0 0 auto;
+  min-width: 3.5rem;
+  text-align: center;
+}
+
+.hero-areas-badge.is-active { background: #c8102e; color: white; }
+.hero-areas-badge.is-plan { background: #e98d9d; color: #5a1020; }
+
+.hero-areas-name {
+  font-weight: 800;
+  font-size: 0.875rem;
+  color: white;
+}
+
+.hero-areas-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+  font-size: 0.6875rem;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.hero-areas-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.hero-areas-legend i {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  display: inline-block;
+}
+
+.hero-areas-legend i.is-active { background: #e11d3a; }
+.hero-areas-legend i.is-plan { background: #e98d9d; }
+
+/* 支部は地図に描かず、テキストだけで示す(12県を塗ると赤が埋もれるため) */
+.hero-areas-branch {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.hero-areas-branch b {
+  display: block;
+  color: white;
+  font-size: 0.8125rem;
+  font-weight: 800;
+}
+
+.hero-areas-branch span {
+  display: block;
+  margin-top: 0.1875rem;
+  font-size: 0.6875rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.5;
+}
+
+@media (max-width: 1023px) {
+  /* 固定ヘッダー(80px)にタイトルが潜り込まないよう、中身を下へ押し出す */
+  .hero-content { padding-top: 3.5rem; }
+  .hero-areas-grid { grid-template-columns: 1fr; gap: 0.875rem; justify-items: center; }
+  .hero-areas-map { height: min(44vh, 22.5rem); }
+  .hero-areas-side { width: 100%; max-width: 20.625rem; }
+  .hero-areas-list { padding: 0.375rem 0.75rem; }
+  .hero-areas-list li { padding: 0.375rem 0.125rem; gap: 0.5rem; }
+  .hero-areas-name { font-size: 0.8125rem; }
+  .hero-areas-pin { --pin-r: 13px; }
+  .hero-areas-branch { text-align: center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-areas-title,
+  .hero-areas-title.hero-flag-shine::after { animation: none; }
 }
