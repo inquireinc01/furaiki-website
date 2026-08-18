@@ -109,29 +109,42 @@
          読み込み前は .hero-bg の背景色(濃紺)が出るので、ここでは画像を指定しない -->
     <div class="hero-bg" id="heroSlider"></div>
     <div class="hero-content">
+      <!-- 第1段: 節目のメッセージ3行 -->
+      <div class="hero-intro" aria-hidden="true">
+        <p class="hero-intro-line" data-text="フライキプロジェクトは2026年8月で活動15年">フライキプロジェクトは2026年8月で活動15年</p>
+        <p class="hero-intro-line" data-text="多くの人に支えられこの夏">多くの人に支えられこの夏</p>
+        <p class="hero-intro-line" data-text="一般社団法人から特定非営利活動法人へ">一般社団法人から特定非営利活動法人へ</p>
+      </div>
+      <!-- 第2段: 常設タイトル3行(第1段と入れ替わりで現れ、第3段の地図に譲って消える) -->
+      <h1 class="hero-lines">
+        <span class="hero-line hero-line-sub hero-flag-shine" data-text="災害ラガーボランティア">災害ラガーボランティア</span>
+        <span class="hero-line hero-line-main hero-flag-shine" translate="no" data-text="フライキプロジェクト">フライキプロジェクト</span>
+        <span class="hero-line hero-line-sub hero-flag-shine" data-text="ラグビーの精神と大漁旗「フライキ」で復興支援">ラグビーの精神と大漁旗「フライキ」で復興支援</span>
+      </h1>
+      <!-- 第3段: 活動地域マップ -->
       <div class="hero-areas">
         <div class="hero-areas-head">
-          <h1 class="hero-areas-title hero-flag-shine" data-text="フライキプロジェクト　活動地域">フライキプロジェクト　活動地域</h1>
+          <p class="hero-areas-title hero-flag-shine" data-text="フライキプロジェクト　現在の活動地域">フライキプロジェクト　現在の活動地域</p>
         </div>
         <div class="hero-areas-grid">
           <!-- 地図は images/japan-map.svg(外部ファイル)。都道府県の塗り分けは
                SVG 側に焼き込んであるため、色を変えるときは tools/ の生成物を作り直す -->
           <div class="hero-areas-map">
             <img src="images/japan-map.svg?v=20260819a" alt="" width="1028" height="1148" />
-            <span class="hero-areas-pin" style="left:41.37%;top:44.94%" title="石川県・能登">
+            <span class="hero-areas-pin" style="left:41.37%;top:44.94%" title="令和6年能登半島地震・奥能登豪雨">
               <span class="hero-areas-stem"></span><span class="hero-areas-dot"></span>
               <span class="hero-areas-mark"><img src="images/メインロゴ.jpg?v=20260819a" alt="" width="34" height="34" /></span>
             </span>
-            <span class="hero-areas-pin" style="left:11.82%;top:69.56%" title="熊本県">
+            <span class="hero-areas-pin" style="left:11.82%;top:69.56%" title="令和8年熊本地震">
               <span class="hero-areas-stem"></span><span class="hero-areas-dot"></span>
               <span class="hero-areas-mark"><img src="images/メインロゴ.jpg?v=20260819a" alt="" width="34" height="34" /></span>
             </span>
           </div>
           <div class="hero-areas-side">
             <ul class="hero-areas-list">
-              <li><span class="hero-areas-badge is-active">活動中</span><span class="hero-areas-name">石川県・能登</span></li>
-              <li><span class="hero-areas-badge is-active">活動中</span><span class="hero-areas-name">熊本県</span></li>
-              <li><span class="hero-areas-badge is-plan">活動予定</span><span class="hero-areas-name">千葉県</span></li>
+              <li><span class="hero-areas-badge is-active">活動中</span><span class="hero-areas-name">令和6年能登半島地震・奥能登豪雨</span></li>
+              <li><span class="hero-areas-badge is-active">活動中</span><span class="hero-areas-name">令和8年熊本地震</span></li>
+              <li><span class="hero-areas-badge is-plan">活動予定</span><span class="hero-areas-name">令和8年8月千葉豪雨</span></li>
             </ul>
             <div class="hero-areas-legend">
               <span><i class="is-active"></i>支援活動中</span>
@@ -139,7 +152,7 @@
             </div>
             <div class="hero-areas-branch">
               <b>全国12支部</b>
-              <span>宮崎・長野・京都・大阪・石川・埼玉・愛知・東京・岩手・熊本・福岡・沖縄</span>
+              <span>岩手・長野・石川・埼玉・東京・愛知・京都・大阪・福岡・熊本・宮崎・沖縄</span>
             </div>
           </div>
         </div>
