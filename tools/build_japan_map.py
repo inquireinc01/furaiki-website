@@ -30,9 +30,10 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "images", "japan-map.svg")
 
 # ---- ここだけ編集する ------------------------------------------------------
-ACTIVE = {"石川県", "熊本県"}          # 支援活動中 → 赤
-PLAN = {"千葉県"}                       # 活動予定   → 薄い赤
-PINS = [                                # ロゴマークを立てる地点(経度, 緯度, 表示名)
+ACTIVE = {"岩手県", "石川県", "熊本県"}   # 支援活動中 → 赤
+PLAN = {"千葉県"}                          # 活動予定   → 薄い赤
+PINS = [                                   # ロゴマークを立てる地点(経度, 緯度, 表示名)
+    (141.88, 39.27, "岩手県・釜石"),
     (136.90, 37.39, "石川県・能登"),
     (130.71, 32.79, "熊本県"),
 ]
@@ -44,7 +45,15 @@ COLOR_PLAN = "#e98d9d"
 KX = math.cos(math.radians(37.0))      # 日本付近の見た目に合わせた簡易正距円筒図法
 EPS = 0.02                             # 海岸線の簡略化の強さ(度)。約2km
 MIN_AREA = 0.004                       # これより小さい島は描かない
+MIN_AREA_ISLE = 0.0006                 # インセット(南西諸島)は縮小表示なので、より小さい島も拾う
+INSET_SIZE = 360.0                     # インセットの長辺(SVG座標)。大きいほど島が読める
+INSET_MARGIN = 16.0                    # インセットの枠と地図の端とのすき間
+INSET_GAP = 26.0                       # インセットの枠と本土との最低すき間
+INSET_MAX_LON = 130.5                  # これより東の島(大東諸島)はインセットに入れない。
+                                       # 入れると横幅が8度に広がり、沖縄本島が豆粒になるため
+INSET_MAX_LAT = 29.5                   # 鹿児島県のうち、この緯度より南(奄美・トカラ)もインセットへ
 OKINAWA = "沖縄県"
+KAGOSHIMA = "鹿児島県"
 TOKYO = "東京都"
 
 
@@ -99,18 +108,20 @@ def main():
         polys = geom["coordinates"] if geom["type"] == "MultiPolygon" else [geom["coordinates"]]
         for poly in polys:
             ring = poly[0]
-            if ring_area(ring) < MIN_AREA:
-                continue
             clon = sum(c[0] for c in ring) / len(ring)
             clat = sum(c[1] for c in ring) / len(ring)
             if name == TOKYO and clon > 140.5:   # 小笠原諸島は本州から遠すぎるので描かない
                 continue
-            if clat < 25.0:                       # 先島・大東など最南端の島も同様
+            # 南西諸島(沖縄県ぜんぶ + 鹿児島県のうち奄美・トカラ)はインセット行き。
+            # 大東諸島だけは東に離れすぎていて、入れると枠が横に伸びるので外す。
+            to_inset = ((name == OKINAWA and clon <= INSET_MAX_LON)
+                        or (name == KAGOSHIMA and clat < INSET_MAX_LAT))
+            if ring_area(ring) < (MIN_AREA_ISLE if to_inset else MIN_AREA):
                 continue
             simplified = rdp([(c[0] * KX, -c[1]) for c in ring], EPS)
             if len(simplified) < 4:
                 continue
-            (okinawa if name == OKINAWA else mainland).setdefault(name, []).append(simplified)
+            (okinawa if to_inset else mainland).setdefault(name, []).append(simplified)
 
     pts = [p for rings in mainland.values() for r in rings for p in r]
     minx = min(p[0] for p in pts)
@@ -146,28 +157,43 @@ def main():
         else:
             base.append('<path d="%s"/>' % d)
 
-    # 沖縄は本州から離れすぎているので、左下に縮小したインセット枠を作ってそこに置く
-    op = [p for rings in okinawa.values() for r in rings for p in r]
+    # 南西諸島(沖縄本島・宮古・八重山)は本土から離れすぎていて、同じ縮尺で描くと
+    # 地図が横に間延びする。日本の地図で一般的な、左下に縮小した枠を置く形にする。
+    # 位置は九州の南西側なので、方角としても実際の位置関係と食い違わない。
+    isles = okinawa
+    op = [p for rings in isles.values() for r in rings for p in r]
     oxmin = min(p[0] for p in op)
     oxmax = max(p[0] for p in op)
     oymin = min(p[1] for p in op)
     oymax = max(p[1] for p in op)
-    oscale = 150.0 / max(oxmax - oxmin, oymax - oymin)
-    ox, oy = 40.0, vh - 210.0
+
+    # 枠は九州のすぐ south-west、地図の左下に置く。南西諸島は九州から南西へ連なるので、
+    # この位置なら実際の方角とも食い違わない。本土の一番下から INSET_GAP だけ空けた
+    # ところに枠を置き、その分だけ地図(viewBox)の下を広げる。
+    oscale = INSET_SIZE / max(oxmax - oxmin, oymax - oymin)
+    box_w = (oxmax - oxmin) * oscale + 40
+    box_h = (oymax - oymin) * oscale + 40
+    box_x = INSET_MARGIN
+    box_y = (vh - pad) + INSET_GAP
+    vh = int(round(box_y + box_h + INSET_MARGIN))
+    ox, oy = box_x + 20, box_y + 20
+    sys.stdout.write("インセット: 長辺%dpx / 枠 %dx%d @ (%d,%d) / viewBox高 %d\n"
+                     % (INSET_SIZE, box_w, box_h, box_x, box_y, vh))
 
     def to_oki(x, y):
         return (ox + (x - oxmin) * oscale, oy + (y - oymin) * oscale)
 
-    for name, rings in okinawa.items():
+    for name, rings in isles.items():
         base.append('<path d="%s"/>' % to_path(rings, to_oki))
 
     svg = (
         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 %d %d" width="%d" height="%d">'
-        '<rect x="%d" y="%d" width="190" height="190" rx="10" fill="none" stroke="#fff" '
+        '<rect x="%d" y="%d" width="%d" height="%d" rx="10" fill="none" stroke="#fff" '
         'stroke-opacity=".3" stroke-width="2" stroke-dasharray="6 5"/>'
         '<g fill="#fff" fill-opacity=".26" stroke="#fff" stroke-opacity=".55" stroke-width="1.1" '
         'stroke-linejoin="round">%s%s</g></svg>'
-    ) % (vw, vh, vw, vh, int(ox - 20), int(oy - 20), "".join(base), "".join(hot))
+    ) % (vw, vh, vw, vh, int(ox - 20), int(oy - 20), int(box_w), int(box_h),
+         "".join(base), "".join(hot))
 
     with io.open(OUT, "w", encoding="utf-8", newline="\n") as f:
         f.write(svg)
