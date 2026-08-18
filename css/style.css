@@ -1038,19 +1038,21 @@ img {
   box-shadow: 0 0 0 3px rgba(255, 45, 75, 0.3);
 }
 
+/* --pin-lift を指定すると、その分だけ棒を伸ばしてマークを上へ逃がす
+   (県の塗りにマークがかぶるときに使う) */
 .hero-areas-stem {
   position: absolute;
   left: -1px;
   bottom: 4px;
   width: 2px;
-  height: 13px;
+  height: calc(13px + var(--pin-lift, 0px));
   background: white;
   opacity: 0.6;
 }
 
 .hero-areas-mark {
   position: absolute;
-  bottom: 15px;
+  bottom: calc(15px + var(--pin-lift, 0px));
   left: calc(-1 * var(--pin-r));
   width: calc(var(--pin-r) * 2);
   height: calc(var(--pin-r) * 2);
@@ -1209,11 +1211,11 @@ img {
   }
 
   .hero-areas-stem {
-    height: 18px;
+    height: calc(18px + var(--pin-lift, 0px));
   }
 
   .hero-areas-mark {
-    bottom: 20px;
+    bottom: calc(20px + var(--pin-lift, 0px));
     border-width: 3px;
   }
 
