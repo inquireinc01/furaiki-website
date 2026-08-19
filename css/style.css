@@ -944,8 +944,17 @@ img {
   animation: heroFinalFadeIn 1.3s ease-out 11.0s forwards;
 }
 
+/* 見出し(h1)。常時見えている2行をそのまま h1 にしている。
+   第2段のタイトル3行は演出の最後に消えるため、h1 には使わない */
 .hero-areas-head {
   text-align: center;
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+.hero-areas-kicker {
+  display: block;
 }
 
 /* 見出しの上に置く小見出し。団体の性格を一言で示す */
