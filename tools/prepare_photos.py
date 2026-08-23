@@ -8,6 +8,7 @@
 # いずれも元ファイルの更新日時を引き継ぐため、時系列順の並びに影響しない。
 # EXIF(撮影日時など)は「直近の活動」表示の判定に使うため、変換・縮小後も残す。
 import datetime
+import io
 import json
 import os
 import re
@@ -18,13 +19,14 @@ IMAGE_EXTS = (".jpg", ".jpeg", ".png", ".webp", ".gif")
 # ギャラリー系フォルダは、写真を「撮影日時のファイル名(yyyymmddhhmmss)」へ自動改名する。
 # → 連番(01,02..)管理の破綻(挿入時の振り直し・新着順に並べられない等)を回避し、
 #   名前だけで時系列ソート/新着順/直近判定ができるようにする。
-GALLERY_RENAME_FOLDERS = {
-    "images/gallery",
-    "images/gallery/recent",
-    "images/gallery/saigaifukkou",
-    "images/gallery/heartrugby",
-    "images/gallery/community",
-}
+# 撮影日時のファイル名へ自動改名する対象。images/gallery とその下のサブフォルダ全部。
+# 活動1回=1フォルダ(例 images/gallery/2026-08-22_22_熊本)なので、
+# フォルダ名を決め打ちせず前方一致で判定する。
+GALLERY_ROOT = "images/gallery"
+
+
+def is_gallery(folder):
+    return folder == GALLERY_ROOT or folder.startswith(GALLERY_ROOT + "/")
 _DATENAME_RE = re.compile(r"^\d{14}(_\d+)?\.(jpe?g|png|webp|gif)$", re.I)
 _EXIF_DT_RE = re.compile(r"(\d{4}):(\d{2}):(\d{2})\s+(\d{2}):(\d{2}):(\d{2})")
 
@@ -157,10 +159,6 @@ FOLDERS = [
     ("images/hero", 1600, 500),
     ("images/about-hero", 1920, 600),
     ("images/gallery", 1600, 500),
-    ("images/gallery/recent", 1600, 500),
-    ("images/gallery/saigaifukkou", 1600, 500),
-    ("images/gallery/heartrugby", 1600, 500),
-    ("images/gallery/community", 1600, 500),
     ("images/timeline", 1200, 400),
     ("images/org-highlights", 1600, 500),
     # 応援メッセージの顔写真。円形に小さく表示するだけなので長辺800pxで十分。
@@ -177,13 +175,8 @@ QUALITY = 85
 SRCSET_WIDTHS = (480, 800)
 SRCSET_FOLDERS = {
     "images/hero",
-    "images/gallery",
-    "images/gallery/recent",
-    "images/gallery/saigaifukkou",
-    "images/gallery/heartrugby",
-    "images/gallery/community",
     "images/org-highlights",
-}
+}   # これに加えて images/gallery 配下は is_gallery() で自動的に対象になる
 
 
 def generate_srcset_variants(folder_dir, Image, ImageOps, quality):
@@ -243,6 +236,80 @@ def cleanup_orphan_srcset(folder_dir):
     return count
 
 
+
+# 活動1回=1フォルダの一覧(images/gallery/index.json)を作る。
+# サイト側(js/about-photos.js)はこれ1本を読んで、活動ごとのまとまりを描く。
+_INFO_KEYS = {
+    u"回": "round", u"期間": "period", u"地域": "area", u"場所": "place",
+    u"災害": "disaster", u"事業": "cats", u"内容": "work",
+}
+_DIRNAME_RE = re.compile(r"^(\d{4}-\d{2}-\d{2})_([0-9]{1,3}|--)_(.+)$")
+
+
+def _read_info(folder_dir):
+    """info.txt(「キー: 値」を並べただけのファイル)を読む。無くてもよい。"""
+    info = {}
+    path = os.path.join(folder_dir, "info.txt")
+    if not os.path.isfile(path):
+        return info
+    try:
+        with io.open(path, encoding="utf-8") as f:
+            for line in f:
+                if ":" not in line and u"：" not in line:
+                    continue
+                line = line.replace(u"：", ":")
+                k, v = line.split(":", 1)
+                key = _INFO_KEYS.get(k.strip())
+                if key:
+                    info[key] = v.strip()
+    except Exception as e:
+        print("[WARN] info.txt (%s): %s" % (folder_dir, e))
+    return info
+
+
+def write_gallery_index(root):
+    gal = os.path.join(root, GALLERY_ROOT)
+    if not os.path.isdir(gal):
+        return 0
+    items = []
+    for name in sorted(os.listdir(gal)):
+        d = os.path.join(gal, name)
+        if not os.path.isdir(d):
+            continue
+        photos = [n for n in sorted(os.listdir(d))
+                  if n.lower().endswith(IMAGE_EXTS) and not _WIDTH_SUFFIX_RE.search(n)]
+        if not photos:
+            continue
+        info = _read_info(d)
+        m = _DIRNAME_RE.match(name)
+        start = m.group(1) if m else ""
+        no = m.group(2) if m else "--"
+        area = m.group(3) if m else name
+        period = info.get("period", start)
+        cats = [c.strip() for c in info.get("cats", "").replace(u"、", ",").split(",") if c.strip()]
+        items.append({
+            "dir": name,
+            "round": info.get("round") or (u"第%d回" % int(no) if no.isdigit() else ""),
+            "start": start,
+            "period": period,
+            "area": info.get("area") or area,
+            "place": info.get("place", ""),
+            "disaster": info.get("disaster", ""),
+            "cats": cats or ["1"],
+            "work": info.get("work", ""),
+            "photos": photos,
+        })
+    items.sort(key=lambda x: (x["start"], x["dir"]), reverse=True)
+    out = os.path.join(gal, "index.json")
+    try:
+        with io.open(out, "w", encoding="utf-8", newline="\n") as f:
+            f.write(json.dumps(items, ensure_ascii=False, indent=1))
+    except Exception as e:
+        print("[ERROR] index.json: %s" % e)
+        return 0
+    return len(items)
+
+
 def main():
     sys.stdout.reconfigure(errors="replace")
     try:
@@ -261,7 +328,15 @@ def main():
     converted = optimized = renamed = srcset = srcset_cleaned = 0
     mtime_warn = []  # 撮影日時が不明で更新日時(概算)で命名したもの
 
-    for folder, max_side, limit_kb in FOLDERS:
+    # 活動1回=1フォルダなので、images/gallery の下は毎回スキャンして対象に加える
+    folders = list(FOLDERS)
+    gal = os.path.join(root, GALLERY_ROOT)
+    if os.path.isdir(gal):
+        for name in sorted(os.listdir(gal)):
+            if os.path.isdir(os.path.join(gal, name)):
+                folders.append((GALLERY_ROOT + "/" + name, 1600, 500))
+
+    for folder, max_side, limit_kb in folders:
         d = os.path.join(root, folder)
         if not os.path.isdir(d):
             continue
@@ -295,7 +370,7 @@ def main():
                 print("[ERROR] %s/%s: %s" % (folder, name, e))
 
         # 1.5) ギャラリー系は撮影日時ファイル名へ改名(HEIC変換後・縮小前)
-        if folder in GALLERY_RENAME_FOLDERS:
+        if is_gallery(folder):
             renamed += rename_to_capture_datetime(d, Image, mtime_warn)
 
         # 2) 大きすぎるJPG/PNGを縮小
@@ -332,13 +407,13 @@ def main():
                 print("[ERROR] %s/%s: %s" % (folder, name, e))
 
         # 2.5) 元画像が消えた派生ファイルを掃除してから、srcset用の軽量版を生成
-        if folder in SRCSET_FOLDERS:
+        if folder in SRCSET_FOLDERS or is_gallery(folder):
             srcset_cleaned += cleanup_orphan_srcset(d)
             srcset += generate_srcset_variants(d, Image, ImageOps, QUALITY)
 
     # 3) 各フォルダの写真一覧(list.json)を生成。サイト側はこれを読む。
     manifests = 0
-    for folder, _max_side, _limit_kb in FOLDERS:
+    for folder, _max_side, _limit_kb in folders:
         d = os.path.join(root, folder)
         if os.path.isdir(d):
             if write_manifest(d, IMAGE_EXTS) >= 0:
@@ -352,10 +427,12 @@ def main():
             if write_manifest(news_dir, (".txt",), exclude_prefixes=("readme",)) >= 0:
                 manifests += 1
 
+    activities = write_gallery_index(root)
+
     print(
         "写真整形おわり: HEIC変換 %d件 / 改名 %d件 / 縮小 %d件 / srcset生成 %d件"
-        " / srcset孤立削除 %d件 / 一覧生成 %d件"
-        % (converted, renamed, optimized, srcset, srcset_cleaned, manifests)
+        " / srcset孤立削除 %d件 / 一覧生成 %d件 / 活動 %d回分"
+        % (converted, renamed, optimized, srcset, srcset_cleaned, manifests, activities)
     )
     if mtime_warn:
         print("")

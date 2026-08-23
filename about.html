@@ -27,7 +27,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet" />
 <script src="https://cdn.tailwindcss.com/3.4.16"></script>
-<link rel="stylesheet" href="css/style.css?v=20260823a" />
+<link rel="stylesheet" href="css/style.css?v=20260823d" />
 <noscript><style>.reveal,.gallery-item{opacity:1!important;transform:none!important}</style></noscript>
 <!-- Google Analytics (GA4) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-53J7NCFSF3"></script>
@@ -147,20 +147,13 @@
         <div class="w-16 h-1 bg-[#c8102e]"></div>
       </div>
 
-      <!-- カテゴリタブ(トップページ「活動内容」と連動)。
-           初期表示は「すべて」。写真の撮影日(Exif)を自動判定し、
-           3ヶ月以内の直近の活動を「すべて」タブの最上段にも表示する -->
-      <div id="galleryTabs" class="flex flex-wrap gap-2 mb-4 reveal">
-        <button type="button" data-tab="all" class="gallery-tab px-5 py-2.5 rounded-full text-sm font-bold border-2 border-[#c8102e] text-white bg-[#c8102e]">すべて</button>
-        <button type="button" data-tab="recent" class="gallery-tab px-5 py-2.5 rounded-full text-sm font-bold border-2 border-gray-200 text-gray-600 bg-white hover:border-[#c8102e] hover:text-[#c8102e] transition-colors">直近の活動(3ヶ月以内)</button>
-        <button type="button" data-tab="disaster-relief" class="gallery-tab px-5 py-2.5 rounded-full text-sm font-bold border-2 border-gray-200 text-gray-600 bg-white hover:border-[#c8102e] hover:text-[#c8102e] transition-colors">①緊急災害復興支援</button>
-        <button type="button" data-tab="heart-flags" class="gallery-tab px-5 py-2.5 rounded-full text-sm font-bold border-2 border-gray-200 text-gray-600 bg-white hover:border-[#c8102e] hover:text-[#c8102e] transition-colors">②心の復興支援(ラグビーイベント)</button>
-        <button type="button" data-tab="community" class="gallery-tab px-5 py-2.5 rounded-full text-sm font-bold border-2 border-gray-200 text-gray-600 bg-white hover:border-[#c8102e] hover:text-[#c8102e] transition-colors">③地域コミュニティ・伝統文化継承支援</button>
-      </div>
-      <p id="galleryEmptyNote" class="hidden text-gray-500 text-sm mb-6">このカテゴリの写真はまだ登録されていません。<code class="bg-gray-200 px-1.5 py-0.5 rounded">images/gallery/</code> 内の対応フォルダに写真を追加すると表示されます。</p>
+      <!-- 絞り込み(地域・年・事業)は js/about-photos.js が
+           images/gallery/index.json から作る -->
+      <div id="galleryTabs" class="gallery-filters reveal"></div>
+      <p id="galleryEmptyNote" class="hidden text-gray-500 text-sm mb-6">この条件に当てはまる活動記録はまだありません。</p>
 
-      <!-- ギャラリーグリッド(images/gallery/ の写真を js/about-photos.js が自動表示) -->
-      <div id="galleryGrid" class="gallery-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"></div>
+      <!-- 活動1回=1フォルダのまとまりを js/about-photos.js が描く -->
+      <div id="galleryGrid" class="activity-list"></div>
     </div>
   </section>
 
@@ -190,10 +183,10 @@
   </div>
 </footer>
 
-<script src="js/header-fit.js?v=20260823a"></script>
-<script src="js/menu.js?v=20260823a"></script>
-<script src="js/exif-date.js?v=20260823a"></script>
-<script src="js/about-photos.js?v=20260823a"></script>
-<script src="js/scroll-reveal.js?v=20260823a"></script>
+<script src="js/header-fit.js?v=20260823d"></script>
+<script src="js/menu.js?v=20260823d"></script>
+<script src="js/exif-date.js?v=20260823d"></script>
+<script src="js/about-photos.js?v=20260823d"></script>
+<script src="js/scroll-reveal.js?v=20260823d"></script>
 </body>
 </html>
