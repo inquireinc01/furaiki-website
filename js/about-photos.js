@@ -133,9 +133,9 @@
   const RECENT_DAYS = 95; // 3ヶ月+若干の余裕
   const RECENT_EMPTY_MESSAGE = EN
     ? "No photos registered for activities within the last 3 months yet. " +
-      "Please add photos to the images/gallery/recent folder after each activity."
+      "Photos added to any folder under images/gallery/ will appear here automatically."
     : "直近3ヶ月以内の活動写真はまだ登録されていません。" +
-      "活動のたびに images/gallery/recent フォルダへ写真を追加してください。";
+      "images/gallery/ のどのフォルダに入れた写真でも、撮影日から3ヶ月以内なら自動で表示されます。";
   const DEFAULT_EMPTY_MESSAGE = EN
     ? "No photos registered in this category yet. Photos added to the corresponding folder in images/gallery/ will be displayed here."
     : "このカテゴリの写真はまだ登録されていません。images/gallery/ 内の対応フォルダに写真を追加すると表示されます。";
@@ -246,9 +246,16 @@
     setActiveTab(tab);
     const emptyMessage = tab === "recent" ? RECENT_EMPTY_MESSAGE : DEFAULT_EMPTY_MESSAGE;
 
-    // 「すべて」は全カテゴリを集約(新着順)して表示
-    if (tab === "all") {
+    // 「すべて」と「直近の活動」は全カテゴリを集約して表示する。
+    // 直近も全カテゴリから拾うことで、写真を1枚どこかのカテゴリに置くだけで
+    // カテゴリ別タブと直近タブの両方に出る(同じ写真を2つのフォルダに置くと
+    // 「すべて」で二重に表示されてしまうため、複製はしない)。
+    if (tab === "all" || tab === "recent") {
       listAllImages().then((urls) => {
+        if (tab === "recent") {
+          loadRecent(urls, emptyMessage);
+          return;
+        }
         renderGallery(urls.length ? urls : ALL_FALLBACK, emptyMessage);
       });
       return;
@@ -257,10 +264,6 @@
     listImages(FOLDERS[tab] || FOLDERS.all).then((urls) => {
       if (urls === null) {
         renderGallery([], emptyMessage);
-        return;
-      }
-      if (tab === "recent") {
-        loadRecent(urls, emptyMessage);
         return;
       }
       renderGallery(urls, emptyMessage); // urls は既に新着順(降順)
