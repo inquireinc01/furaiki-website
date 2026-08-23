@@ -1,4 +1,4 @@
-// 活動報告ページ(about.html)の写真自動読み込み
+﻿// 活動報告ページ(about.html)の写真自動読み込み
 // - メインビジュアル: images/about-hero/ の先頭画像(ファイル名順)を背景に使用
 // - フォトギャラリー: カテゴリタブごとに images/gallery/ 配下のフォルダを表示
 // 画像一覧はGitHub APIから取得し、失敗時はフォールバックの既定画像を使う。
@@ -81,115 +81,192 @@
     });
   }
 
-  // カテゴリ別フォトギャラリー
+  // ===== 活動記録ギャラリー =====
+  // images/gallery/index.json(tools/prepare_photos.py が生成)を1本読むだけ。
+  // 活動1回=1フォルダで、フォルダごとに見出し(回・期間・場所)を付けて並べる。
   const grid = document.getElementById("galleryGrid");
-  const tabsWrap = document.getElementById("galleryTabs");
+  const filterWrap = document.getElementById("galleryTabs");
   const emptyNote = document.getElementById("galleryEmptyNote");
-  if (!grid || !tabsWrap) return;
+  if (!grid || !filterWrap) return;
 
-  const FOLDERS = {
-    recent: "images/gallery/recent",
-    all: "images/gallery",
-    "disaster-relief": "images/gallery/saigaifukkou",
-    "heart-flags": "images/gallery/heartrugby",
-    community: "images/gallery/community",
-  };
-  // 「すべて」タブは、カテゴリ別サブフォルダ + gallery直下の写真をすべて集約して
-  // 表示する。写真をサブフォルダに振り分けても「すべて」で一覧できるようにするため。
-  const ALL_SOURCE_FOLDERS = [
-    "images/gallery",
-    "images/gallery/saigaifukkou",
-    "images/gallery/heartrugby",
-    "images/gallery/community",
-    "images/gallery/recent",
-  ];
-
-  // 全フォルダの写真を集約。ファイル名(撮影日時)の降順=新着順で並べ、同名は重複排除。
-  function listAllImages() {
-    return Promise.all(
-      ALL_SOURCE_FOLDERS.map((f) => listImages(f).then((u) => u || []))
-    ).then((lists) => {
-      // 重複排除はフルパス(url)で行う。撮影日時ファイル名は別フォルダ間で
-      // 同名になり得る(別の写真)ため、ファイル名だけで排除すると取りこぼす。
-      const seen = new Set();
-      const combined = [];
-      lists.forEach((urls) => {
-        urls.forEach((url) => {
-          if (!seen.has(url)) {
-            seen.add(url);
-            combined.push(url);
-          }
-        });
-      });
-      combined.sort((a, b) =>
-        b.split("/").pop().localeCompare(a.split("/").pop(), "ja")
-      );
-      return combined;
-    });
-  }
-  // list.json が全滅した場合のみ使う予備(通常は到達しない)。存在しない名前を
-  // 並べると壊れた画像が出るため、空にして「準備中」メッセージを表示させる。
-  const ALL_FALLBACK = [];
   const RECENT_DAYS = 95; // 3ヶ月+若干の余裕
-  const RECENT_EMPTY_MESSAGE = EN
-    ? "No photos registered for activities within the last 3 months yet. " +
-      "Photos added to any folder under images/gallery/ will appear here automatically."
-    : "直近3ヶ月以内の活動写真はまだ登録されていません。" +
-      "images/gallery/ のどのフォルダに入れた写真でも、撮影日から3ヶ月以内なら自動で表示されます。";
-  const DEFAULT_EMPTY_MESSAGE = EN
-    ? "No photos registered in this category yet. Photos added to the corresponding folder in images/gallery/ will be displayed here."
-    : "このカテゴリの写真はまだ登録されていません。images/gallery/ 内の対応フォルダに写真を追加すると表示されます。";
   const PHOTO_ALT = EN ? "Photos from our activities " : "活動報告の様子";
 
-  const ACTIVE_CLASS = ["border-[#c8102e]", "text-white", "bg-[#c8102e]"];
-  const INACTIVE_CLASS = ["border-gray-200", "text-gray-600", "bg-white"];
+  // 定款 第5条(事業の種類)に対応する。番号は info.txt の「事業:」で指定する。
+  const PROGRAMS = {
+    "1": EN ? "Volunteer dispatch" : "災害ボランティア派遣",
+    "2": EN ? "Recovery & emotional support" : "復興・心のケア支援",
+    "3": EN ? "Furaiki flag outreach" : "応援フライキ普及",
+    "4": EN ? "Volunteer platform" : "ボランティア基盤づくり",
+    "5": EN ? "Other" : "その他",
+  };
+  const AREA_EN = { "能登": "Noto", "熊本": "Kumamoto", "岩手": "Iwate", "広報": "Outreach" };
+  const T = {
+    all: EN ? "All" : "すべて",
+    recent: EN ? "Last 3 months" : "直近3ヶ月",
+    area: EN ? "Area" : "地域",
+    year: EN ? "Year" : "年",
+    program: EN ? "Programme" : "事業",
+    empty: EN
+      ? "No activities match this filter yet."
+      : "この条件に当てはまる活動記録はまだありません。",
+    photos: EN ? " photos" : "枚",
+  };
 
-  function setActiveTab(tab) {
-    tabsWrap.querySelectorAll(".gallery-tab").forEach((btn) => {
-      const isActive = btn.dataset.tab === tab;
-      btn.classList.remove(...ACTIVE_CLASS, ...INACTIVE_CLASS);
-      btn.classList.add(...(isActive ? ACTIVE_CLASS : INACTIVE_CLASS));
-      // 支援技術に現在選択中のフィルターを伝える
-      btn.setAttribute("aria-pressed", isActive ? "true" : "false");
-    });
+  const MONTHS = ["January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"];
+
+  function fmtDate(iso) {
+    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || "");
+    if (!m) return iso || "";
+    return EN
+      ? MONTHS[+m[2] - 1] + " " + +m[3] + ", " + m[1]
+      : m[1] + "年" + +m[2] + "月" + +m[3] + "日";
   }
 
-  function renderGallery(urls, emptyMessage) {
-    grid.textContent = "";
-    if (emptyNote) {
-      emptyNote.classList.toggle("hidden", urls.length > 0);
-      if (emptyMessage) emptyNote.textContent = emptyMessage;
+  // 「2026-08-22〜2026-08-24」→「2026年8月22日〜24日」。同じ月なら後半を短く出す。
+  function fmtPeriod(period) {
+    const parts = String(period || "").split(/[〜~]/);
+    if (parts.length < 2) return fmtDate(parts[0]);
+    const a = parts[0].trim();
+    const b = parts[1].trim();
+    if (a.slice(0, 7) === b.slice(0, 7)) {
+      const d2 = +b.slice(8, 10);
+      // 英語は「August 22–24, 2026」、日本語は「2026年8月22日〜24日」
+      if (EN) {
+        return MONTHS[+a.slice(5, 7) - 1] + " " + +a.slice(8, 10) + "–" + d2 + ", " + a.slice(0, 4);
+      }
+      return fmtDate(a) + "〜" + d2 + "日";
     }
-    urls.forEach((url, i) => {
-      // innerHTML でのHTML組み立ては避け、DOM APIで生成する
-      // (URL由来の文字列を属性に安全に入れ、エスケープ漏れによるリスクを排除)
-      const item = document.createElement("div");
-      item.className = "gallery-item group overflow-hidden rounded-lg";
-      item.style.transitionDelay = (i % 3) * 100 + "ms";
+    return fmtDate(a) + (EN ? " – " : "〜") + fmtDate(b);
+  }
 
-      const wrapper = document.createElement("div");
-      wrapper.className = "gallery-image-wrapper relative bg-gray-300 aspect-[4/3]";
+  function chip(label, value, group) {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "gallery-chip";
+    b.dataset.group = group;
+    b.dataset.value = value;
+    b.textContent = label;
+    return b;
+  }
 
-      const img = document.createElement("img");
-      img.src = withWidth(url, SRCSET_WIDTHS[0]);
-      img.srcset = buildSrcset(url);
-      img.sizes = GALLERY_SIZES;
-      img.alt = PHOTO_ALT + (i + 1);
-      img.loading = "lazy";
-      img.className = "gallery-image w-full h-full object-cover";
+  function photoCard(url, i) {
+    const item = document.createElement("div");
+    item.className = "gallery-item group overflow-hidden rounded-lg";
+    item.style.transitionDelay = (i % 3) * 100 + "ms";
 
-      const overlay = document.createElement("div");
-      overlay.className =
-        "gallery-overlay absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300";
+    const wrapper = document.createElement("div");
+    wrapper.className = "gallery-image-wrapper relative bg-gray-300 aspect-[4/3]";
 
-      wrapper.appendChild(img);
-      wrapper.appendChild(overlay);
-      item.appendChild(wrapper);
-      grid.appendChild(item);
+    const img = document.createElement("img");
+    img.src = withWidth(url, SRCSET_WIDTHS[0]);
+    img.srcset = buildSrcset(url);
+    img.sizes = GALLERY_SIZES;
+    img.alt = PHOTO_ALT + (i + 1);
+    img.loading = "lazy";
+    img.className = "gallery-image w-full h-full object-cover";
+
+    const overlay = document.createElement("div");
+    overlay.className =
+      "gallery-overlay absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300";
+
+    wrapper.appendChild(img);
+    wrapper.appendChild(overlay);
+    item.appendChild(wrapper);
+    return item;
+  }
+
+  function pick(act, key) {
+    // 英語版は「場所EN」等があればそれを使い、無ければ日本語を出さない
+    if (EN) return act[key + "En"] || "";
+    return act[key] || "";
+  }
+
+  function activityBlock(act) {
+    const sec = document.createElement("section");
+    // reveal は写真カード側だけに付ける。まとまり全体に付けると、
+    // 監視対象外のため opacity:0 のまま何も見えなくなる
+    sec.className = "activity";
+
+    const head = document.createElement("div");
+    head.className = "activity-head";
+
+    if (act.round) {
+      const badge = document.createElement("span");
+      badge.className = "activity-round";
+      badge.textContent = EN ? "#" + act.round.replace(/[^0-9]/g, "") : act.round;
+      head.appendChild(badge);
+    }
+
+    const h3 = document.createElement("h3");
+    h3.className = "activity-title";
+    h3.textContent = pick(act, "place") || (EN ? AREA_EN[act.area] || act.area : act.area);
+    head.appendChild(h3);
+
+    const meta = document.createElement("p");
+    meta.className = "activity-meta";
+    const bits = [fmtPeriod(act.period)];
+    const disaster = pick(act, "disaster");
+    if (disaster) bits.push(disaster);
+    bits.push(act.photos.length + T.photos);
+    meta.textContent = bits.join(EN ? " · " : "　・　");
+    head.appendChild(meta);
+
+    const work = pick(act, "work");
+    if (work) {
+      const p = document.createElement("p");
+      p.className = "activity-work";
+      p.textContent = work;
+      head.appendChild(p);
+    }
+
+    const tags = document.createElement("p");
+    tags.className = "activity-tags";
+    (act.cats || []).forEach((c) => {
+      if (!PROGRAMS[c]) return;
+      const s = document.createElement("span");
+      s.textContent = PROGRAMS[c];
+      tags.appendChild(s);
     });
+    if (tags.childNodes.length) head.appendChild(tags);
+
+    sec.appendChild(head);
+
+    const g = document.createElement("div");
+    g.className = "gallery-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6";
+    act.photos.forEach((name, i) => {
+      g.appendChild(photoCard(BASE + "images/gallery/" + act.dir + "/" + encodeURIComponent(name), i));
+    });
+    sec.appendChild(g);
+    return sec;
+  }
+
+  const state = { area: "", year: "", program: "", recent: false };
+  let ACTIVITIES = [];
+
+  function matches(act) {
+    if (state.area && act.area !== state.area) return false;
+    if (state.year && String(act.start).slice(0, 4) !== state.year) return false;
+    if (state.program && (act.cats || []).indexOf(state.program) < 0) return false;
+    if (state.recent) {
+      const t = Date.parse(act.start);
+      if (isNaN(t) || Date.now() - t > RECENT_DAYS * 864e5) return false;
+    }
+    return true;
+  }
+
+  function render() {
+    grid.textContent = "";
+    const list = ACTIVITIES.filter(matches);
+    if (emptyNote) {
+      emptyNote.classList.toggle("hidden", list.length > 0);
+      emptyNote.textContent = T.empty;
+    }
+    list.forEach((act) => grid.appendChild(activityBlock(act)));
 
     if (!("IntersectionObserver" in window)) {
-      grid.querySelectorAll(".gallery-item").forEach((el) => el.classList.add("in-view"));
+      grid.querySelectorAll(".gallery-item, .activity").forEach((el) => el.classList.add("in-view"));
       return;
     }
     const observer = new IntersectionObserver(
@@ -206,73 +283,88 @@
     grid.querySelectorAll(".gallery-item").forEach((el) => observer.observe(el));
   }
 
-  // 「直近の活動」タブ: ファイル名の撮影日時から3ヶ月以内の写真を新しい順に表示。
-  // ファイル名に日時が無い写真だけ、従来どおりExif(readExifDate)で補完判定する。
-  function loadRecent(urls, emptyMessage) {
-    const now = Date.now();
-    const limitMs = RECENT_DAYS * 24 * 60 * 60 * 1000;
-    const dated = []; // {url, time}
-    const needExif = []; // ファイル名から日時が取れなかったもの
-
-    urls.forEach((url) => {
-      const d = dateFromName(url);
-      if (d) dated.push({ url, time: d.getTime() });
-      else needExif.push(url);
+  function syncChips() {
+    filterWrap.querySelectorAll(".gallery-chip").forEach((b) => {
+      const g = b.dataset.group;
+      const on =
+        g === "reset"
+          ? !state.area && !state.year && !state.program && !state.recent
+          : g === "recent"
+          ? state.recent
+          : state[g] === b.dataset.value;
+      b.classList.toggle("is-on", on);
+      b.setAttribute("aria-pressed", on ? "true" : "false");
     });
-
-    function finish() {
-      const recent = dated
-        .filter((x) => now - x.time <= limitMs)
-        .sort((a, b) => b.time - a.time) // 新しい順
-        .map((x) => x.url);
-      renderGallery(recent, emptyMessage);
-    }
-
-    if (!needExif.length || typeof window.readExifDate !== "function") {
-      finish();
-      return;
-    }
-    Promise.all(needExif.map((u) => window.readExifDate(u).catch(() => null))).then(
-      (dates) => {
-        needExif.forEach((u, i) => {
-          if (dates[i]) dated.push({ url: u, time: dates[i].getTime() });
-        });
-        finish();
-      }
-    );
   }
 
-  function loadTab(tab) {
-    setActiveTab(tab);
-    const emptyMessage = tab === "recent" ? RECENT_EMPTY_MESSAGE : DEFAULT_EMPTY_MESSAGE;
+  function buildFilters() {
+    filterWrap.textContent = "";
 
-    // 「すべて」と「直近の活動」は全カテゴリを集約して表示する。
-    // 直近も全カテゴリから拾うことで、写真を1枚どこかのカテゴリに置くだけで
-    // カテゴリ別タブと直近タブの両方に出る(同じ写真を2つのフォルダに置くと
-    // 「すべて」で二重に表示されてしまうため、複製はしない)。
-    if (tab === "all" || tab === "recent") {
-      listAllImages().then((urls) => {
-        if (tab === "recent") {
-          loadRecent(urls, emptyMessage);
-          return;
-        }
-        renderGallery(urls.length ? urls : ALL_FALLBACK, emptyMessage);
+    const row1 = document.createElement("div");
+    row1.className = "gallery-chip-row";
+    const all = chip(T.all, "", "reset");
+    const rec = chip(T.recent, "", "recent");
+    row1.appendChild(all);
+    row1.appendChild(rec);
+    filterWrap.appendChild(row1);
+
+    function group(key, label, values, labeller) {
+      if (values.length < 2) return;
+      const row = document.createElement("div");
+      row.className = "gallery-chip-row";
+      const cap = document.createElement("span");
+      cap.className = "gallery-chip-label";
+      cap.textContent = label;
+      row.appendChild(cap);
+      values.forEach((v) => row.appendChild(chip(labeller(v), v, key)));
+      filterWrap.appendChild(row);
+    }
+
+    const areas = [];
+    const years = [];
+    const programs = [];
+    ACTIVITIES.forEach((a) => {
+      if (a.area && areas.indexOf(a.area) < 0) areas.push(a.area);
+      const y = String(a.start).slice(0, 4);
+      if (y && years.indexOf(y) < 0) years.push(y);
+      (a.cats || []).forEach((c) => {
+        if (PROGRAMS[c] && programs.indexOf(c) < 0) programs.push(c);
       });
-      return;
-    }
-
-    listImages(FOLDERS[tab] || FOLDERS.all).then((urls) => {
-      if (urls === null) {
-        renderGallery([], emptyMessage);
-        return;
-      }
-      renderGallery(urls, emptyMessage); // urls は既に新着順(降順)
     });
+    years.sort().reverse();
+    programs.sort();
+
+    group("area", T.area, areas, (v) => (EN ? AREA_EN[v] || v : v));
+    group("year", T.year, years, (v) => (EN ? v : v + "年"));
+    group("program", T.program, programs, (v) => PROGRAMS[v]);
+
+    filterWrap.addEventListener("click", (e) => {
+      const b = e.target.closest(".gallery-chip");
+      if (!b) return;
+      const g = b.dataset.group;
+      if (g === "reset") {
+        state.area = state.year = state.program = "";
+        state.recent = false;
+      } else if (g === "recent") {
+        state.recent = !state.recent;
+      } else {
+        state[g] = state[g] === b.dataset.value ? "" : b.dataset.value;
+      }
+      syncChips();
+      render();
+    });
+    syncChips();
   }
 
-  tabsWrap.querySelectorAll(".gallery-tab").forEach((btn) => {
-    btn.addEventListener("click", () => loadTab(btn.dataset.tab));
-  });
-
-  loadTab("all");
+  fetch(BASE + "images/gallery/index.json", { cache: "no-store" })
+    .then((res) => (res.ok ? res.json() : []))
+    .then((list) => {
+      ACTIVITIES = Array.isArray(list) ? list : [];
+      buildFilters();
+      render();
+    })
+    .catch(() => {
+      ACTIVITIES = [];
+      render();
+    });
 })();
