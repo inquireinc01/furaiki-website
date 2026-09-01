@@ -71,6 +71,20 @@
     return m ? "https://www.youtube.com/embed/" + m[1] : null;
   }
 
+  // 画像だけの行を写真として表示する。
+  //   images/gallery/2026-08-22_22_熊本/20260822090000_01.jpg
+  //   images/… .jpg | 第22回 熊本 活動初日の集合写真   ← 「|」の後ろは説明文(省略可)
+  // サイト内のパスには BASE を足す(英語版は1階層下にあるため)。
+  const IMAGE_LINE = /^(\S+\.(?:jpe?g|png|webp))(?:\s*\|\s*(.+))?$/i;
+  function parseImageLine(line) {
+    const m = line.match(IMAGE_LINE);
+    if (!m) return null;
+    return {
+      src: /^https?:\/\//i.test(m[1]) ? m[1] : BASE + m[1],
+      caption: (m[2] || "").trim(),
+    };
+  }
+
   // 本文中に混ざったURLだけをリンク化し、それ以外はテキストのまま追加する
   // (innerHTML は使わず、URL部分だけ<a>要素として組み立てる)
   function appendTextWithLinks(container, text) {
@@ -136,12 +150,38 @@
         p.className = "text-sm text-gray-600 mt-1 leading-relaxed";
         box.appendChild(p);
       }
+      // 写真や動画を差し込む前に呼ぶ。直前の段落が空なら、余白だけが残らないよう取り除く
+      function closeParagraph() {
+        if (p && !p.childNodes.length) p.remove();
+      }
       openParagraph();
 
       (item.bodyLines || []).forEach((line) => {
+        const photo = parseImageLine(line);
+        if (photo) {
+          closeParagraph();
+          const fig = document.createElement("figure");
+          fig.className = "mt-3 max-w-md";
+          const im = document.createElement("img");
+          im.src = photo.src;
+          im.alt = photo.caption || item.title;
+          im.loading = "lazy";
+          im.className = "w-full h-auto rounded-lg";
+          fig.appendChild(im);
+          if (photo.caption) {
+            const cap = document.createElement("figcaption");
+            cap.className = "text-xs text-gray-500 mt-1";
+            cap.textContent = photo.caption;
+            fig.appendChild(cap);
+          }
+          box.appendChild(fig);
+          openParagraph(); // 写真の後に続く行のため、新しい段落を始める
+          return;
+        }
         const embedUrl = /^https?:\/\/\S+$/.test(line) ? youtubeEmbedUrl(line) : null;
         if (embedUrl) {
           // YouTubeの単独URL行は動画をそのまま埋め込む
+          closeParagraph();
           const wrap = document.createElement("div");
           wrap.className = "mt-3 max-w-md aspect-video rounded-lg overflow-hidden bg-black";
           const iframe = document.createElement("iframe");
