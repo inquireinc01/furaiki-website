@@ -1132,6 +1132,8 @@ img {
   flex: 0 0 auto;
   min-width: 3.5rem;
   text-align: center;
+  /* 「活動依頼募集中」のように2行に折り返すバッジがあるため、行間を詰めておく */
+  line-height: 1.25;
 }
 
 .hero-areas-badge.is-active { background: #c8102e; color: white; }
