@@ -13,9 +13,18 @@
   // 重なって光り続ける。本文が変わったら data-text も揃える。
   const shineTargets = document.querySelectorAll(".hero-intro-line, .hero-flag-shine");
 
+  // 注記など、光らせたくない子要素([data-no-shine])は重ね文字から除外する
+  function shineText(el) {
+    return Array.from(el.childNodes)
+      .filter((n) => !(n.nodeType === 1 && n.hasAttribute("data-no-shine")))
+      .map((n) => n.textContent)
+      .join("")
+      .trim();
+  }
+
   function syncShineText() {
     shineTargets.forEach((el) => {
-      const text = el.textContent.trim();
+      const text = shineText(el);
       if (text && el.dataset.text !== text) el.dataset.text = text;
     });
   }
