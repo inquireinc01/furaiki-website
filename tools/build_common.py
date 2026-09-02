@@ -17,7 +17,7 @@ import re
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SITE = "https://www.furaiki.org"        # 正規ドメイン(canonical / OGP の基準)
-V = "20260901a"                        # CSS/JS のキャッシュバスト用バージョン
+V = "20260902a"                        # CSS/JS のキャッシュバスト用バージョン
 TAILWIND_CDN = "https://cdn.tailwindcss.com/3.4.16"  # バージョン固定(最新追従による突然の崩壊を防ぐ)
 GA4_ID = "G-53J7NCFSF3"                   # Googleアナリティクス4 測定ID。空にするとGA4タグを出力しない。
 OG_IMAGE = SITE + "/images/mascot.png"
@@ -55,6 +55,7 @@ LANGS = {
         "copyright_org": "特定非営利活動法人フライキプロジェクト",
         "skip_link": "本文へスキップ",
         "logo_aria": "フライキプロジェクト トップページ",
+        "logo_note": "※認可申請中",
         "nav_aria": "メインナビゲーション",
         "mobile_nav_aria": "モバイルナビゲーション",
         "footer_nav_aria": "フッターナビゲーション",
@@ -131,6 +132,7 @@ LANGS = {
         "copyright_org": "Furaiki Project, a Specified Non-profit Corporation",
         "skip_link": "Skip to main content",
         "logo_aria": "Furaiki Project Home Page",
+        "logo_note": "*approval pending",
         "nav_aria": "Main Navigation",
         "mobile_nav_aria": "Mobile Navigation",
         "footer_nav_aria": "Footer Navigation",
@@ -387,6 +389,7 @@ def header_html(lang, page):
         <span class="logo-badge-text" translate="no">
           <span class="logo-badge-line1">特定非営利活動法人</span>
           <span class="logo-badge-line2">フライキプロジェクト</span>
+          <span class="logo-badge-note">{L["logo_note"]}</span>
         </span>
       </a>
 

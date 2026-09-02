@@ -153,6 +153,15 @@ body {
   letter-spacing: -0.45px;
   color: var(--color-charcoal);
 }
+/* 法人格の注記(※認可申請中)。名称のすぐ下に、主張しない大きさ・色で添える */
+.logo-badge-note {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+  margin-top: 2px;
+  color: #9ca3af;
+}
 
 /* 言語切替(ヘッダー右上)。画面幅によらず常に表示するため、
    ナビや寄付ボタンより小さく控えめな見た目にしている。 */
@@ -538,6 +547,21 @@ img {
   letter-spacing: 0.03em;
   white-space: normal;
   max-width: 90vw;
+}
+
+/* 法人格の注記(※認可申請中)。本文と同じ行に小さく添える。
+   data-no-shine を付けた要素は、きらめきの重ね文字(::after)の対象から外れる
+   (js/translate-guard.js が data-text を組み立てるときに除外する) */
+.hero-intro-note {
+  display: inline-block;
+  margin-left: 0.5em;
+  font-size: clamp(0.625rem, 1.6vw, 0.875rem);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  vertical-align: middle;
+  color: rgba(255, 255, 255, 0.82);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+  white-space: nowrap;
 }
 
 .hero-intro-line:nth-child(1) { animation-delay: 0.3s, 0.3s; }
