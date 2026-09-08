@@ -296,8 +296,8 @@ JA: 応援フライキの贈呈活動
 EN: Donation of Furaiki Support Flags
 
 **P070**  L189 `p` 
-JA: クラウドファンディングなどを活用しながら、東北のラグビーチームや、大きな怪我や病気と闘う仲間たちへ継続的に「応援フライキ」を贈呈。有志を中心とした活動を展開してきました。
-EN: Using crowdfunding and other means, we continued to donate Furaiki support flags to rugby teams in Tohoku and to fellow members of the rugby community facing serious injuries or illnesses. These volunteer-led efforts steadily expanded.
+JA: 全国のラグビー仲間やファンの皆さまから賛同金をいただきながら、東北のラグビーチームや、大きな怪我や病気と闘う仲間たちへ継続的に「応援フライキ」を贈呈。有志を中心とした活動を展開してきました。
+EN: With contributions from rugby friends and fans across Japan, we continued to donate Furaiki support flags to rugby teams in Tohoku and to fellow members of the rugby community facing serious injuries or illnesses. These volunteer-led efforts steadily expanded.
 
 **P071**  L199 `p` 
 JA: 2019年
@@ -420,8 +420,8 @@ JA: 2. これまでの活動実績
 EN: 2. Track Record of Activities
 
 **P101**  L345 `p` 
-JA: 2011年8月のプロジェクト立ち上げ以来、クラウドファンディングなどを活用しながら、東北のラグビーチームや、大きな怪我や病気と闘う仲間たちへ120旗以上の「応援フライキ」を贈呈してきました。
-EN: Since launching the project in August 2011, we have used crowdfunding and other means to donate more than 120 Furaiki support flags to rugby teams in Tohoku and to fellow members of the rugby community facing serious injuries or illnesses.
+JA: 2011年8月のプロジェクト立ち上げ以来、全国のラグビー仲間やファンの皆さまから賛同金をいただきながら、東北のラグビーチームや、大きな怪我や病気と闘う仲間たちへ120旗以上の「応援フライキ」を贈呈してきました。
+EN: Since launching the project in August 2011, with contributions from rugby friends and fans across Japan, we have donated more than 120 Furaiki support flags to rugby teams in Tohoku and to fellow members of the rugby community facing serious injuries or illnesses.
 
 **P102**  L347 `p` 
 JA: 2019年のラグビーワールドカップ釜石開催においては、スタジアムの観客席を無数のフライキで彩り、復興の姿と感謝の思いを世界へと発信しました。
