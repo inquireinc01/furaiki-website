@@ -35,6 +35,8 @@ documents/*.doc
 documents/*.txt
 documents/*名簿*
 documents/*指示書*
+# 加工前の写真原本。サイトには載せないが、作り直せるよう手元には残しておく。
+documents/写真原本/
 
 # Claude Code ローカル設定
 .claude/
