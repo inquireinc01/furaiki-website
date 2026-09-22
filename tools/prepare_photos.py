@@ -165,6 +165,8 @@ FOLDERS = [
     # ファイル名をHTMLから直接参照するため、撮影日時への自動改名
     # (GALLERY_RENAME_FOLDERS)には絶対に入れないこと。
     ("images/messages", 800, 200),
+    # 支部長の顔写真(団体概要「支部」欄)。messages と同じ扱い。
+    ("images/branches", 800, 200),
 ]
 QUALITY = 85
 
