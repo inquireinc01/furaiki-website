@@ -241,11 +241,19 @@ EN: DUARES Kojimachi ONYX 503, 5-5-3 Kojimachi, Chiyoda-ku, Tokyo 102-0083, Japa
 
 **P056**  L131 `h3` 
 JA: 創立日
-EN: Date of Establishment
+EN: Founding Date
 
 **P057**  L132 `p` 
 JA: 2026年7月1日
 EN: July 1, 2026
+
+**P057a**  L146 `h3` 
+JA: 設立日
+EN: Date of Incorporation
+
+**P057b**  L147 `p` 
+JA: 2026年9月11日
+EN: September 11, 2026
 
 **P058**  L137 `h3` 
 JA: 代表
