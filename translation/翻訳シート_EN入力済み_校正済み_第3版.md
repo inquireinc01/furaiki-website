@@ -244,16 +244,16 @@ JA: 創立日
 EN: Founding Date
 
 **P057**  L132 `p` 
-JA: 2026年7月1日
-EN: July 1, 2026
+JA: 2011年8月
+EN: August 2011
 
 **P057a**  L146 `h3` 
 JA: 設立日
 EN: Date of Incorporation
 
 **P057b**  L147 `p` 
-JA: 2026年9月11日
-EN: September 11, 2026
+JA: 2026年9月16日
+EN: September 16, 2026
 
 **P058**  L137 `h3` 
 JA: 代表
