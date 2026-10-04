@@ -27,7 +27,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet" />
 <script src="https://cdn.tailwindcss.com/3.4.16"></script>
-<link rel="stylesheet" href="css/style.css?v=20260924a" />
+<link rel="stylesheet" href="css/style.css?v=20261004a" />
 <noscript><style>.reveal,.gallery-item{opacity:1!important;transform:none!important}</style></noscript>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"NGO","name":"特定非営利活動法人フライキプロジェクト","alternateName":"フライキプロジェクト","url":"https://www.furaiki.org/","inLanguage":"ja","logo":"https://www.furaiki.org/images/mascot.png","foundingDate":"2026-07-01","address":{"@type":"PostalAddress","postalCode":"102-0083","addressRegion":"東京都","addressLocality":"千代田区","streetAddress":"麹町5-5-3 DUARES麹町ONYX503","addressCountry":"JP"},"sameAs":["https://lin.ee/nkWK6v7","https://www.youtube.com/@FURAIKIProject","https://congrant.com/project/furaiki/22163"]}</script>
 <!-- Google Analytics (GA4) -->
@@ -131,18 +131,18 @@
           <!-- 地図は images/japan-map.svg(外部ファイル)。都道府県の塗り分けは
                SVG 側に焼き込んであるため、色を変えるときは tools/ の生成物を作り直す -->
           <div class="hero-areas-map">
-            <img src="images/japan-map.svg?v=20260924a" alt="" width="1028" height="974" />
+            <img src="images/japan-map.svg?v=20261004a" alt="" width="1028" height="974" />
             <span class="hero-areas-pin" style="left:65.02%;top:41.26%;--pin-lift:34px" title="東日本大震災">
               <span class="hero-areas-stem"></span><span class="hero-areas-dot"></span>
-              <span class="hero-areas-mark"><img src="images/メインロゴ.jpg?v=20260924a" alt="" width="34" height="34" /></span>
+              <span class="hero-areas-mark"><img src="images/メインロゴ.jpg?v=20261004a" alt="" width="34" height="34" /></span>
             </span>
             <span class="hero-areas-pin" style="left:41.15%;top:53.16%" title="令和6年能登半島地震・奥能登豪雨">
               <span class="hero-areas-stem"></span><span class="hero-areas-dot"></span>
-              <span class="hero-areas-mark"><img src="images/メインロゴ.jpg?v=20260924a" alt="" width="34" height="34" /></span>
+              <span class="hero-areas-mark"><img src="images/メインロゴ.jpg?v=20261004a" alt="" width="34" height="34" /></span>
             </span>
             <span class="hero-areas-pin" style="left:11.49%;top:82.30%" title="令和8年熊本地震">
               <span class="hero-areas-stem"></span><span class="hero-areas-dot"></span>
-              <span class="hero-areas-mark"><img src="images/メインロゴ.jpg?v=20260924a" alt="" width="34" height="34" /></span>
+              <span class="hero-areas-mark"><img src="images/メインロゴ.jpg?v=20261004a" alt="" width="34" height="34" /></span>
             </span>
           </div>
           <div class="hero-areas-side">
@@ -257,8 +257,42 @@
         <div class="w-16 h-1 bg-[#c8102e]"></div>
       </div>
 
-      <!-- ニュース一覧(news/ フォルダの .txt を js/news-loader.js が自動表示) -->
-      <div id="newsList" class="max-w-3xl reveal"></div>
+      <!-- 左: ニュース(最新3件。残りは js/news-loader.js がボタンで展開) / 右: 応援メッセージの寄稿者
+           PCでは2列、スマホではニュースの下に応援メッセージが続く。
+           顔写真は tools/build_supporter_thumbs.py で作る軽いサムネイル(images/supporters/) -->
+      <div class="grid lg:grid-cols-[minmax(0,1fr)_20rem] gap-10 lg:gap-14 items-start">
+        <div id="newsList" class="reveal"></div>
+
+        <aside class="reveal" aria-labelledby="supportersHead">
+          <div class="bg-white rounded-2xl border border-gray-200 p-6">
+            <h3 id="supportersHead" class="text-lg font-black text-[#1e1e21]">応援メッセージ</h3>
+            <p class="text-sm text-gray-600 mt-1 leading-relaxed">活動に共感し、応援の言葉を寄せてくださった皆さまです。</p>
+            <ul class="mt-5 grid sm:grid-cols-2 lg:grid-cols-1 gap-x-6 gap-y-4">
+              <li class="flex items-center gap-3">
+                <img src="images/supporters/hayashi-toshiyuki.jpg" alt="" width="56" height="56" loading="lazy" class="w-14 h-14 rounded-full shrink-0" />
+                <span class="min-w-0"><span class="block font-bold text-[#1e1e21] leading-tight" translate="no">林 敏之</span><span class="block text-xs text-gray-500 mt-1 leading-snug">元ラグビー日本代表キャプテン</span></span>
+              </li>
+              <li class="flex items-center gap-3">
+                <img src="images/supporters/sakuraba-yoshihiko.jpg" alt="" width="56" height="56" loading="lazy" class="w-14 h-14 rounded-full shrink-0" />
+                <span class="min-w-0"><span class="block font-bold text-[#1e1e21] leading-tight" translate="no">桜庭 吉彦</span><span class="block text-xs text-gray-500 mt-1 leading-snug">元ラグビー日本代表</span></span>
+              </li>
+              <li class="flex items-center gap-3">
+                <img src="images/supporters/nakajima-shuji.jpg" alt="" width="56" height="56" loading="lazy" class="w-14 h-14 rounded-full shrink-0" />
+                <span class="min-w-0"><span class="block font-bold text-[#1e1e21] leading-tight" translate="no">中島 修二</span><span class="block text-xs text-gray-500 mt-1 leading-snug">元ラグビー日本代表</span></span>
+              </li>
+              <li class="flex items-center gap-3">
+                <img src="images/supporters/fujinami-tatsumi.jpg" alt="" width="56" height="56" loading="lazy" class="w-14 h-14 rounded-full shrink-0" />
+                <span class="min-w-0"><span class="block font-bold text-[#1e1e21] leading-tight" translate="no">藤波 辰爾</span><span class="block text-xs text-gray-500 mt-1 leading-snug">プロレスラー</span></span>
+              </li>
+              <li class="flex items-center gap-3">
+                <img src="images/supporters/mukoyama-masatoshi.jpg" alt="" width="56" height="56" loading="lazy" class="w-14 h-14 rounded-full shrink-0" />
+                <span class="min-w-0"><span class="block font-bold text-[#1e1e21] leading-tight" translate="no">向山 昌利</span><span class="block text-xs text-gray-500 mt-1 leading-snug">子どもスポーツ国際交流協会 代表理事</span></span>
+              </li>
+            </ul>
+            <a href="message.html#messages" class="mt-6 inline-flex items-center text-sm font-bold text-[#c8102e] hover:underline">メッセージを読む →</a>
+          </div>
+        </aside>
+      </div>
 
       <div class="text-center mt-12 reveal">
         <a href="https://lin.ee/nkWK6v7" target="_blank" rel="noopener" style="--sweep-color:#c8102e" class="inline-flex items-center px-8 py-3 border-2 border-[#c8102e] text-[#c8102e] font-bold rounded-full hover:text-white transition-colors">
@@ -295,11 +329,11 @@
   </div>
 </footer>
 
-<script src="js/hero-slider.js?v=20260924a"></script>
-<script src="js/news-loader.js?v=20260924a"></script>
-<script src="js/header-fit.js?v=20260924a"></script>
-<script src="js/menu.js?v=20260924a"></script>
-<script src="js/scroll-reveal.js?v=20260924a"></script>
-<script src="js/translate-guard.js?v=20260924a"></script>
+<script src="js/hero-slider.js?v=20261004a"></script>
+<script src="js/news-loader.js?v=20261004a"></script>
+<script src="js/header-fit.js?v=20261004a"></script>
+<script src="js/menu.js?v=20261004a"></script>
+<script src="js/scroll-reveal.js?v=20261004a"></script>
+<script src="js/translate-guard.js?v=20261004a"></script>
 </body>
 </html>

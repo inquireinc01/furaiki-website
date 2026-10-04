@@ -38,6 +38,10 @@
         },
       ];
   const MORE_LABEL = EN ? "Read More →" : "詳しく見る →";
+  // トップに最初から出す件数。これより古い記事は「過去のニュースを表示」で開く
+  // (件数が増えてもトップが縦に伸び続けないようにするため)
+  const VISIBLE = 3;
+  const OLDER_LABEL = EN ? "Show earlier news" : "過去のニュースを表示";
   const MONTHS = [
     "January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December",
@@ -122,7 +126,8 @@
 
   function render(items) {
     list.textContent = "";
-    items.forEach((item) => {
+    const older = [];
+    items.forEach((item, idx) => {
       const article = document.createElement("article");
       article.className = "flex items-start gap-4 py-6 border-b border-gray-200";
 
@@ -215,8 +220,29 @@
       });
       if (!p.childNodes.length) p.remove();
       article.appendChild(box);
+      if (idx >= VISIBLE) {
+        // 非表示の間は中の写真・動画(loading="lazy")も読み込まれない
+        article.style.display = "none";
+        older.push(article);
+      }
       list.appendChild(article);
     });
+
+    if (older.length) {
+      const wrap = document.createElement("div");
+      wrap.className = "pt-6";
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className =
+        "inline-flex items-center px-6 py-2.5 border border-gray-300 rounded-full text-sm font-bold text-gray-700 hover:border-[#c8102e] hover:text-[#c8102e] transition-colors";
+      btn.textContent = OLDER_LABEL + (EN ? " (" + older.length + ")" : "（" + older.length + "件）");
+      btn.addEventListener("click", () => {
+        older.forEach((el) => { el.style.display = ""; });
+        wrap.remove();
+      });
+      wrap.appendChild(btn);
+      list.appendChild(wrap);
+    }
   }
 
   function isNewsTxt(name) {
