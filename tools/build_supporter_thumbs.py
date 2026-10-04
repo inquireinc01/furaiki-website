@@ -25,17 +25,27 @@ SIZE = 160
 
 CROPS = {
     "hayashi-toshiyuki.jpg": (0.34, 0.29, 0.76),
-    "sakuraba-yoshihiko.jpg": (0.50, 0.40, 0.42),
+    # 桜庭氏: 元写真は頭のすぐ上で切れているので、上端(cy=0 → 上に寄せる)から取る
+    "sakuraba-yoshihiko.jpg": (0.50, 0.0, 0.44),
     "nakajima-shuji.jpg": (0.50, 0.36, 0.62),
-    "fujinami-tatsumi.jpg": (0.50, 0.37, 0.82),
+    # 藤波氏: None = このスクリプトでは作らない(既存の images/supporters/ の画像を残す)。
+    #   掲載写真(images/messages/)は頭上の余白が25pxしかなく、丸にすると頭が切れる。
+    #   そのため加工前の原本 documents/写真原本/fujinami_ツーショット_元.jpg(gitには無い)から
+    #   直接切り出している。縦を900pxに縮めた座標で 中心x=233, 上端y=140, 一辺180 の正方形を
+    #   160x160 に縮小。色は掲載写真と同じ補正(白壁基準のWB 7割 + 軽いトーン伸長)。
+    "fujinami-tatsumi.jpg": None,
     "mukoyama-masatoshi.jpg": (0.50, 0.27, 0.58),
 }
 
 
 def main():
     os.makedirs(DST, exist_ok=True)
-    for name, (cx, cy, side) in CROPS.items():
-        im = ImageOps.exif_transpose(Image.open(os.path.join(SRC, name))).convert("RGB")
+    for name, box in CROPS.items():
+        if box is None:
+            print("[--] %s (手作業で作成したものを使う。上のコメント参照)" % name)
+            continue
+        cx, cy, side = box
+        im =ImageOps.exif_transpose(Image.open(os.path.join(SRC, name))).convert("RGB")
         w, h = im.size
         s = side * w
         x0 = min(max(cx * w - s / 2, 0), w - s)
