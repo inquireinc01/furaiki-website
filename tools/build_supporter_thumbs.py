@@ -14,9 +14,11 @@
 
 CROPS の値は (顔の中心x, 顔の中心y, 一辺) を元写真の幅・高さに対する割合で書く。
 一辺は「幅に対する割合」。顔が丸の中央に来て、頭の上に少し余白が残る程度にする。
+4つ目の値を書くと、その割合(高さに対して)だけ写真の上に背景を足してから切り出す。
+None を書くと、その人の分は作らず既存の画像を残す。
 """
 import os
-from PIL import Image, ImageOps
+from PIL import Image, ImageFilter, ImageOps
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(ROOT, "images", "messages")
@@ -28,12 +30,9 @@ CROPS = {
     # 桜庭氏: 元写真は頭のすぐ上で切れているので、上端(cy=0 → 上に寄せる)から取る
     "sakuraba-yoshihiko.jpg": (0.50, 0.0, 0.44),
     "nakajima-shuji.jpg": (0.50, 0.36, 0.62),
-    # 藤波氏: None = このスクリプトでは作らない(既存の images/supporters/ の画像を残す)。
-    #   掲載写真(images/messages/)は頭上の余白が25pxしかなく、丸にすると頭が切れる。
-    #   そのため加工前の原本 documents/写真原本/fujinami_ツーショット_元.jpg(gitには無い)から
-    #   直接切り出している。縦を900pxに縮めた座標で 中心x=233, 上端y=140, 一辺180 の正方形を
-    #   160x160 に縮小。色は掲載写真と同じ補正(白壁基準のWB 7割 + 軽いトーン伸長)。
-    "fujinami-tatsumi.jpg": None,
+    # 藤波氏: 元写真は頭のすぐ上で切れているので、4つ目の値(0.10)で上に背景を足してから切る。
+    #   背景は無地の明るいグレーなので、最上段の色を引き伸ばすだけで自然につながる。
+    "fujinami-tatsumi.jpg": (0.50, 0.0, 1.0, 0.10),
     "mukoyama-masatoshi.jpg": (0.50, 0.27, 0.58),
 }
 
@@ -42,10 +41,20 @@ def main():
     os.makedirs(DST, exist_ok=True)
     for name, box in CROPS.items():
         if box is None:
-            print("[--] %s (手作業で作成したものを使う。上のコメント参照)" % name)
+            print("[--] %s (作らない。既存の画像を残す)" % name)
             continue
-        cx, cy, side = box
-        im =ImageOps.exif_transpose(Image.open(os.path.join(SRC, name))).convert("RGB")
+        cx, cy, side = box[:3]
+        pad_top = box[3] if len(box) > 3 else 0
+        im = ImageOps.exif_transpose(Image.open(os.path.join(SRC, name))).convert("RGB")
+        if pad_top:
+            # 頭上の余白が足りない写真用: 最上段(2px)を上へ引き伸ばして背景を足す。無地の背景専用
+            w0, h0 = im.size
+            px = int(h0 * pad_top)
+            top = im.crop((0, 0, w0, 2)).resize((w0, px), Image.BILINEAR).filter(ImageFilter.GaussianBlur(3))
+            padded = Image.new("RGB", (w0, h0 + px))
+            padded.paste(top, (0, 0))
+            padded.paste(im, (0, px))
+            im = padded
         w, h = im.size
         s = side * w
         x0 = min(max(cx * w - s / 2, 0), w - s)
