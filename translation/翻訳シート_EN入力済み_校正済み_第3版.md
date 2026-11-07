@@ -392,8 +392,8 @@ JA: 社員
 EN: Members
 
 **P092**  L292 `td` 
-JA: 園部 浩誉 ／ 榊原 伸浩 ／ 笈沼 康弘 ／ 礒部 啓介 ／ 菅沼 守 ／ 松田 拓 ／ 磯貝 洸二 ／ 園部 暁美 ／ 土持 禎寛 ／ 櫛原 博人 ／ 吉本 博幸 ／ 鍜治屋 稔 ／ 小野 史裕 ／ 飯野 彰久 ／ 山北 和徳 ／ 西 智之
-EN: Hirotaka Sonobe / Nobuhiro Sakakibara / Yasuhiro Oinuma / Keisuke Isobe / Mamoru Suganuma / Taku Matsuda / Koji Isogai / Akemi Sonobe / Yoshihiro Tsuchimochi / Hiroto Kushihara / Hiroyuki Yoshimoto / Minoru Kajiya / Fumihiro Ono / Akihisa Iino / Kazunori Yamakita / Tomoyuki Nishi
+JA: 園部 浩誉 ／ 榊原 伸浩 ／ 笈沼 康弘 ／ 礒部 啓介 ／ 菅沼 守 ／ 松田 拓 ／ 磯貝 洸二 ／ 園部 暁美 ／ 土持 禎寛 ／ 櫛原 博人 ／ 吉本 博幸 ／ 鍜治屋 稔 ／ 小野 史裕 ／ 飯野 彰久 ／ 山北 和徳 ／ 西 智之 ／ 吉川 明男
+EN: Hirotaka Sonobe / Nobuhiro Sakakibara / Yasuhiro Oinuma / Keisuke Isobe / Mamoru Suganuma / Taku Matsuda / Koji Isogai / Akemi Sonobe / Yoshihiro Tsuchimochi / Hiroto Kushihara / Hiroyuki Yoshimoto / Minoru Kajiya / Fumihiro Ono / Akihisa Iino / Kazunori Yamakita / Tomoyuki Nishi / Akio Yoshikawa
 
 **P093**  L321 `h2` 
 JA: 設立趣意書
