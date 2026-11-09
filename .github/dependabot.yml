@@ -8,3 +8,6 @@ updates:
     directory: /tools/tailwind
     schedule:
       interval: monthly
+    ignore:
+      - dependency-name: tailwindcss
+        update-types: ["version-update:semver-major"]
