@@ -1,0 +1,25 @@
+name: security-monitor
+on:
+  schedule:
+    - cron: "17 21 * * *" # 毎日 06:17 JST
+  push:
+    branches: [master]
+  workflow_dispatch:
+permissions:
+  contents: read
+  issues: write
+concurrency:
+  group: security-monitor
+  cancel-in-progress: true
+jobs:
+  monitor:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      # タグの書き換えによる乗っ取りを防ぐためコミットSHAで固定(v4.2.2)
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - run: python3 tools/security_monitor.py
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

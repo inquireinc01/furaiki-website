@@ -17,8 +17,7 @@ import re
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SITE = "https://www.furaiki.org"        # 正規ドメイン(canonical / OGP の基準)
-V = "20261004a"                        # CSS/JS のキャッシュバスト用バージョン
-TAILWIND_CDN = "https://cdn.tailwindcss.com/3.4.16"  # バージョン固定(最新追従による突然の崩壊を防ぐ)
+V = "20261109a"                        # CSS/JS のキャッシュバスト用バージョン
 GA4_ID = "G-53J7NCFSF3"                   # Googleアナリティクス4 測定ID。空にするとGA4タグを出力しない。
 OG_IMAGE = SITE + "/images/mascot.png"
 
@@ -205,12 +204,13 @@ LANGS = {
     },
 }
 
-# 外部リソースを最小限に限定したCSP。TailwindのPlay CDNはJIT(new Function)と
-# インラインstyle注入を使うため 'unsafe-eval'/'unsafe-inline' が必須。その制約下でも
-# frame/object/base/form の宛先は絞る。GA4(googletagmanager/analytics)も許可済み。
+# 外部リソースを最小限に限定したCSP。Tailwindは css/tailwind.css に事前生成しており
+# (tools/tailwind/)、ページ内で実行するスクリプトは自サイトのファイルとGA4だけ。
+# 'unsafe-inline'/'unsafe-eval' を script-src に戻さないこと(tools/security_check.py で検査)。
+# style-src の 'unsafe-inline' は本文の style 属性のために残している。
 CSP = (
     "default-src 'self'; "
-    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com https://www.googletagmanager.com; "
+    "script-src 'self' https://www.googletagmanager.com; "
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
     "font-src 'self' https://fonts.gstatic.com; "
     "img-src 'self' data: https://www.furaiki.org https://raw.githubusercontent.com https://www.googletagmanager.com https://www.google-analytics.com; "
@@ -218,6 +218,7 @@ CSP = (
     "frame-src https://www.youtube.com https://www.youtube-nocookie.com; "
     "base-uri 'self'; form-action 'self' mailto:; object-src 'none'"
 )
+CSP_META = '<meta http-equiv="Content-Security-Policy" content="' + CSP + '" />'
 
 
 def _url(lang, page):
@@ -235,14 +236,13 @@ def _switch_href(lang, page):
     return ("en/" + page) if lang == "ja" else ("../" + page)
 
 
-def _ga4_snippet():
+def _ga4_snippet(p):
     if not GA4_ID:
         return ""
     return (
         '\n<!-- Google Analytics (GA4) -->\n'
         '<script async src="https://www.googletagmanager.com/gtag/js?id=' + GA4_ID + '"></script>\n'
-        "<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}"
-        "gtag('js',new Date());gtag('config','" + GA4_ID + "');</script>"
+        '<script src="' + p + 'js/ga.js?v=' + V + '" data-ga4="' + GA4_ID + '"></script>'
     )
 
 
@@ -295,7 +295,7 @@ def head_html(lang, page):
         '<head>\n'
         '<meta charset="UTF-8" />\n'
         '<meta name="viewport" content="width=device-width, initial-scale=1.0" />\n'
-        '<meta http-equiv="Content-Security-Policy" content="' + CSP + '" />\n'
+        + CSP_META + '\n'
         '<meta name="referrer" content="strict-origin-when-cross-origin" />\n'
         '<title>' + title + '</title>\n'
         '<meta name="description" content="' + desc + '" />\n'
@@ -316,9 +316,9 @@ def head_html(lang, page):
         '<link rel="preconnect" href="https://fonts.googleapis.com" />\n'
         '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />\n'
         '<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet" />\n'
-        '<script src="' + TAILWIND_CDN + '"></script>\n'
         '<link rel="stylesheet" href="' + p + 'css/style.css?v=' + V + '" />\n'
-        + noscript + json_ld + _ga4_snippet() + '\n'
+        '<link rel="stylesheet" href="' + p + 'css/tailwind.css?v=' + V + '" />\n'
+        + noscript + json_ld + _ga4_snippet(p) + '\n'
         '</head>'
     )
 
@@ -553,14 +553,16 @@ def apply_all():
             print("[OK]", os.path.join(L["out_dir"], page) if L["out_dir"] else page)
 
     # 404.html は共通部の差し替え対象外(独立した最小ページ)だが、
-    # バージョン統一だけは合わせておく。
+    # バージョンとCSPだけは合わせておく。
     p404 = os.path.join(ROOT, "404.html")
     if os.path.isfile(p404):
         with open(p404, "r", encoding="utf-8") as f:
             html = f.read()
         with open(p404, "w", encoding="utf-8") as f:
+            html = re.sub(r'<meta http-equiv="Content-Security-Policy"[^>]*/>\n', "", html)
+            html = html.replace('<meta charset="UTF-8" />\n', '<meta charset="UTF-8" />\n' + CSP_META + "\n", 1)
             f.write(bump_versions(html))
-        print("[OK] 404.html (バージョンのみ)")
+        print("[OK] 404.html (バージョン・CSP)")
 
 
 if __name__ == "__main__":

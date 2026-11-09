@@ -1,0 +1,4 @@
+Contact: mailto:info@furaiki.org
+Expires: 2027-11-09T00:00:00+09:00
+Preferred-Languages: ja, en
+Canonical: https://www.furaiki.org/.well-known/security.txt
