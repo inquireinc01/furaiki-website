@@ -6,7 +6,7 @@
 #    → サイト側はこの静的ファイルを読むため、GitHub APIのレート制限
 #      (1時間60回/IP)で画像が消える問題が起きない
 # いずれも元ファイルの更新日時を引き継ぐため、時系列順の並びに影響しない。
-# EXIF(撮影日時など)は「直近の活動」表示の判定に使うため、変換・縮小後も残す。
+# EXIF は撮影日時での改名にだけ使い、処理の最後に全画像から除去する(GPS・機種を公開しない)
 import datetime
 import io
 import json
@@ -314,6 +314,62 @@ def write_gallery_index(root):
     return len(items)
 
 
+def _date_only_exif(img):
+    """改名の判定に要る撮影日時だけを残したEXIFを返す(GPS・機種などを持ち越さない)。"""
+    src = img.getexif()
+    dt = src.get_ifd(0x8769).get(0x9003) or src.get(0x0132)
+    if not dt:
+        return b""
+    dst = Image.Exif()
+    dst[0x0132] = dt
+    return dst.tobytes()
+
+
+def _strip_jpeg_metadata(data):
+    """JPEGのAPP1(EXIF/XMP)とAPP13(IPTC)を、画質を落とさず取り除く。無ければ None。"""
+    out = bytearray(data[:2])
+    i = 2
+    removed = False
+    while i + 4 <= len(data) and data[i] == 0xFF:
+        marker = data[i + 1]
+        if marker == 0xDA:  # 画像本体に到達
+            break
+        size = int.from_bytes(data[i + 2 : i + 4], "big")
+        if marker in (0xE1, 0xED):
+            removed = True
+        else:
+            out += data[i : i + 2 + size]
+        i += 2 + size
+    return bytes(out + data[i:]) if removed else None
+
+
+def scrub_metadata(root):
+    """images/ 配下の全JPEGからメタデータを除去する。向きの情報があれば先に画素へ反映する。"""
+    from PIL import Image, ImageOps
+
+    n = 0
+    for d, _, names in os.walk(os.path.join(root, "images")):
+        for name in names:
+            if not name.lower().endswith((".jpg", ".jpeg")):
+                continue
+            path = os.path.join(d, name)
+            st = os.stat(path)
+            with Image.open(path) as im:
+                rotated = None
+                if im.getexif().get(0x0112, 1) != 1:
+                    rotated = ImageOps.exif_transpose(im).convert("RGB")
+            if rotated is not None:
+                rotated.save(path, "JPEG", quality=QUALITY, optimize=True)
+            with open(path, "rb") as f:
+                cleaned = _strip_jpeg_metadata(f.read())
+            if cleaned is not None:
+                with open(path, "wb") as f:
+                    f.write(cleaned)
+                n += 1
+            os.utime(path, (st.st_atime, st.st_mtime))
+    return n
+
+
 def main():
     sys.stdout.reconfigure(errors="replace")
     try:
@@ -359,7 +415,7 @@ def main():
             try:
                 st = os.stat(src)
                 original = Image.open(src)
-                exif_bytes = original.info.get("exif", b"")
+                exif_bytes = _date_only_exif(original)
                 img = ImageOps.exif_transpose(original).convert("RGB")
                 img.thumbnail((max_side, max_side))
                 save_kwargs = {"quality": QUALITY, "optimize": True}
@@ -392,7 +448,7 @@ def main():
                 if max(img.size) <= max_side and kb <= max(limit_kb, 1200):
                     continue
                 st = os.stat(path)
-                exif_bytes = img.info.get("exif", b"")
+                exif_bytes = _date_only_exif(img)
                 img = ImageOps.exif_transpose(img).convert("RGB")
                 img.thumbnail((max_side, max_side))
                 out = path
@@ -432,6 +488,7 @@ def main():
                 manifests += 1
 
     activities = write_gallery_index(root)
+    print("メタデータ除去: %d件" % scrub_metadata(root))
 
     print(
         "写真整形おわり: HEIC変換 %d件 / 改名 %d件 / 縮小 %d件 / srcset生成 %d件"

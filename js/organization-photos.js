@@ -1,3 +1,14 @@
+// 年表の写真: 画像が無いときは枠ごと隠す(CSPでインラインのonerrorを禁止しているのでここで処理する)
+(function () {
+  document.querySelectorAll(".timeline-photo img").forEach(function (img) {
+    function hide() {
+      img.closest(".timeline-photo").style.display = "none";
+    }
+    if (img.complete && img.naturalWidth === 0) hide();
+    else img.addEventListener("error", hide);
+  });
+})();
+
 // 団体概要ページ: 「これまでの活動実績」の横並び写真(images/org-highlights/)
 // kamaishi.jpg / noto.jpg が存在する場合のみ表示する(無ければ何も出さない)。
 (function () {

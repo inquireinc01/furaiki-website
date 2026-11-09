@@ -43,3 +43,19 @@ documents/写真原本/
 
 # 翻訳作業の中間ドラフト(最終版 translation/*.md / *.tsv だけをコミットする)
 translation/‗old/
+
+# 公開リポジトリに上げない資料・秘密情報(「サイトを更新.bat」の git add -A 対策)
+*.pem
+*.key
+*.p12
+*password*
+*パスワード*
+*.xlsx
+*.xls
+*.csv
+*.doc
+*.docx
+_site/
+
+# Tailwindの依存はロックファイルで固定する
+!tools/tailwind/package-lock.json

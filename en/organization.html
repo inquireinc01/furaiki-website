@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.furaiki.org https://raw.githubusercontent.com https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://api.github.com https://www.google-analytics.com https://region1.google-analytics.com; frame-src https://www.youtube.com https://www.youtube-nocookie.com; base-uri 'self'; form-action 'self' mailto:; object-src 'none'" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.furaiki.org https://raw.githubusercontent.com https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://api.github.com https://www.google-analytics.com https://region1.google-analytics.com; frame-src https://www.youtube.com https://www.youtube-nocookie.com; base-uri 'self'; form-action 'self' mailto:; object-src 'none'" />
 <meta name="referrer" content="strict-origin-when-cross-origin" />
 <title>About Us | Furaiki Project</title>
 <meta name="description" content="Learn about Furaiki Project's organizational profile, officers, and statement of purpose." />
@@ -26,12 +26,12 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet" />
-<script src="https://cdn.tailwindcss.com/3.4.16"></script>
-<link rel="stylesheet" href="../css/style.css?v=20261004a" />
+<link rel="stylesheet" href="../css/style.css?v=20261109a" />
+<link rel="stylesheet" href="../css/tailwind.css?v=20261109a" />
 <noscript><style>.reveal,.gallery-item{opacity:1!important;transform:none!important}</style></noscript>
 <!-- Google Analytics (GA4) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-53J7NCFSF3"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-53J7NCFSF3');</script>
+<script src="../js/ga.js?v=20261109a" data-ga4="G-53J7NCFSF3"></script>
 </head>
 <body class="bg-white text-[#1e1e21]">
 <a href="#main" class="skip-link">Skip to main content</a>
@@ -181,7 +181,7 @@
                 <p class="text-gray-700 leading-relaxed">Immediately after the Great East Japan Earthquake, our founder took action, driven by regret at having been unable to help following earlier disasters. The project began by presenting rugby teams in Tohoku with traditional fishermen's flags known as Furaiki and sending them messages of encouragement.</p>
               </div>
               <div class="timeline-photo sm:w-40 shrink-0">
-                <img src="../images/timeline/2011.jpg" alt="Project launched in August 2011" class="w-full h-28 sm:h-24 object-cover rounded-lg" onerror="this.closest('.timeline-photo').style.display='none'" />
+                <img src="../images/timeline/2011.jpg" alt="Project launched in August 2011" class="w-full h-28 sm:h-24 object-cover rounded-lg" />
               </div>
             </div>
           </div>
@@ -208,7 +208,7 @@
                 <p class="text-gray-700 leading-relaxed">When the Rugby World Cup was held in Japan for the first time, we filled the stands at Kamaishi Stadium with countless Furaiki flags, sharing the region's recovery and its gratitude with the world.</p>
               </div>
               <div class="timeline-photo sm:w-40 shrink-0">
-                <img src="../images/timeline/2019.jpg" alt="2019: Displaying Furaiki Flags at Rugby World Cup 2019 in Kamaishi" class="w-full h-28 sm:h-24 object-cover rounded-lg" onerror="this.closest('.timeline-photo').style.display='none'" />
+                <img src="../images/timeline/2019.jpg" alt="2019: Displaying Furaiki Flags at Rugby World Cup 2019 in Kamaishi" class="w-full h-28 sm:h-24 object-cover rounded-lg" />
               </div>
             </div>
           </div>
@@ -223,7 +223,7 @@
                 <p class="text-gray-700 leading-relaxed">Immediately after the Noto Peninsula earthquake and heavy rain disaster, we organized Disaster Relief Rugby Volunteers. People with rugby backgrounds came from across Japan to remove debris and build stairs in Wajima City, and to help run the traditional Sosogi Grand Festival.</p>
               </div>
               <div class="timeline-photo sm:w-40 shrink-0">
-                <img src="../images/timeline/2024.jpg" alt="2024: Response to the Noto Peninsula Earthquake and Heavy Rain Disaster" class="w-full h-28 sm:h-24 object-cover rounded-lg" onerror="this.closest('.timeline-photo').style.display='none'" />
+                <img src="../images/timeline/2024.jpg" alt="2024: Response to the Noto Peninsula Earthquake and Heavy Rain Disaster" class="w-full h-28 sm:h-24 object-cover rounded-lg" />
               </div>
             </div>
           </div>
@@ -238,7 +238,7 @@
                 <p class="text-gray-700 leading-relaxed">Incorporated on September 16, 2026 as a specified non-profit corporation. To enhance transparency and public trust and strengthen collaboration with companies, government agencies, and our many supporters, we took a new step forward.</p>
               </div>
               <div class="timeline-photo sm:w-40 shrink-0">
-                <img src="../images/timeline/2026.jpg" alt="September 2026: Incorporation as an NPO" class="w-full h-28 sm:h-24 object-cover rounded-lg" onerror="this.closest('.timeline-photo').style.display='none'" />
+                <img src="../images/timeline/2026.jpg" alt="September 2026: Incorporation as an NPO" class="w-full h-28 sm:h-24 object-cover rounded-lg" />
               </div>
             </div>
           </div>
@@ -475,9 +475,9 @@
   </div>
 </footer>
 
-<script src="../js/header-fit.js?v=20261004a"></script>
-<script src="../js/menu.js?v=20261004a"></script>
-<script src="../js/organization-photos.js?v=20261004a"></script>
-<script src="../js/scroll-reveal.js?v=20261004a"></script>
+<script src="../js/header-fit.js?v=20261109a"></script>
+<script src="../js/menu.js?v=20261109a"></script>
+<script src="../js/organization-photos.js?v=20261109a"></script>
+<script src="../js/scroll-reveal.js?v=20261109a"></script>
 </body>
 </html>

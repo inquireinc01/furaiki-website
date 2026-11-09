@@ -1,0 +1,10 @@
+# GitHub Pages(Jekyll)の公開対象。作業用ファイルはサイトから配信しない。
+include:
+  - .well-known
+exclude:
+  - tools
+  - translation
+  - README.md
+  - NOTES.md
+  - サイトを更新.bat
+  - node_modules
