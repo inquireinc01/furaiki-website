@@ -541,8 +541,8 @@ JA: このラグビーを通じて培ってきた「強い絆」と「無尽蔵�
 EN: The strong bonds and seemingly limitless stamina that rugby has given us can be put to meaningful use through volunteer work.
 
 **P128**  L121 `p` 
-JA: 現在、私たちは能登での活動に注力していますが、今後いつどこで災害が起きるかは誰にも分かりません。もし次の困難が起きたとき、自ら手を挙げ、全国からラグビー仲間が集まってくる。そして、まるで「ラグビーの合宿」をするような熱量で活動する。それが私たちの目指すボランティアの形です。
-EN: We are currently focusing our efforts on Noto, but no one knows when or where the next disaster will strike. When it does, people will step forward and rugby friends from across Japan will gather, bringing the same energy they would to a rugby training camp. That is the kind of volunteer effort we hope to create.
+JA: 現在、私たちは能登と熊本での活動に注力していますが、今後いつどこで災害が起きるかは誰にも分かりません。もし次の困難が起きたとき、自ら手を挙げ、全国からラグビー仲間が集まってくる。そして、まるで「ラグビーの合宿」をするような熱量で活動する。それが私たちの目指すボランティアの形です。
+EN: We are currently focusing our efforts on Noto and Kumamoto, but no one knows when or where the next disaster will strike. When it does, people will step forward and rugby friends from across Japan will gather, bringing the same energy they would to a rugby training camp. That is the kind of volunteer effort we hope to create.
 
 **P129**  L122 `p` 
 JA: 私のコンセプトは、「ボランティアを全力で楽しむ」ことです。被災地の現場は、瓦礫が広がる悲惨な状況かもしれません。しかし、そのような場所だからこそ、暗い顔で作業をするのではなく、明るく前向きに、楽しみながら取り組むことが大切だと信じています。その方が作業もはかどり、何より関わる人すべてに活力を与えることができるからです。
