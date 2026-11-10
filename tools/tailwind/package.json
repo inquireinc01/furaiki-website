@@ -3,6 +3,6 @@
   "private": true,
   "description": "Tailwind CSS をビルド時に静的生成する(第三者CDNをページで実行しないため)",
   "devDependencies": {
-    "tailwindcss": "3.4.16"
+    "tailwindcss": "3.4.19"
   }
 }
